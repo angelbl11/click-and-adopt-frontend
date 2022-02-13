@@ -87,6 +87,14 @@ export const PageTitle = styled(Heading)`
    padding-right: 300px;
    font-size: 35px;
   `}
+   ${(props) =>
+    props.about &&
+    `
+   padding-right: 280px;
+   padding-top: 13px;
+   font-size: 25px;
+   font-weight: bold;
+  `}
 `;
 
 export const SubTitle = styled(Text)`
@@ -123,6 +131,18 @@ ${(props) =>
     font-weight: normal;
     color: ${darkLight}
 `}
+${(props) =>
+    props.atributes &&
+    `
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: normal;
+    padding-right: 260px;
+    padding-left: 20px;
+    width: 100%;
+    height: 100px;
+    color: ${darkLight}
+`}
 `;
 
 export const StyledFormArea = styled(View)`
@@ -147,9 +167,14 @@ export const StyledInputLabel = styled(Text)`
   font-size: 13px;
   text-align: left;
   ${(props) =>
-    props.validation == true &&
+    props.validation &&
     `
     color: ${red}
+`}
+  ${(props) =>
+    props.userStatus &&
+    `
+    color: ${darkLight}
 `}
 `;
 
