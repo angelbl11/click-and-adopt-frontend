@@ -17,6 +17,7 @@ import AdoptedContract from "../screens/AdoptedContract";
 import AdoptedCuestionary from "../screens/AdoptedCuestionary";
 import AdoptedPetInfo from "../screens/AdoptedPetInfo";
 import AdopterProfile from "../screens/AdopterProfile";
+import Tabs from "./Tabs";
 const Stack = createNativeStackNavigator();
 
 const RootStack = () => {
@@ -34,7 +35,7 @@ const RootStack = () => {
             paddingLeft: 10,
           },
         }}
-        initialRouteName="AdopterProfile"
+        initialRouteName="Login"
       >
         <Stack.Screen name="Login" component={Login}></Stack.Screen>
         <Stack.Screen name="SignUp" component={SignUp}></Stack.Screen>
@@ -63,10 +64,7 @@ const RootStack = () => {
           name="AdoptedPetInfo"
           component={AdoptedPetInfo}
         ></Stack.Screen>
-        <Stack.Screen
-          name="AdopterProfile"
-          component={AdopterProfile}
-        ></Stack.Screen>
+        <Stack.Screen name="AdopterProfile" component={Tabs}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -65,7 +65,7 @@ const Login = ({ navigation }) => {
               validationSchema={LoginSchema}
               onSubmit={(values) => {
                 console.log(values);
-                navigation.navigate("Welcome");
+                navigation.navigate("AdopterProfile");
               }}
             >
               {({

@@ -30,7 +30,7 @@ const Tabs = () => {
           paddingLeft: 10,
         },
       }}
-      initialRouteName="Profile"
+      initialRouteName="Perfil"
     >
       <Tab.Screen
         name="Inicio"
