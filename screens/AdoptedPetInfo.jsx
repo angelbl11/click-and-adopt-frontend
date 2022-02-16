@@ -44,11 +44,12 @@ const AdoptedPetInfoSchema = Yup.object().shape({
   adoptedPetProtocol: Yup.string().required("Elige una opción"),
 });
 
-const AdoptedPetInfo = ({ navigation }) => {
+const AdoptedPetInfo = ({ navigation, route }) => {
   const [isHealthyWithKids, setIsHealthyWithKids] = useState(true);
   const [isHealthyWithOtherPets, setIsHealthyWithOtherPets] = useState(true);
   const [coexistenceWithOtherPets, setCoexistenceWithOtherPets] = useState([]);
   const [adoptedPetProtocol, setAdoptedPetProtocol] = useState("full");
+  const { petName } = route.params;
   return (
     <NativeBaseProvider>
       <KeyboardAvoidingWrapper>
@@ -69,7 +70,7 @@ const AdoptedPetInfo = ({ navigation }) => {
                 await values.coexistenceWithOtherPets;
                 values.coexistenceWithOtherPets = [...coexistenceWithOtherPets];
                 console.log(values);
-                navigation.navigate("Welcome");
+                navigation.navigate("AdoptedProfile");
               }}
             >
               {({
@@ -82,7 +83,7 @@ const AdoptedPetInfo = ({ navigation }) => {
               }) => (
                 <StyledFormArea>
                   <SubTitle cuestionary={true}>
-                    Cuéntanos un poco sobre tu mascota
+                    Cuéntanos un poco sobre {petName}
                   </SubTitle>
                   <StyledTextArea
                     onChangeText={handleChange("adoptedPetDescription")}
@@ -97,7 +98,7 @@ const AdoptedPetInfo = ({ navigation }) => {
                     </StyledInputLabel>
                   ) : undefined}
                   <RadioInput
-                    label="¿Tu mascota convive o ha convivido saludablemente con niños?"
+                    label={`${petName} convive o ha convivido saludablemente con niños?`}
                     groupValue={
                       isHealthyWithKids == true
                         ? (values.isHealthyWithKids = true)
@@ -117,7 +118,7 @@ const AdoptedPetInfo = ({ navigation }) => {
                     </StyledInputLabel>
                   ) : undefined}
                   <RadioInput
-                    label="¿Tu mascota convive o ha convivido saludablemente con otros animales?"
+                    label={`¿${petName} convive o ha convivido saludablemente con otros animales?`}
                     groupValue={
                       isHealthyWithOtherPets == true
                         ? (values.isHealthyWithOtherPets = true)
@@ -163,7 +164,7 @@ const AdoptedPetInfo = ({ navigation }) => {
                     </View>
                   ) : undefined}
                   <RadioInput
-                    label="Indica el tipo de protocolo con el que cuenta tu mascota (deberás corroborarlo posteriormente)"
+                    label={`Indica el tipo de protocolo con el que cuenta ${petName} (deberás corroborarlo posteriormente)`}
                     groupValue={
                       adoptedPetProtocol == "full"
                         ? (values.adoptedPetProtocol = "full")

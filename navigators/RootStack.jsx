@@ -16,8 +16,9 @@ import AdopterPreferencesCuestionary from "../screens/AdopterPreferencesCuestion
 import AdoptedContract from "../screens/AdoptedContract";
 import AdoptedCuestionary from "../screens/AdoptedCuestionary";
 import AdoptedPetInfo from "../screens/AdoptedPetInfo";
-import AdopterProfile from "../screens/AdopterProfile";
+
 import Tabs from "./Tabs";
+import TabsAdopted from "./TabsAdopted";
 const Stack = createNativeStackNavigator();
 
 const RootStack = () => {
@@ -65,6 +66,10 @@ const RootStack = () => {
           component={AdoptedPetInfo}
         ></Stack.Screen>
         <Stack.Screen name="AdopterProfile" component={Tabs}></Stack.Screen>
+        <Stack.Screen
+          name="AdoptedProfile"
+          component={TabsAdopted}
+        ></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

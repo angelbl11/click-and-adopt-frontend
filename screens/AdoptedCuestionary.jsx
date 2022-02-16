@@ -71,7 +71,9 @@ const AdoptedCuestionary = ({ navigation }) => {
               validationSchema={AdoptedCuestionarySchema}
               onSubmit={(values) => {
                 console.log(values);
-                navigation.navigate("AdoptedPetInfo");
+                navigation.navigate("AdoptedPetInfo", {
+                  petName: values.adoptedPetName,
+                });
               }}
             >
               {({
