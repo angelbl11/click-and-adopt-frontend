@@ -4,18 +4,17 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { Colors } from "./../components/Styles";
+import { Colors } from "../components/Styles";
 const { primary, tertiary } = Colors;
 //screens
-import Login from "./../screens/Login.Screen";
-import SignUp from "./../screens/Signup.Screen";
-import Welcome from "../screens/Welcome.Screen";
-import AdopterContract from "../screens/AdopterContract";
-import AdopterCuestionary from "../screens/AdopterCuestionary";
-import AdopterPreferencesCuestionary from "../screens/AdopterPreferencesCuestionary";
-import AdoptedContract from "../screens/AdoptedContract";
-import AdoptedCuestionary from "../screens/AdoptedCuestionary";
-import AdoptedPetInfo from "../screens/AdoptedPetInfo";
+import Login from "../screens/GeneralScreens/Login.Screen";
+import SignUp from "../screens/GeneralScreens/Signup.Screen";
+import AdopterContract from "../screens/AdopterScreens/AdopterContract";
+import AdopterCuestionary from "../screens/AdopterScreens/AdopterCuestionary";
+import AdopterPreferencesCuestionary from "../screens/AdopterScreens/AdopterPreferencesCuestionary";
+import AdoptedContract from "../screens/AdoptedScreens/AdoptedContract";
+import AdoptedCuestionary from "../screens/AdoptedScreens/AdoptedCuestionary";
+import AdoptedPetInfo from "../screens/AdoptedScreens/AdoptedPetInfo";
 
 import Tabs from "./Tabs";
 import TabsAdopted from "./TabsAdopted";
@@ -40,7 +39,7 @@ const RootStack = () => {
       >
         <Stack.Screen name="Login" component={Login}></Stack.Screen>
         <Stack.Screen name="SignUp" component={SignUp}></Stack.Screen>
-        <Stack.Screen name="Welcome" component={Welcome}></Stack.Screen>
+
         <Stack.Screen
           name="AdopterContract"
           component={AdopterContract}

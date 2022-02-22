@@ -12,7 +12,7 @@ import {
   ButtonText,
   StyledInputLabel,
   ProfilePhoto,
-} from "../components/Styles";
+} from "../../components/Styles";
 
 //Native Base Components
 import { NativeBaseProvider, Switch, ScrollView } from "native-base";

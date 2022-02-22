@@ -9,9 +9,9 @@ import { NativeBaseProvider, View } from "native-base";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 //Components
-import RadioInput from "../components/RadioInput";
-import CheckBoxInput from "../components/CheckBoxInput";
-import ThreeOptionsRadioInput from "../components/ThreeOptionsRadioInput";
+import RadioInput from "../../components/RadioInput";
+import CheckBoxInput from "../../components/CheckBoxInput";
+import ThreeOptionsRadioInput from "../../components/ThreeOptionsRadioInput";
 
 //Yup
 import * as Yup from "yup";
@@ -31,13 +31,13 @@ import {
   ButtonText,
   Colors,
   Separation,
-} from "./../components/Styles";
+} from "../../components/Styles";
 
 //Colors
 const { brand, darkLight } = Colors;
 
 //keyboard avoiding view
-import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
+import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
 
 //Form fields validation
 const AdopterCuestionarySchema = Yup.object().shape({

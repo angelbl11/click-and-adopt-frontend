@@ -1,12 +1,12 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import AdopterProfile from "../screens/AdopterProfile";
-import CardsScreen from "../screens/CardsScreen";
-import ChatScreen from "../screens/ChatScreen";
-import LikesScreen from "../screens/LikesScreen";
+import AdopterProfile from "../screens/AdopterScreens/AdopterProfile";
+import CardsScreen from "../screens/GeneralScreens/CardsScreen";
+import ChatScreen from "../screens/GeneralScreens/ChatScreen";
+import LikesScreen from "../screens/GeneralScreens/LikesScreen";
 const Tab = createBottomTabNavigator();
 
 import { NativeBaseProvider, View, Image } from "native-base";
-import { Colors } from "./../components/Styles";
+import { Colors } from "../components/Styles";
 const { primary, tertiary, brand, darkLight } = Colors;
 
 const Tabs = () => {
@@ -40,7 +40,7 @@ const Tabs = () => {
             <NativeBaseProvider>
               <View>
                 <Image
-                  source={require("./../assets/home.png")}
+                  source={require("../../assets/home.png")}
                   resizeMode="contain"
                   alt="home-logo"
                   style={{
@@ -62,7 +62,7 @@ const Tabs = () => {
             <NativeBaseProvider>
               <View>
                 <Image
-                  source={require("./../assets/like.png")}
+                  source={require("../../assets/like.png")}
                   resizeMode="contain"
                   alt="like-logo"
                   style={{
@@ -84,7 +84,7 @@ const Tabs = () => {
             <NativeBaseProvider>
               <View>
                 <Image
-                  source={require("./../assets/chat.png")}
+                  source={require("../../assets/chat.png")}
                   resizeMode="contain"
                   alt="chat-logo"
                   style={{
@@ -106,7 +106,7 @@ const Tabs = () => {
             <NativeBaseProvider>
               <View>
                 <Image
-                  source={require("./../assets/profile.png")}
+                  source={require("../../assets/profile.png")}
                   resizeMode="contain"
                   alt="profile-logo"
                   style={{

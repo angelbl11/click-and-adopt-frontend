@@ -9,10 +9,10 @@ import { NativeBaseProvider, View } from "native-base";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 //Components
-import RadioInput from "../components/RadioInput";
+import RadioInput from "../../components/RadioInput";
 
 //keyboard avoiding view
-import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
+import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
 
 //Yup
 import * as Yup from "yup";
@@ -35,7 +35,7 @@ import {
   ButtonText,
   Colors,
   Separation,
-} from "./../components/Styles";
+} from "../../components/Styles";
 
 const AdoptedCuestionarySchema = Yup.object().shape({
   typeOfAdoptedPet: Yup.string().required("Debes seleccionar una opción"),

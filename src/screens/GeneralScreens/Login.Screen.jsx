@@ -11,7 +11,7 @@ import { Formik } from "formik";
 import { NativeBaseProvider } from "native-base";
 
 //Components
-import TextInputWithPassword from "../components/TextInputWithPassword";
+import TextInputWithPassword from "../../components/TextInputWithPassword";
 
 //Styles
 import {
@@ -30,13 +30,13 @@ import {
   TextLink,
   TextLinkContent,
   StyledInputLabel,
-} from "./../components/Styles";
+} from "../../components/Styles";
 
 //Colors
 const { darkLight, primary } = Colors;
 
 //keyboard avoiding view
-import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
+import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
 
 //Form fields validation
 const LoginSchema = Yup.object().shape({
@@ -55,7 +55,7 @@ const Login = ({ navigation }) => {
           <InnerContainer>
             <PageLogo
               resizeMode="cover"
-              source={require("./../assets/logo.png")}
+              source={require("../../../assets/logo.png")}
               alt="logo"
             />
             <PageTitle>Click&Adopt</PageTitle>

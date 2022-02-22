@@ -15,16 +15,17 @@ const RadioInput = ({
   fourthRadioLabel,
   isThird,
   isFourth,
+  isDate,
   ...Props
 }) => {
   return (
     <View>
       <SubTitle cuestionary={true}>{label}</SubTitle>
       <Radio.Group value={groupValue} {...Props}>
-        <Radio colorScheme="green" value={firstValue}>
+        <Radio colorScheme="green" value={firstValue} isBooleanDate={isDate}>
           {firstRadioLabel}
         </Radio>
-        <Radio colorScheme="green" value={secondValue}>
+        <Radio colorScheme="green" value={secondValue} isBooleanDate={isDate}>
           {secondRadioLabel}
         </Radio>
         {isThird == true ? (

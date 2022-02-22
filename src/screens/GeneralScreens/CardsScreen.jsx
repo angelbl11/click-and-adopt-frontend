@@ -4,21 +4,21 @@ import {
   StyledContainer,
   InnerContainer,
   PageTitle,
-} from "../components/Styles";
+} from "../../components/Styles";
 
 import { NativeBaseProvider } from "native-base";
 
-const LikesScreen = () => {
+const CardsScreen = () => {
   return (
     <NativeBaseProvider>
       <StyledContainer>
         <StatusBar style="dark" />
         <InnerContainer>
-          <PageTitle>Likes</PageTitle>
+          <PageTitle>Cards</PageTitle>
         </InnerContainer>
       </StyledContainer>
     </NativeBaseProvider>
   );
 };
 
-export default LikesScreen;
+export default CardsScreen;

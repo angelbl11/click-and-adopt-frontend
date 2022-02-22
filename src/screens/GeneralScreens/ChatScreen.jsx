@@ -4,7 +4,7 @@ import {
   StyledContainer,
   InnerContainer,
   PageTitle,
-} from "../components/Styles";
+} from "../../components/Styles";
 
 import { NativeBaseProvider } from "native-base";
 

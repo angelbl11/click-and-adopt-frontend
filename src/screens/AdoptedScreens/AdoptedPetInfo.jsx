@@ -8,11 +8,11 @@ import { Formik } from "formik";
 import { NativeBaseProvider, View } from "native-base";
 
 //Components
-import RadioInput from "../components/RadioInput";
-import CheckBoxInput from "../components/CheckBoxInput";
+import RadioInput from "../../components/RadioInput";
+import CheckBoxInput from "../../components/CheckBoxInput";
 
 //keyboard avoiding view
-import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
+import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
 
 //Yup
 import * as Yup from "yup";
@@ -28,7 +28,7 @@ import {
   StyledButton,
   ButtonText,
   StyledInputLabel,
-} from "./../components/Styles";
+} from "../../components/Styles";
 
 const AdoptedPetInfoSchema = Yup.object().shape({
   adoptedPetDescription: Yup.string()

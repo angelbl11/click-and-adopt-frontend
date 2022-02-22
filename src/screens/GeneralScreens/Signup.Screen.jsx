@@ -11,11 +11,8 @@ import * as Yup from "yup";
 import { NativeBaseProvider } from "native-base";
 
 //Components
-import RadioInput from "./../components/RadioInput";
-import TextInputWithPassword from "../components/TextInputWithPassword";
-
-//API client
-import axios from "axios";
+import RadioInput from "../../components/RadioInput";
+import TextInputWithPassword from "../../components/TextInputWithPassword";
 
 //Styles
 import {
@@ -33,13 +30,13 @@ import {
   TextLink,
   TextLinkContent,
   StyledInputLabel,
-} from "../components/Styles";
+} from "../../components/Styles";
 
 //Colors
 const { darkLight, primary } = Colors;
 
 //keyboard avoiding view
-import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
+import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
 
 //Form fields validation
 const SingupSchema = Yup.object().shape({
@@ -47,6 +44,9 @@ const SingupSchema = Yup.object().shape({
   password: Yup.string()
     .min(8, "Demasiado corta")
     .required("Ingresa tu contraseña"),
+  repeatPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Las contraseñas no coinciden")
+    .required("Confirma tu contraseña"),
   age: Yup.number("Ingresa un valor númerico")
     .positive("Ingresa una edad válida")
     .integer("Ingresa una edad válida")
@@ -79,6 +79,7 @@ const SignUp = ({ navigation }) => {
                 age: "",
                 password: "",
                 account: "",
+                repeatPassword: "",
               }}
               validationSchema={SingupSchema}
               onSubmit={(values) => {
@@ -162,6 +163,23 @@ const SignUp = ({ navigation }) => {
                   {errors.password && touched.password ? (
                     <StyledInputLabel validation={true}>
                       {errors.password}
+                    </StyledInputLabel>
+                  ) : undefined}
+                  <TextInputWithPassword
+                    label="Repite tu contraseña"
+                    icon="lock"
+                    onChangeText={handleChange("repeatPassword")}
+                    onBlur={handleBlur("repeatPassword")}
+                    value={values.repeatPassword}
+                    secureTextEntry={hidePassword}
+                    isPassword={true}
+                    hidePassword={hidePassword}
+                    setHidePassword={setHidePassword}
+                    isInvalid={errors.repeatPassword}
+                  />
+                  {errors.repeatPassword && touched.repeatPassword ? (
+                    <StyledInputLabel validation={true}>
+                      {errors.repeatPassword}
                     </StyledInputLabel>
                   ) : undefined}
                   <RadioInput

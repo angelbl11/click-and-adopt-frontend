@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 
 //Formik
-import { Formik, yupToFormErrors } from "formik";
+import { Formik } from "formik";
 
 //Components
-import RadioInput from "../components/RadioInput";
-import CheckBoxInput from "../components/CheckBoxInput";
-import ThreeOptionsRadioInput from "../components/ThreeOptionsRadioInput";
+import RadioInput from "../../components/RadioInput";
+import CheckBoxInput from "../../components/CheckBoxInput";
 
 //Styles
 import {
@@ -20,13 +19,13 @@ import {
   Colors,
   Separation,
   StyledInputLabel,
-} from "./../components/Styles";
+} from "../../components/Styles";
 
 //Colors
 const { brand, darkLight } = Colors;
 
 //keyboard avoiding view
-import KeyboardAvoidingWrapper from "../components/KeyboardAvoidingWrapper";
+import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
 import { NativeBaseProvider } from "native-base";
 
 //Yup
