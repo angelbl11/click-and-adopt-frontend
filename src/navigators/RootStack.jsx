@@ -7,14 +7,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Colors } from "../components/Styles";
 const { primary, tertiary } = Colors;
 //screens
-import Login from "../screens/GeneralScreens/Login.Screen";
-import SignUp from "../screens/GeneralScreens/Signup.Screen";
-import AdopterContract from "../screens/AdopterScreens/AdopterContract";
-import AdopterCuestionary from "../screens/AdopterScreens/AdopterCuestionary";
-import AdopterPreferencesCuestionary from "../screens/AdopterScreens/AdopterPreferencesCuestionary";
-import AdoptedContract from "../screens/AdoptedScreens/AdoptedContract";
-import AdoptedCuestionary from "../screens/AdoptedScreens/AdoptedCuestionary";
-import AdoptedPetInfo from "../screens/AdoptedScreens/AdoptedPetInfo";
+import Login from "../screens/GeneralScreens/LoginScreen";
+import SignUp from "../screens/GeneralScreens/SignupScreen";
+import AdopterContract from "../screens/AdopterScreens/AdopterContractScreen";
+import AdopterCuestionary from "../screens/AdopterScreens/AdopterCuestionaryScreen";
+import AdopterPreferencesCuestionary from "../screens/AdopterScreens/AdopterPreferencesCuestionaryScreen";
+import AdoptedContract from "../screens/AdoptedScreens/AdoptedContractScreen";
+import AdoptedCuestionary from "../screens/AdoptedScreens/AdoptedCuestionaryScreen";
+import AdoptedPetInfo from "../screens/AdoptedScreens/AdoptedPetInfoScreen";
 
 import Tabs from "./Tabs";
 import TabsAdopted from "./TabsAdopted";

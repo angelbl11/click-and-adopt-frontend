@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import AdopterProfile from "../screens/AdopterScreens/AdopterProfile";
+import AdopterProfile from "../screens/AdopterScreens/AdopterProfileScreen";
 import CardsScreen from "../screens/GeneralScreens/CardsScreen";
 import ChatScreen from "../screens/GeneralScreens/ChatScreen";
 import LikesScreen from "../screens/GeneralScreens/LikesScreen";
@@ -40,7 +40,7 @@ const Tabs = () => {
             <NativeBaseProvider>
               <View>
                 <Image
-                  source={require("../../assets/home.png")}
+                  source={require("../assets/home.png")}
                   resizeMode="contain"
                   alt="home-logo"
                   style={{
@@ -62,7 +62,7 @@ const Tabs = () => {
             <NativeBaseProvider>
               <View>
                 <Image
-                  source={require("../../assets/like.png")}
+                  source={require("../assets/like.png")}
                   resizeMode="contain"
                   alt="like-logo"
                   style={{
@@ -84,7 +84,7 @@ const Tabs = () => {
             <NativeBaseProvider>
               <View>
                 <Image
-                  source={require("../../assets/chat.png")}
+                  source={require("../assets/chat.png")}
                   resizeMode="contain"
                   alt="chat-logo"
                   style={{
@@ -106,7 +106,7 @@ const Tabs = () => {
             <NativeBaseProvider>
               <View>
                 <Image
-                  source={require("../../assets/profile.png")}
+                  source={require("../assets/profile.png")}
                   resizeMode="contain"
                   alt="profile-logo"
                   style={{

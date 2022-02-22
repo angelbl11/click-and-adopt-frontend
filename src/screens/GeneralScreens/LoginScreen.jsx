@@ -55,7 +55,7 @@ const Login = ({ navigation }) => {
           <InnerContainer>
             <PageLogo
               resizeMode="cover"
-              source={require("../../../assets/logo.png")}
+              source={require("../../assets/logo.png")}
               alt="logo"
             />
             <PageTitle>Click&Adopt</PageTitle>
