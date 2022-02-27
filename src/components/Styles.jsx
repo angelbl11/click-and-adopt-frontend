@@ -90,7 +90,7 @@ export const PageTitle = styled(Heading)`
    ${(props) =>
     props.about &&
     `
-   padding-right: 280px;
+   padding-right: 270px;
    padding-top: 13px;
    font-size: 25px;
    font-weight: bold;
@@ -137,6 +137,19 @@ ${(props) =>
     font-size: 20px;
     margin-bottom: 15px;
     font-weight: normal;
+    padding-right: 260px;
+    padding-left: 20px;
+    width: 100%;
+    height: 100px;
+    color: ${darkLight}
+`}
+${(props) =>
+    props.adoptedAtributes &&
+    `
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: normal;
+    padding-top: 8px;
     padding-right: 260px;
     padding-left: 20px;
     width: 100%;
@@ -301,9 +314,34 @@ export const StyledImage = styled(Image)`
   min-width: 90%;
 `;
 
-export const ProfilePhoto = styled(Avatar)`
-  width: 100px;
-  height: 120px;
+export const ChildWrapper = styled(View)`
+  flex: 50%;
+  flex-wrap: wrap;
   margin-bottom: 10px;
-  margin-top: 20px;
+  flex-direction: row;
+  margin: 5px;
+  height: auto;
+  justify-content: center;
+  padding-top: 12px;
+`;
+
+export const SwitchWrapper = styled(View)`
+  width: auto;
+  flex-direction: row;
+  height: auto;
+  padding: 5px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const LabelWrapper = styled(View)`
+  text-align: center;
+  padding-left: 20px;
+`;
+
+export const AdoptedItemWrapper = styled(View)`
+  width: auto;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
 `;
