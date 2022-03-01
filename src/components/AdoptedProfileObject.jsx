@@ -9,7 +9,7 @@ import {
 //Native Base Components
 import { NativeBaseProvider, Switch } from "native-base";
 import { Avatar } from "react-native-elements";
-const AdoptedProfileObject = (navigation, url) => {
+const AdoptedProfileObject = ({ navigation, pressed, url }) => {
   const [showMessage, setShowMessage] = useState(false);
   const handleMessage = () => {
     setShowMessage(!showMessage);
@@ -19,9 +19,10 @@ const AdoptedProfileObject = (navigation, url) => {
       <Avatar
         size={100}
         source={{
-          uri: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=843&q=80",
+          uri: url,
         }}
         rounded
+        onPress={pressed}
       ></Avatar>
       <SwitchWrapper>
         <Switch

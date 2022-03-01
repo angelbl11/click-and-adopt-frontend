@@ -97,6 +97,19 @@ export const PageTitle = styled(Heading)`
   `}
 `;
 
+export const AtributesContainer = styled(View)`
+  text-align: left;
+`;
+
+export const AtributesLabel = styled(Text)`
+  font-size: 14px;
+  margin-bottom: 12px;
+  font-weight: normal;
+  color: ${darkLight};
+  padding-right: 230px;
+  height: 18px;
+`;
+
 export const SubTitle = styled(Text)`
   font-size: 18px;
   margin-bottom: 20px;
@@ -225,7 +238,7 @@ margin-vertical: 5px;
 height: 60px;
 
 ${(props) =>
-  props.secondButton == true &&
+  props.secondButton &&
   `
 background-color: ${red};
 `}

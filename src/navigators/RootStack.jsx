@@ -15,6 +15,7 @@ import AdopterPreferencesCuestionary from "../screens/AdopterScreens/AdopterPref
 import AdoptedContract from "../screens/AdoptedScreens/AdoptedContractScreen";
 import AdoptedCuestionary from "../screens/AdoptedScreens/AdoptedCuestionaryScreen";
 import AdoptedPetInfo from "../screens/AdoptedScreens/AdoptedPetInfoScreen";
+import AdoptedPetProfileScreen from "../screens/AdoptedScreens/AdoptedPetProfileScreen";
 
 import Tabs from "./Tabs";
 import TabsAdopted from "./TabsAdopted";
@@ -63,6 +64,10 @@ const RootStack = () => {
         <Stack.Screen
           name="AdoptedPetInfo"
           component={AdoptedPetInfo}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="PetProfile"
+          component={AdoptedPetProfileScreen}
         ></Stack.Screen>
         <Stack.Screen name="AdopterProfile" component={Tabs}></Stack.Screen>
         <Stack.Screen
