@@ -10,7 +10,7 @@ import {
   Image,
   Pressable,
   TextArea,
-  Avatar,
+  IconButton,
 } from "native-base";
 
 //colors
@@ -243,6 +243,13 @@ ${(props) =>
 background-color: ${red};
 `}
 
+${(props) =>
+  props.carrouselAccess &&
+  `
+background-color: transparent;
+height:380px;
+`}
+
 `;
 
 export const ButtonText = styled(Text)`
@@ -290,23 +297,20 @@ export const Separation = styled(View)`
 export const ContractText = styled(Text)`
   color: ${tertiary};
   font-size: 14px;
-  padding-left: 55px;
-  padding-right: 50px;
 `;
 
 export const ContractView = styled(View)`
-justify-content: center;
-flex-direction; row;
-align-items: center;
-padding: 20px;
-padding-bottom:20px;
+  margin: 50px;
+  text-align: center;
+  align-content: center;
+  width: auto;
+  padding: 0 18px 0 18px;
 `;
 
 export const ContractCheckBoxView = styled(View)`
-justify-content: center;
-flex-direction; row;
-align-items: center;
-padding: 20px;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
 `;
 
 export const StyledTextArea = styled(TextArea)`
@@ -357,4 +361,61 @@ export const AdoptedItemWrapper = styled(View)`
   padding-right: 20px;
   padding-left: 20px;
   padding-bottom: 10px;
+`;
+
+export const CardContainer = styled(View)`
+  width: 90%;
+  max-width: 260px;
+  height: 300px;
+  padding-top: 18px;
+`;
+
+export const Card = styled(View)`
+  position: absolute;
+  background-color: #fff;
+  width: 100%;
+  max-width: 260px;
+  height: 390px;
+  shadow-color: black;
+  shadow-opacity: 0.2;
+  shadow-radius: 13px;
+  border-radius: 13px;
+  resize-mode: cover;
+`;
+
+export const CardImage = styled.ImageBackground`
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+`;
+
+export const CardTitle = styled(Text)`
+  position: absolute;
+  bottom: 0;
+  margin: 10px;
+  color: #fff;
+`;
+
+export const InfoText = styled(Text)`
+  height: 28px;
+  justify-content: center;
+  display: flex;
+  z-index: -100;
+`;
+
+export const CarruselButtonsWrapper = styled(View)`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  bottom: -150px;
+  justify-content: space-evenly;
+  margin-top: 13px;
+`;
+
+export const CarruselButton = styled(IconButton)`
+  background-color: white;
+  shadow-opacity: 0.3;
+  shadow-radius: 6px;
+  border-radius: 40px;
 `;

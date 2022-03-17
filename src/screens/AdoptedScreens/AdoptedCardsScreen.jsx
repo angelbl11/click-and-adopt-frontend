@@ -14,7 +14,7 @@ import {
   CarruselButtonsWrapper,
   CarruselButton,
 } from "../../components/Styles";
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, Pressable } from "native-base";
 const db = [
   {
     name: "Richard Hendricks",
@@ -33,7 +33,7 @@ const db = [
 const alreadyRemoved = [];
 let charactersState = db; // This fixes issues with updating characters state forcing it to use the current state and not the state that was active when the card was created.
 
-const CardsScreen = () => {
+const AdoptedCardsScreen = ({ navigation }) => {
   const [characters, setCharacters] = useState(db);
   const [lastDirection, setLastDirection] = useState();
 
@@ -94,28 +94,28 @@ const CardsScreen = () => {
                 onCardLeftScreen={() => outOfFrame(character.name)}
               >
                 <Card>
-                  <CardImage source={character.img}>
-                    <CardTitle>{character.name}</CardTitle>
-                  </CardImage>
+                  <CardImage source={character.img}></CardImage>
+                  <CardTitle>{character.name}</CardTitle>
                 </Card>
               </TinderCard>
             ))}
           </CardContainer>
+
           <CarruselButtonsWrapper>
-            <CarruselButton
-              onPress={() => swipe("right")}
-              _icon={{
-                as: MaterialIcons,
-                name: "favorite",
-                color: "#BC4749",
-              }}
-            ></CarruselButton>
             <CarruselButton
               onPress={() => swipe("left")}
               _icon={{
                 as: MaterialIcons,
                 name: "close",
                 color: "#9CA3AF",
+              }}
+            ></CarruselButton>
+            <CarruselButton
+              onPress={() => swipe("right")}
+              _icon={{
+                as: MaterialIcons,
+                name: "favorite",
+                color: "#BC4749",
               }}
             ></CarruselButton>
           </CarruselButtonsWrapper>
@@ -125,4 +125,4 @@ const CardsScreen = () => {
   );
 };
 
-export default CardsScreen;
+export default AdoptedCardsScreen;

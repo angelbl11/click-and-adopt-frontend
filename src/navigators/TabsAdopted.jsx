@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AdoptedProfile from "../screens/AdoptedScreens/AdoptedProfileScreen";
-import CardsScreen from "../screens/GeneralScreens/CardsScreen";
+import AdoptedCardsScreen from "../screens/AdoptedScreens/AdoptedCardsScreen";
 import ChatScreen from "../screens/GeneralScreens/ChatScreen";
 import LikesScreen from "../screens/GeneralScreens/LikesScreen";
 const Tab = createBottomTabNavigator();
@@ -34,7 +34,7 @@ const Tabs = () => {
     >
       <Tab.Screen
         name="Inicio"
-        component={CardsScreen}
+        component={AdoptedCardsScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <NativeBaseProvider>
