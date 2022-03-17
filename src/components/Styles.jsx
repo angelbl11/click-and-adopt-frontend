@@ -123,6 +123,12 @@ export const SubTitle = styled(Text)`
   font-weight: normal;
   `}
   ${(props) =>
+    props.likeComponent &&
+    `
+    font-weight: bold;
+    margin-bottom:6px;
+  `}
+  ${(props) =>
     props.cuestionary == true &&
     `
     font-size: 16px;
@@ -418,4 +424,27 @@ export const CarruselButton = styled(IconButton)`
   shadow-opacity: 0.3;
   shadow-radius: 6px;
   border-radius: 40px;
+`;
+
+export const LikeComponentWrapper = styled(View)`
+  flex-direction: row;
+  display: flex;
+  align-content: flex-start;
+  margin: 22px 65px 0 30px;
+`;
+
+export const LikeComponentInfoWrapper = styled(View)`
+  margin-left: 8px;
+`;
+
+export const LikeComponentDate = styled(Text)`
+  font-size: 14px;
+  color: ${darkLight};
+`;
+
+export const UserLikeWrapper = styled(View)`
+  display: flex;
+  margin: 18px;
+  flex-flow: column wrap;
+  height: 30%;
 `;

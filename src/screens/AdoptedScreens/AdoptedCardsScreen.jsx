@@ -10,7 +10,6 @@ import {
   Card,
   CardImage,
   CardTitle,
-  InfoText,
   CarruselButtonsWrapper,
   CarruselButton,
 } from "../../components/Styles";
@@ -78,13 +77,7 @@ const AdoptedCardsScreen = ({ navigation }) => {
         <StatusBar style="dark" />
         <InnerContainer>
           <PageTitle>Encuentra Adoptantes</PageTitle>
-          {lastDirection ? (
-            <InfoText key={lastDirection}>
-              Hiciste swipe a la {lastDirection}
-            </InfoText>
-          ) : (
-            <InfoText>Presiona un boton o has swipe</InfoText>
-          )}
+
           <CardContainer>
             {characters.map((character, index) => (
               <TinderCard
