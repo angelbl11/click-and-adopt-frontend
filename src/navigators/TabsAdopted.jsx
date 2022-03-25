@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AdoptedProfile from "../screens/AdoptedScreens/AdoptedProfileScreen";
 import AdoptedCardsScreen from "../screens/AdoptedScreens/AdoptedCardsScreen";
 import ChatScreen from "../screens/GeneralScreens/ChatScreen";
-import LikesScreen from "../screens/GeneralScreens/LikesScreen";
+import AdoptedLikesScreen from "../screens/AdoptedScreens/AdoptedLikesScreen";
 const Tab = createBottomTabNavigator();
 
 import { NativeBaseProvider, View, Image } from "native-base";
@@ -56,7 +56,7 @@ const Tabs = () => {
       ></Tab.Screen>
       <Tab.Screen
         name="Likes"
-        component={LikesScreen}
+        component={AdoptedLikesScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <NativeBaseProvider>

@@ -17,7 +17,7 @@ import AdoptedCuestionary from "../screens/AdoptedScreens/AdoptedCuestionaryScre
 import AdoptedPetInfo from "../screens/AdoptedScreens/AdoptedPetInfoScreen";
 import AdoptedPetProfileScreen from "../screens/AdoptedScreens/AdoptedPetProfileScreen";
 import AdoptedCardsScreen from "../screens/AdoptedScreens/AdoptedCardsScreen";
-import Tabs from "./Tabs";
+import TabsAdopter from "./TabsAdopter";
 import TabsAdopted from "./TabsAdopted";
 const Stack = createNativeStackNavigator();
 
@@ -69,7 +69,10 @@ const RootStack = () => {
           name="PetProfile"
           component={AdoptedPetProfileScreen}
         ></Stack.Screen>
-        <Stack.Screen name="AdopterProfile" component={Tabs}></Stack.Screen>
+        <Stack.Screen
+          name="AdopterProfile"
+          component={TabsAdopter}
+        ></Stack.Screen>
         <Stack.Screen
           name="AdoptedProfile"
           component={TabsAdopted}

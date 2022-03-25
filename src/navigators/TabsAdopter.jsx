@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import AdopterProfile from "../screens/AdopterScreens/AdopterProfileScreen";
+import AdopterProfileScreen from "../screens/AdopterScreens/AdopterProfileScreen";
 import CardsScreen from "../screens/GeneralScreens/CardsScreen";
 import ChatScreen from "../screens/GeneralScreens/ChatScreen";
 import LikesScreen from "../screens/GeneralScreens/LikesScreen";
@@ -9,7 +9,7 @@ import { NativeBaseProvider, View, Image } from "native-base";
 import { Colors } from "../components/Styles";
 const { primary, tertiary, brand, darkLight } = Colors;
 
-const Tabs = () => {
+const TabsAdopter = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -100,7 +100,7 @@ const Tabs = () => {
       ></Tab.Screen>
       <Tab.Screen
         name="Perfil"
-        component={AdopterProfile}
+        component={AdopterProfileScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <NativeBaseProvider>
@@ -124,4 +124,4 @@ const Tabs = () => {
   );
 };
 
-export default Tabs;
+export default TabsAdopter;

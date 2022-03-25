@@ -8,7 +8,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 
 //Native Base Components
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, Pressable } from "native-base";
 
 //Components
 import RadioInput from "../../components/RadioInput";
@@ -198,9 +198,19 @@ const SignUp = ({ navigation }) => {
                     secondValue="adopted"
                   />
 
-                  <StyledButton onPress={handleSubmit}>
+                  <Pressable
+                    onPress={handleSubmit}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    borderRadius={"5px"}
+                    height={"60px"}
+                    width={"60%"}
+                    margin={"auto"}
+                    mt={"22px"}
+                    backgroundColor={"#6A994E"}
+                  >
                     <ButtonText> Registrate </ButtonText>
-                  </StyledButton>
+                  </Pressable>
 
                   <ExtraView>
                     <ExtraText>¿Ya tienes una cuenta? </ExtraText>

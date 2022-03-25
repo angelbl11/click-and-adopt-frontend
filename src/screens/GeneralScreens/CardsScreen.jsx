@@ -1,124 +1,19 @@
-import React, { useState, useMemo } from "react";
+import React from "react";
 import { StatusBar } from "expo-status-bar";
-import TinderCard from "react-tinder-card";
-import { MaterialIcons } from "@expo/vector-icons";
 import {
   StyledContainer,
   InnerContainer,
   PageTitle,
-  CardContainer,
-  Card,
-  CardImage,
-  CardTitle,
-  InfoText,
-  CarruselButtonsWrapper,
-  CarruselButton,
 } from "../../components/Styles";
 import { NativeBaseProvider } from "native-base";
-const db = [
-  {
-    name: "Richard Hendricks",
-    img: require("../../assets/person1.jpg"),
-  },
-  {
-    name: "Erlich Bachman",
-    img: require("../../assets/person2.jpg"),
-  },
-  {
-    name: "Monica Hall",
-    img: require("../../assets/person3.jpg"),
-  },
-];
-
-const alreadyRemoved = [];
-let charactersState = db; // This fixes issues with updating characters state forcing it to use the current state and not the state that was active when the card was created.
 
 const CardsScreen = () => {
-  const [characters, setCharacters] = useState(db);
-  const [lastDirection, setLastDirection] = useState();
-
-  const childRefs = useMemo(
-    () =>
-      Array(db.length)
-        .fill(0)
-        .map((i) => React.createRef()),
-    []
-  );
-
-  const swiped = (direction, nameToDelete) => {
-    console.log(
-      "saliendo del carrusel: " + nameToDelete + " hacia la " + direction
-    );
-    setLastDirection(direction);
-    alreadyRemoved.push(nameToDelete);
-  };
-
-  const outOfFrame = (name) => {
-    console.log(name + " salió de la pantalla");
-    charactersState = charactersState.filter(
-      (character) => character.name !== name
-    );
-    setCharacters(charactersState);
-  };
-
-  const swipe = (dir) => {
-    const cardsLeft = characters.filter(
-      (person) => !alreadyRemoved.includes(person.name)
-    );
-    if (cardsLeft.length) {
-      const toBeRemoved = cardsLeft[cardsLeft.length - 1].name; // Find the card object to be removed
-      const index = db.map((person) => person.name).indexOf(toBeRemoved); // Find the index of which to make the reference to
-      alreadyRemoved.push(toBeRemoved); // Make sure the next card gets removed next time if this card do not have time to exit the screen
-      childRefs[index].current.swipe(dir); // Swipe the card!
-    }
-  };
   return (
     <NativeBaseProvider>
       <StyledContainer>
         <StatusBar style="dark" />
         <InnerContainer>
-          <PageTitle>Encuentra Adoptantes</PageTitle>
-          {lastDirection ? (
-            <InfoText key={lastDirection}>
-              Hiciste swipe a la {lastDirection}
-            </InfoText>
-          ) : (
-            <InfoText>Presiona un boton o has swipe</InfoText>
-          )}
-          <CardContainer>
-            {characters.map((character, index) => (
-              <TinderCard
-                ref={childRefs[index]}
-                key={character.name}
-                onSwipe={(dir) => swiped(dir, character.name)}
-                onCardLeftScreen={() => outOfFrame(character.name)}
-              >
-                <Card>
-                  <CardImage source={character.img}>
-                    <CardTitle>{character.name}</CardTitle>
-                  </CardImage>
-                </Card>
-              </TinderCard>
-            ))}
-          </CardContainer>
-          <CarruselButtonsWrapper>
-            <CarruselButton
-              onPress={() => swipe("right")}
-              _icon={{
-                as: MaterialIcons,
-                name: "favorite",
-                color: "#BC4749",
-              }}
-            ></CarruselButton>
-            <CarruselButton
-              onPress={() => swipe("left")}
-              _icon={{
-                as: MaterialIcons,
-                name: "close",
-                color: "#9CA3AF",
-              }}
-            ></CarruselButton>
-          </CarruselButtonsWrapper>
+          <PageTitle>Cards</PageTitle>
         </InnerContainer>
       </StyledContainer>
     </NativeBaseProvider>

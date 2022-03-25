@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 
 //Native Base Components
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, Image, Pressable } from "native-base";
 
 //Components
 import TextInputWithPassword from "../../components/TextInputWithPassword";
@@ -17,7 +17,6 @@ import TextInputWithPassword from "../../components/TextInputWithPassword";
 import {
   StyledContainer,
   InnerContainer,
-  PageLogo,
   PageTitle,
   SubTitle,
   StyledFormArea,
@@ -53,10 +52,13 @@ const Login = ({ navigation }) => {
         <StyledContainer>
           <StatusBar style="dark" />
           <InnerContainer>
-            <PageLogo
+            <Image
               resizeMode="cover"
               source={require("../../assets/logo.png")}
               alt="logo"
+              width={"150px"}
+              height={"150px"}
+              marginBottom={"2"}
             />
             <PageTitle>Click&Adopt</PageTitle>
             <SubTitle> Iniciar Sesión</SubTitle>
@@ -65,7 +67,7 @@ const Login = ({ navigation }) => {
               validationSchema={LoginSchema}
               onSubmit={(values) => {
                 console.log(values);
-                navigation.navigate("AdoptedProfile");
+                navigation.navigate("AdopterProfile");
               }}
             >
               {({
@@ -112,9 +114,19 @@ const Login = ({ navigation }) => {
                   ) : undefined}
                   <MsgBox>...</MsgBox>
 
-                  <StyledButton onPress={handleSubmit}>
+                  <Pressable
+                    onPress={handleSubmit}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    borderRadius={"5px"}
+                    height={"60px"}
+                    width={"60%"}
+                    margin={"auto"}
+                    mt={"20px"}
+                    backgroundColor={"#6A994E"}
+                  >
                     <ButtonText>Iniciar Sesión</ButtonText>
-                  </StyledButton>
+                  </Pressable>
                   <ExtraView>
                     <ExtraText>¿No tienes cuenta? </ExtraText>
                     <TextLink onPress={() => navigation.navigate("SignUp")}>

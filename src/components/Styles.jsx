@@ -36,17 +36,6 @@ export const InnerContainer = styled(View)`
   align-items: center;
 `;
 
-export const WelcomeContainer = styled(InnerContainer)`
-  padding: 25px;
-  padding-top: 10px;
-  justify-content: center;
-`;
-
-export const PageLogo = styled(Image)`
-  width: 150px;
-  height: 150px;
-`;
-
 export const Pic = styled(Image)`
   width: 100px;
   height: 100px;
@@ -242,6 +231,7 @@ align-items: center;
 border-radius: 5px;
 margin-vertical: 5px;
 height: 60px;
+
 
 ${(props) =>
   props.secondButton &&
