@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 
+//Queries
+import { REGISTER_USER } from "../../client/client";
+import { useMutation } from "@apollo/client";
+
 //Formik
 import { Formik } from "formik";
 
@@ -21,10 +25,8 @@ import {
   PageTitle,
   SubTitle,
   StyledFormArea,
-  StyledButton,
   ButtonText,
   Colors,
-  MsgBox,
   ExtraView,
   ExtraText,
   TextLink,
@@ -63,6 +65,7 @@ const SingupSchema = Yup.object().shape({
 const SignUp = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [value, setValue] = useState("adopter");
+  const [createUser, { data, loading, error }] = useMutation(REGISTER_USER);
 
   return (
     <NativeBaseProvider>
@@ -84,7 +87,29 @@ const SignUp = ({ navigation }) => {
               validationSchema={SingupSchema}
               onSubmit={(values) => {
                 values.account == value;
+                console.log("variables");
                 console.log(values);
+                createUser({
+                  variables: {
+                    registerInput: {
+                      account: values.account,
+                      age: parseInt(values.age),
+                      email: values.email,
+                      fullName: values.fullName,
+                      password: values.password,
+                      repeatPassword: values.repeatPassword,
+                    },
+                  },
+
+                  onError: (err) => {
+                    console.log("Network Error");
+                    console.log(err.networkError.result);
+                  },
+
+                  onCompleted: () => {
+                    console.log("Registrado correctamente");
+                  },
+                });
                 if (values.account === "adopter") {
                   navigation.navigate("AdopterContract");
                 }

@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { Colors } from "../components/Styles";
-const { primary, tertiary } = Colors;
+const { tertiary } = Colors;
 //screens
 import Login from "../screens/GeneralScreens/LoginScreen";
 import SignUp from "../screens/GeneralScreens/SignupScreen";

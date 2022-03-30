@@ -20,7 +20,6 @@ import {
   PageTitle,
   SubTitle,
   StyledFormArea,
-  StyledButton,
   ButtonText,
   Colors,
   MsgBox,
@@ -36,6 +35,7 @@ const { darkLight, primary } = Colors;
 
 //keyboard avoiding view
 import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
+import { graphql } from "graphql";
 
 //Form fields validation
 const LoginSchema = Yup.object().shape({
