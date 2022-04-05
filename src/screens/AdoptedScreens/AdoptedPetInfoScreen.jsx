@@ -17,6 +17,10 @@ import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
 //Yup
 import * as Yup from "yup";
 
+//Queries
+import { ADOPTED_CUESTIONARY } from "../../graphql/client";
+import { useMutation } from "@apollo/client";
+
 //Styles
 import {
   StyledContainer,
@@ -49,6 +53,7 @@ const AdoptedPetInfo = ({ navigation, route }) => {
   const [isHealthyWithOtherPets, setIsHealthyWithOtherPets] = useState(true);
   const [coexistenceWithOtherPets, setCoexistenceWithOtherPets] = useState([]);
   const [adoptedPetProtocol, setAdoptedPetProtocol] = useState("full");
+  const [createAdoptedUser] = useMutation(ADOPTED_CUESTIONARY);
   const { petName } = route.params;
   return (
     <NativeBaseProvider>
@@ -70,6 +75,23 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                 await values.coexistenceWithOtherPets;
                 values.coexistenceWithOtherPets = [...coexistenceWithOtherPets];
                 console.log(values);
+                createAdoptedUser({
+                  variables: {
+                    adoptedPetDescription: values.adoptedPetDescription,
+                    isHealthyWithKids: values.isHealthyWithKids,
+                    isHealthyWithOtherPets: values.isHealthyWithOtherPets,
+                    coexistenceWithOtherPets: values.coexistenceWithOtherPets,
+                    adoptedPetProtocol: values.adoptedPetProtocol,
+                  },
+                  onError: (err) => {
+                    console.log("Network Error");
+                    console.log(err.networkError.result);
+                  },
+
+                  onCompleted: () => {
+                    console.log("OK");
+                  },
+                });
                 navigation.navigate("AdoptedProfile");
               }}
             >

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 //React navigation
 import { NavigationContainer } from "@react-navigation/native";
@@ -19,9 +19,13 @@ import AdoptedPetProfileScreen from "../screens/AdoptedScreens/AdoptedPetProfile
 import AdoptedCardsScreen from "../screens/AdoptedScreens/AdoptedCardsScreen";
 import TabsAdopter from "./TabsAdopter";
 import TabsAdopted from "./TabsAdopted";
+import { AuthContext } from "../context/Auth";
+import AdoptedProfile from "../screens/AdoptedScreens/AdoptedProfileScreen";
 const Stack = createNativeStackNavigator();
 
 const RootStack = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -38,7 +42,16 @@ const RootStack = () => {
         }}
         initialRouteName="Login"
       >
-        <Stack.Screen name="Login" component={Login}></Stack.Screen>
+        <Stack.Screen
+          name="Login"
+          component={
+            user.id
+              ? user.account === "adopter"
+                ? TabsAdopter
+                : TabsAdopted
+              : Login
+          }
+        ></Stack.Screen>
         <Stack.Screen name="SignUp" component={SignUp}></Stack.Screen>
 
         <Stack.Screen

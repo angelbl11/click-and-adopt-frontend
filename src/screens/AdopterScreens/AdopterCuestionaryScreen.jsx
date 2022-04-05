@@ -53,19 +53,11 @@ const AdopterCuestionarySchema = Yup.object().shape({
     is: true,
     then: Yup.array().min(1, "Debes seleccionar al menos una opción"),
   }),
-  numberOfDogs: Yup.number("Ingresa un valor númerico").when("havePets", {
-    is: true,
-    then: Yup.number()
-      .positive("Introduce un número válido")
-      .integer("Introduce un número válido")
-      .min(1, "Debes tener al menos un perro")
-      .max(10, "Demasiados perros")
-      .required("Ingresa el número de perros que tienes"),
-  }),
   numberOfDogs: Yup.number("Ingresa un valor númerico").when(
-    "isRequireToValidateDog",
+    ["havePets", "isRequireToValidateDog"],
     {
-      is: true,
+      is: (havePets, isRequireToValidateDog) =>
+        havePets === true && isRequireToValidateDog === true,
       then: Yup.number()
         .positive("Introduce un número válido")
         .integer("Introduce un número válido")
@@ -74,19 +66,11 @@ const AdopterCuestionarySchema = Yup.object().shape({
         .required("Ingresa el número de perros que tienes"),
     }
   ),
-  numberOfCats: Yup.number("Ingresa un valor númerico").when("havePets", {
-    is: true,
-    then: Yup.number()
-      .positive("Introduce un número válido")
-      .integer("Introduce un número válido")
-      .min(1, "Debes tener al menos un gato")
-      .max(10, "Demasiados gatos")
-      .required("Ingresa el número de gatos que tienes"),
-  }),
   numberOfCats: Yup.number("Ingresa un valor númerico").when(
-    "isRequireToValidateCat",
+    ["havePets", "isRequireToValidateCat"],
     {
-      is: true,
+      is: (havePets, isRequireToValidateCat) =>
+        havePets === true && isRequireToValidateCat === true,
       then: Yup.number()
         .positive("Introduce un número válido")
         .integer("Introduce un número válido")
@@ -104,6 +88,7 @@ const AdopterCuestionarySchema = Yup.object().shape({
       .min(1, "Debe ser al menos un día")
       .max(29, "Demasiados días, elige otra opción")
       .required("Ingresa el número de días"),
+    otherwise: Yup.number(),
   }),
   numberOfMonths: Yup.number().when("hadPetsDate", {
     is: "months",
@@ -113,6 +98,7 @@ const AdopterCuestionarySchema = Yup.object().shape({
       .min(1, "Debe ser al menos un mes")
       .max(11, "Demasiados meses, elige otra opción")
       .required("Ingresa el número de meses"),
+    otherwise: Yup.number(),
   }),
   numberOfYears: Yup.number().when("hadPetsDate", {
     is: "years",
@@ -122,6 +108,7 @@ const AdopterCuestionarySchema = Yup.object().shape({
       .min(1, "Debe ser al menos un año")
       .max(4, "Ha pasado demasiado tiempo, límite superado")
       .required("Ingresa el número de años"),
+    otherwise: Yup.number(),
   }),
 });
 
@@ -156,6 +143,8 @@ const AdopterCuestionary = ({ navigation }) => {
                 isChildren: true,
                 isRequireToValidateDog: false,
                 isRequireToValidateCat: false,
+                isCheckedFirst: true,
+                isCheckedSecond: true,
                 numberOfDays: "",
                 numberOfYears: "",
                 numberOfMonths: "",
@@ -164,8 +153,9 @@ const AdopterCuestionary = ({ navigation }) => {
               validateOnChange={(values) => {
                 values.petPreferences = [...groupValues];
               }}
-              onSubmit={async (values) => {
+              onSubmit={async (values, { resetForm }) => {
                 await values.petPreferences;
+                resetForm();
                 values.petPreferences = [...groupValues];
                 values.actualPets = [...havePets];
                 console.log(values);
@@ -269,13 +259,14 @@ const AdopterCuestionary = ({ navigation }) => {
                       </View>
                       {havePets.includes("haveDogs") ? (
                         <View>
+                          <SubTitle>Si dime:{values.numberOfDogs}</SubTitle>
                           <TextInput
                             label="Número de perros que tienes:"
                             icon="dog"
                             onChangeText={handleChange("numberOfDogs")}
                             onBlur={handleBlur("numberOfDogs")}
-                            value={values.numberOfDogs}
-                            keyboardType="numeric"
+                            value={values.haveDogs}
+                            keyboardType="number-pad"
                             isInvalid={errors.numberOfDogs}
                             isBooleanDog={
                               (values.isRequireToValidateDog = true)
@@ -300,7 +291,7 @@ const AdopterCuestionary = ({ navigation }) => {
                             onChangeText={handleChange("numberOfCats")}
                             onBlur={handleBlur("numberOfCats")}
                             value={values.numberOfCats}
-                            keyboardType="numeric"
+                            keyboardType="number-pad"
                             isInvalid={errors.numberOfCats}
                             isBooleanCat={
                               (values.isRequireToValidateCat = true)
@@ -369,14 +360,14 @@ const AdopterCuestionary = ({ navigation }) => {
                             secondValue="months"
                             thirdRadioLabel="Años"
                             thirdValue="years"
-                            keyboardType="numeric"
+                            keyboardType="number-pad"
                           />
                           {hadPetsDate == "days" ? (
                             <View>
                               <TextInput
                                 label="Introduce el numero de días"
                                 icon="calendar-alt"
-                                keyboardType="numeric"
+                                keyboardType="number-pad"
                                 onChangeText={handleChange("numberOfDays")}
                                 onBlur={handleBlur("numberOfDays")}
                                 value={values.numberOfDays}
@@ -393,7 +384,7 @@ const AdopterCuestionary = ({ navigation }) => {
                               <TextInput
                                 label="Introduce el numero de meses"
                                 icon="calendar-alt"
-                                keyboardType="numeric"
+                                keyboardType="number-pad"
                                 onChangeText={handleChange("numberOfMonths")}
                                 onBlur={handleBlur("numberOfMonths")}
                                 value={values.numberOfMonths}
@@ -410,7 +401,7 @@ const AdopterCuestionary = ({ navigation }) => {
                               <TextInput
                                 label="Introduce el numero de años"
                                 icon="calendar-alt"
-                                keyboardType="numeric"
+                                keyboardType="number-pad"
                                 onChangeText={handleChange("numberOfYears")}
                                 onBlur={handleBlur("numberOfYears")}
                                 value={values.numberOfYears}
@@ -446,6 +437,7 @@ const TextInput = ({
   isInvalid,
   isBooleanDog,
   isBooleanCat,
+  isRequireReset,
   ...props
 }) => {
   return (
@@ -459,6 +451,7 @@ const TextInput = ({
         isInvalid={isInvalid}
         isBooleanDog={isBooleanDog}
         isBooleanCat={isBooleanCat}
+        isRequireReset={isRequireReset}
       ></StyledTextInput>
     </View>
   );

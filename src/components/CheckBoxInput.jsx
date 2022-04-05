@@ -16,16 +16,26 @@ const CheckBoxInput = ({
   isThird,
   isFourth,
   convert,
+  isCheckedFirst,
+  isCheckedSecond,
   ...props
 }) => {
   return (
     <View>
       <SubTitle cuestionary={true}>{label}</SubTitle>
       <Checkbox.Group value={groupValue && convert} {...props}>
-        <Checkbox colorScheme="green" value={firstValue}>
+        <Checkbox
+          colorScheme="green"
+          value={firstValue}
+          isChecked={isCheckedFirst}
+        >
           {firstCheckBoxLabel}
         </Checkbox>
-        <Checkbox colorScheme="green" value={secondValue}>
+        <Checkbox
+          colorScheme="green"
+          value={secondValue}
+          isChecked={isCheckedSecond}
+        >
           {secondCheckBoxLabel}
         </Checkbox>
         {isThird == true ? (

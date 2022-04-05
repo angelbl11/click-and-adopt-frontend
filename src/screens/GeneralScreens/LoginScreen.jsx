@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 
 //Yup
 import * as Yup from "yup";
+
+//Queries
+import { useMutation } from "@apollo/client";
+import { LOGIN } from "../../graphql/client";
 
 //Formik
 import { Formik } from "formik";
@@ -35,7 +39,7 @@ const { darkLight, primary } = Colors;
 
 //keyboard avoiding view
 import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
-import { graphql } from "graphql";
+import { AuthContext } from "../../context/Auth";
 
 //Form fields validation
 const LoginSchema = Yup.object().shape({
@@ -45,6 +49,11 @@ const LoginSchema = Yup.object().shape({
 
 const Login = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
+  const [loginUser] = useMutation(LOGIN);
+
+  const { user } = useContext(AuthContext);
+
+  const auth = useContext(AuthContext);
 
   return (
     <NativeBaseProvider>
@@ -66,8 +75,29 @@ const Login = ({ navigation }) => {
               initialValues={{ email: "", password: "" }}
               validationSchema={LoginSchema}
               onSubmit={(values) => {
-                console.log(values);
-                navigation.navigate("AdopterProfile");
+                loginUser({
+                  variables: {
+                    loginInput: {
+                      email: values.email,
+                      password: values.password,
+                    },
+                  },
+                  onError: (err) => {
+                    console.log("Network Error");
+                    console.log(err.networkError.result);
+                  },
+
+                  onCompleted: () => {
+                    console.log("OK");
+                  },
+                  update(proxy, { data }) {
+                    auth.login(data.login);
+                    console.log(data.login);
+                    if (data.login.account === "adopter")
+                      navigation.navigate("AdopterProfile");
+                    else navigation.navigate("AdoptedProfile");
+                  },
+                });
               }}
             >
               {({
@@ -112,7 +142,7 @@ const Login = ({ navigation }) => {
                       {errors.password}
                     </StyledInputLabel>
                   ) : undefined}
-                  <MsgBox>...</MsgBox>
+                  <MsgBox></MsgBox>
 
                   <Pressable
                     onPress={handleSubmit}

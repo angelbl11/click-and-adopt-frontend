@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 
 //Styles
@@ -11,11 +11,14 @@ import {
 } from "../../components/Styles";
 
 //Native Base Components
-import { NativeBaseProvider, Switch, ScrollView } from "native-base";
+import { NativeBaseProvider, Switch, ScrollView, Button } from "native-base";
 import { Avatar } from "react-native-elements";
+import { AuthContext } from "../../context/Auth";
 
 const AdopterProfileScreen = ({ navigation }) => {
   const [showMessage, setShowMessage] = useState(false);
+
+  const { logout } = useContext(AuthContext);
   const handleMessage = () => {
     setShowMessage((previousState) => !previousState);
   };
@@ -26,6 +29,14 @@ const AdopterProfileScreen = ({ navigation }) => {
           <StatusBar style="dark" />
           <InnerContainer>
             <PageTitle profile={true}>Perfil</PageTitle>
+            <Button
+              onPress={() => {
+                logout();
+                navigation.navigate("Login");
+              }}
+            >
+              Cerrar sesión
+            </Button>
             <Avatar
               size={100}
               source={{

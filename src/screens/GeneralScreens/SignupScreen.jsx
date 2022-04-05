@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 
 //Queries
-import { REGISTER_USER } from "../../client/client";
+import { REGISTER_USER } from "../../graphql/client";
 import { useMutation } from "@apollo/client";
 
 //Formik
@@ -65,7 +65,7 @@ const SingupSchema = Yup.object().shape({
 const SignUp = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [value, setValue] = useState("adopter");
-  const [createUser, { data, loading, error }] = useMutation(REGISTER_USER);
+  const [createUser] = useMutation(REGISTER_USER);
 
   return (
     <NativeBaseProvider>
@@ -87,8 +87,6 @@ const SignUp = ({ navigation }) => {
               validationSchema={SingupSchema}
               onSubmit={(values) => {
                 values.account == value;
-                console.log("variables");
-                console.log(values);
                 createUser({
                   variables: {
                     registerInput: {
@@ -108,6 +106,13 @@ const SignUp = ({ navigation }) => {
 
                   onCompleted: () => {
                     console.log("Registrado correctamente");
+                  },
+                  update(proxy, { data }) {
+                    auth.login(data.register);
+                    console.log(data.register);
+                    if (data.register.account === "adopter")
+                      navigation.navigate("AdopterContract");
+                    else navigation.navigate("AdoptedProfile");
                   },
                 });
                 if (values.account === "adopter") {

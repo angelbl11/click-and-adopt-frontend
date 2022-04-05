@@ -1,17 +1,9 @@
-import {
-  ApolloClient,
-  InMemoryCache,
-  useQuery,
-  useMutation,
-  gql,
-  HttpLink,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
 export const client = new ApolloClient({
-  link: new HttpLink({ uri: "http://172.20.10.2:4000/graphql" }),
+  link: new HttpLink({ uri: "http://192.168.100.17:4000/graphql" }),
   cache: new InMemoryCache(),
 });
-
 export const REGISTER_USER = gql`
   mutation register($registerInput: RegisterInput!) {
     register(registerInput: $registerInput) {
@@ -22,15 +14,11 @@ export const REGISTER_USER = gql`
     }
   }
 `;
-const LOGIN = gql`
+export const LOGIN = gql`
   mutation Login($loginInput: LoginInput!) {
     login(loginInput: $loginInput) {
-      id
       account
-      age
       email
-      fullName
-      password
       token
     }
   }

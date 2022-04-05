@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 
 //Styles
@@ -14,9 +14,12 @@ import {
 import AdoptedProfileObject from "../../components/AdoptedProfileObject";
 
 //Native Base Components
-import { NativeBaseProvider, ScrollView } from "native-base";
+import { NativeBaseProvider, ScrollView, Button } from "native-base";
+
+import { AuthContext } from "../../context/Auth";
 
 const AdoptedProfile = ({ navigation }) => {
+  const { logout } = useContext(AuthContext);
   return (
     <NativeBaseProvider>
       <StyledContainer>
@@ -24,6 +27,14 @@ const AdoptedProfile = ({ navigation }) => {
         <ScrollView>
           <InnerContainer>
             <PageTitle profile={true}>Perfil</PageTitle>
+            <Button
+              onPress={() => {
+                logout();
+                navigation.navigate("Login");
+              }}
+            >
+              Cerrar Sesión
+            </Button>
             <ChildWrapper>
               <AdoptedItemWrapper>
                 <AdoptedProfileObject

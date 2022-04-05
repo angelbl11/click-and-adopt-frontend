@@ -4,6 +4,10 @@ import { StatusBar } from "expo-status-bar";
 //Formik
 import { Formik } from "formik";
 
+//Queries
+import { ADOPTED_CUESTIONARY } from "../../graphql/client";
+import { useMutation } from "@apollo/client";
+
 //Native Base Components
 import { NativeBaseProvider, View } from "native-base";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -34,7 +38,6 @@ import {
   StyledButton,
   ButtonText,
   Colors,
-  Separation,
 } from "../../components/Styles";
 
 const AdoptedCuestionarySchema = Yup.object().shape({
@@ -54,6 +57,7 @@ const AdoptedCuestionary = ({ navigation }) => {
   const [typeOfAdoptedPet, setTypeOfAdoptedPet] = useState("dog");
   const [genderOfAdoptedPet, setGenderOfAdoptedPet] = useState("male");
   const [ageOfAdoptedPet, setAgeOfAdoptedPet] = useState("puppy");
+  const [createAdoptedUser] = useMutation(ADOPTED_CUESTIONARY);
   return (
     <NativeBaseProvider>
       <KeyboardAvoidingWrapper>
@@ -71,6 +75,22 @@ const AdoptedCuestionary = ({ navigation }) => {
               validationSchema={AdoptedCuestionarySchema}
               onSubmit={(values) => {
                 console.log(values);
+                createAdoptedUser({
+                  variables: {
+                    typeOfAdoptedPet: values.typeOfAdoptedPet,
+                    genderOfAdoptedPet: values.genderOfAdoptedPet,
+                    adoptedPetName: values.adoptedPetName,
+                    ageOfAdoptedPet: values.ageOfAdoptedPet,
+                  },
+                  onError: (err) => {
+                    console.log("Network Error");
+                    console.log(err.networkError.result);
+                  },
+
+                  onCompleted: () => {
+                    console.log("OK");
+                  },
+                });
                 navigation.navigate("AdoptedPetInfo", {
                   petName: values.adoptedPetName,
                 });
