@@ -159,7 +159,9 @@ const Login = ({ navigation }) => {
                   </Pressable>
                   <ExtraView>
                     <ExtraText>¿No tienes cuenta? </ExtraText>
-                    <TextLink onPress={() => navigation.navigate("SignUp")}>
+                    <TextLink
+                      onPress={() => navigation.navigate("AdopterProfile")}
+                    >
                       <TextLinkContent>Registrate aquí</TextLinkContent>
                     </TextLink>
                   </ExtraView>
