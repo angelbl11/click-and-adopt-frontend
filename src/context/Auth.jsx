@@ -33,25 +33,33 @@ const AuthContext = createContext({
   user: null,
   login: (loginData) => {},
   logout: () => {},
+  register: (registerData) => {},
 });
 
 getData();
 
 const AuthProvider = (props) => {
-  const [user, setUSer] = useState(principalUser);
+  const [user, setUser] = useState(principalUser);
 
   const login = async (loginData) => {
     await AsyncStorage.setItem("@storage_Key", loginData.token);
     const data = jwtDecode(loginData.token);
-    setUSer(data);
+    setUser(data);
 
+    console.log(user.id);
+  };
+
+  const register = async (registerData) => {
+    await AsyncStorage.setItem("@storage_Key", registerData.token);
+    const data = jwtDecode(registerData.token);
+    setUser(data);
     console.log(user.id);
   };
 
   const logout = async () => {
     await AsyncStorage.removeItem("@storage_Key");
 
-    setUSer({
+    setUser({
       id: null,
       fullName: null,
       account: null,
@@ -60,7 +68,7 @@ const AuthProvider = (props) => {
 
   return (
     <AuthContext.Provider
-      value={{ user: user, login: login, logout: logout }}
+      value={{ user: user, login: login, logout: logout, register: register }}
       {...props}
     />
   );

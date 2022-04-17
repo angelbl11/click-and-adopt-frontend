@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 
 //Formik
@@ -20,6 +20,9 @@ import * as Yup from "yup";
 //Queries
 import { ADOPTED_CUESTIONARY } from "../../graphql/client";
 import { useMutation } from "@apollo/client";
+
+//
+import { AuthContext } from "../../context/Auth";
 
 //Styles
 import {
@@ -54,7 +57,11 @@ const AdoptedPetInfo = ({ navigation, route }) => {
   const [coexistenceWithOtherPets, setCoexistenceWithOtherPets] = useState([]);
   const [adoptedPetProtocol, setAdoptedPetProtocol] = useState("full");
   const [createAdoptedUser] = useMutation(ADOPTED_CUESTIONARY);
-  const { petName } = route.params;
+  const { user } = useContext(AuthContext);
+
+  const { petName, typeOfAdoptedPet, genderOfAdoptedPet, ageOfAdoptedPet } =
+    route.params;
+
   return (
     <NativeBaseProvider>
       <KeyboardAvoidingWrapper>
@@ -77,22 +84,30 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                 console.log(values);
                 createAdoptedUser({
                   variables: {
-                    adoptedPetDescription: values.adoptedPetDescription,
-                    isHealthyWithKids: values.isHealthyWithKids,
-                    isHealthyWithOtherPets: values.isHealthyWithOtherPets,
-                    coexistenceWithOtherPets: values.coexistenceWithOtherPets,
-                    adoptedPetProtocol: values.adoptedPetProtocol,
+                    adoptedQuestionnaireInput: {
+                      typeOfAdoptedPet: typeOfAdoptedPet,
+                      genderOfAdoptedPet: genderOfAdoptedPet,
+                      adoptedPetName: petName,
+                      ageOfAdoptedPet: ageOfAdoptedPet,
+                      userId: user.id,
+                      adoptedPetDescription: values.adoptedPetDescription,
+                      isHealthyWithKids: values.isHealthyWithKids,
+                      isHealthyWithOtherPets: values.isHealthyWithOtherPets,
+                      coexistenceWithOtherPets: values.coexistenceWithOtherPets,
+                      adoptedPetProtocol: values.adoptedPetProtocol,
+                    },
                   },
                   onError: (err) => {
                     console.log("Network Error");
-                    console.log(err.networkError.result);
+                    console.log(user.id);
                   },
 
                   onCompleted: () => {
                     console.log("OK");
+                    console.log(variables);
+                    navigation.navigate("AdoptedProfile");
                   },
                 });
-                navigation.navigate("AdoptedProfile");
               }}
             >
               {({

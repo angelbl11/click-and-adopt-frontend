@@ -11,6 +11,7 @@ export const REGISTER_USER = gql`
       age
       email
       fullName
+      token
     }
   }
 `;
@@ -30,6 +31,16 @@ export const ADOPTED_CUESTIONARY = gql`
   ) {
     answerAdoptedQuestionnaire(
       adoptedQuestionnaireInput: $adoptedQuestionnaireInput
+    )
+  }
+`;
+
+export const ADOPTER_CUESTIONARY = gql`
+  mutation answerAdopterQuestionnaire(
+    $adopterQuestionnaireInput: AdopterQuestionnaireInput!
+  ) {
+    answerAdopterQuestionnaire(
+      adopterQuestionnaireInput: $adopterQuestionnaireInput
     )
   }
 `;

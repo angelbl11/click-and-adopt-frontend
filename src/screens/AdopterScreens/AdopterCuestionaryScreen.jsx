@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import { Formik } from "formik";
 
 //Native Base Components
-import { NativeBaseProvider, View } from "native-base";
+import { Checkbox, NativeBaseProvider, View } from "native-base";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 //Components
@@ -46,39 +46,26 @@ const AdopterCuestionarySchema = Yup.object().shape({
     .max(250, "Demasiado largo")
     .required("Completa este campo"),
   petPreferences: Yup.array().min(1, "Debes seleccionar al menos una opción"),
-  havePets: Yup.boolean(),
-  isRequireToValidateDog: Yup.boolean(),
-  isRequireToValidateCat: Yup.boolean(),
-  actualPets: Yup.array().when("havePets", {
+  haveDog: Yup.boolean(),
+  numberOfDogs: Yup.number("Ingresa un valor númerico").when("haveDog", {
     is: true,
-    then: Yup.array().min(1, "Debes seleccionar al menos una opción"),
+    then: Yup.number()
+      .positive("Introduce un número válido")
+      .integer("Introduce un número válido")
+      .min(1, "Debes tener al menos un perro")
+      .max(10, "Demasiados perros")
+      .required("Ingresa el número de perros que tienes"),
   }),
-  numberOfDogs: Yup.number("Ingresa un valor númerico").when(
-    ["havePets", "isRequireToValidateDog"],
-    {
-      is: (havePets, isRequireToValidateDog) =>
-        havePets === true && isRequireToValidateDog === true,
-      then: Yup.number()
-        .positive("Introduce un número válido")
-        .integer("Introduce un número válido")
-        .min(1, "Debes tener al menos un perro")
-        .max(10, "Demasiados perros")
-        .required("Ingresa el número de perros que tienes"),
-    }
-  ),
-  numberOfCats: Yup.number("Ingresa un valor númerico").when(
-    ["havePets", "isRequireToValidateCat"],
-    {
-      is: (havePets, isRequireToValidateCat) =>
-        havePets === true && isRequireToValidateCat === true,
-      then: Yup.number()
-        .positive("Introduce un número válido")
-        .integer("Introduce un número válido")
-        .min(1, "Debes tener al menos un gato")
-        .max(10, "Demasiados gatos")
-        .required("Ingresa el número de gatos que tienes"),
-    }
-  ),
+  haveCat: Yup.boolean(),
+  numberOfCats: Yup.number().when("haveCat", {
+    is: true,
+    then: Yup.number()
+      .positive("Introduce un número válido")
+      .integer("Introduce un número válido")
+      .min(1, "Debes tener al menos un gato")
+      .max(10, "Demasiados gatos")
+      .required("Ingresa el número de gatos que tienes"),
+  }),
   hadPetsDate: Yup.string(),
   numberOfDays: Yup.number().when("hadPetsDate", {
     is: "days",
@@ -114,12 +101,14 @@ const AdopterCuestionarySchema = Yup.object().shape({
 
 const AdopterCuestionary = ({ navigation }) => {
   const [groupValues, setGroupValues] = useState([]);
-  const [havePets, setHavePets] = useState([]);
+  const [haveDog, setHaveDog] = useState(false);
+  const [haveCat, setHaveCat] = useState(false);
   const [value, setValue] = useState(true);
   const [hadPets, setHadPets] = useState(true);
   const [hadPetsValue, setHadPetsValue] = useState("dog");
   const [hadPetsDate, setHadPetsDate] = useState("days");
   const [haveChildren, setHaveChildren] = useState(true);
+
   return (
     <NativeBaseProvider>
       <KeyboardAvoidingWrapper>
@@ -137,17 +126,16 @@ const AdopterCuestionary = ({ navigation }) => {
                 hadPets: true,
                 hadPetsValue: "",
                 hadPetsDate: "",
-                actualPets: [],
                 numberOfDogs: "",
                 numberOfCats: "",
                 isChildren: true,
                 isRequireToValidateDog: false,
                 isRequireToValidateCat: false,
-                isCheckedFirst: true,
-                isCheckedSecond: true,
                 numberOfDays: "",
                 numberOfYears: "",
                 numberOfMonths: "",
+                haveDog: false,
+                haveCat: false,
               }}
               validationSchema={AdopterCuestionarySchema}
               validateOnChange={(values) => {
@@ -157,9 +145,23 @@ const AdopterCuestionary = ({ navigation }) => {
                 await values.petPreferences;
                 resetForm();
                 values.petPreferences = [...groupValues];
-                values.actualPets = [...havePets];
                 console.log(values);
-                navigation.navigate("AdopterPreferencesCuestionary");
+                navigation.navigate("AdopterPreferencesCuestionary", {
+                  reasonsToAdopt: values.reasonsToAdopt,
+                  petPreferences: values.petPreferences,
+                  havePets: values.havePets,
+                  hadPets: values.hadPets,
+                  hadPetsValue: values.hadPetsValue,
+                  hadPetsDate: values.hadPetsDate,
+                  numberOfDogs: values.numberOfDogs,
+                  numberOfCats: values.numberOfCats,
+                  haveChildren: values.isChildren,
+                  numberOfDays: values.numberOfDays,
+                  numberOfMonths: values.numberOfMonths,
+                  numberOfYears: values.numberOfYears,
+                  haveDog: values.haveDog,
+                  haveCat: values.haveCat,
+                });
               }}
             >
               {({
@@ -238,34 +240,48 @@ const AdopterCuestionary = ({ navigation }) => {
                   {values.havePets == true ? (
                     <View>
                       <View>
-                        <CheckBoxInput
-                          label=" ¿Qué tipo de mascota es?"
-                          groupValue={
-                            havePets
-                              ? (values.actualPets = [...havePets])
-                              : undefined
+                        <SubTitle cuestionary={true}>
+                          ¿Qué tipo de mascota es?
+                        </SubTitle>
+                        <Checkbox
+                          colorScheme="green"
+                          value={
+                            haveDog === true
+                              ? (values.haveDog = true)
+                              : (values.haveDog = false)
                           }
-                          onChange={setHavePets}
-                          firstValue="haveDogs"
-                          firstCheckBoxLabel="Perro"
-                          secondValue="haveCats"
-                          secondCheckBoxLabel="Gato"
-                        />
-                        {errors.actualPets && touched.actualPets ? (
-                          <StyledInputLabel validation={true}>
-                            {errors.actualPets}
-                          </StyledInputLabel>
-                        ) : undefined}
+                          isChecked={haveDog}
+                          onPress={() => {
+                            setHaveDog(!haveDog);
+                            values.numberOfDogs = null;
+                          }}
+                        >
+                          Perro
+                        </Checkbox>
+                        <Checkbox
+                          colorScheme="green"
+                          value={
+                            haveCat === true
+                              ? (values.haveCat = true)
+                              : (values.haveCat = false)
+                          }
+                          isChecked={haveCat}
+                          onPress={() => {
+                            setHaveCat(!haveCat);
+                            values.numberOfCats = null;
+                          }}
+                        >
+                          Gato
+                        </Checkbox>
                       </View>
-                      {havePets.includes("haveDogs") ? (
+                      {haveDog == true ? (
                         <View>
-                          <SubTitle>Si dime:{values.numberOfDogs}</SubTitle>
                           <TextInput
                             label="Número de perros que tienes:"
                             icon="dog"
                             onChangeText={handleChange("numberOfDogs")}
                             onBlur={handleBlur("numberOfDogs")}
-                            value={values.haveDogs}
+                            value={values.numberOfDogs}
                             keyboardType="number-pad"
                             isInvalid={errors.numberOfDogs}
                             isBooleanDog={
@@ -283,7 +299,7 @@ const AdopterCuestionary = ({ navigation }) => {
                         </View>
                       ) : undefined}
 
-                      {havePets.includes("haveCats") ? (
+                      {haveCat == true ? (
                         <View>
                           <TextInput
                             label="Número de gatos que tienes:"
@@ -437,7 +453,6 @@ const TextInput = ({
   isInvalid,
   isBooleanDog,
   isBooleanCat,
-  isRequireReset,
   ...props
 }) => {
   return (
@@ -451,7 +466,6 @@ const TextInput = ({
         isInvalid={isInvalid}
         isBooleanDog={isBooleanDog}
         isBooleanCat={isBooleanCat}
-        isRequireReset={isRequireReset}
       ></StyledTextInput>
     </View>
   );

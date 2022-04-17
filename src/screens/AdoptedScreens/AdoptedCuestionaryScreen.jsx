@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 
 //Formik
@@ -57,7 +57,6 @@ const AdoptedCuestionary = ({ navigation }) => {
   const [typeOfAdoptedPet, setTypeOfAdoptedPet] = useState("dog");
   const [genderOfAdoptedPet, setGenderOfAdoptedPet] = useState("male");
   const [ageOfAdoptedPet, setAgeOfAdoptedPet] = useState("puppy");
-  const [createAdoptedUser] = useMutation(ADOPTED_CUESTIONARY);
   return (
     <NativeBaseProvider>
       <KeyboardAvoidingWrapper>
@@ -75,24 +74,11 @@ const AdoptedCuestionary = ({ navigation }) => {
               validationSchema={AdoptedCuestionarySchema}
               onSubmit={(values) => {
                 console.log(values);
-                createAdoptedUser({
-                  variables: {
-                    typeOfAdoptedPet: values.typeOfAdoptedPet,
-                    genderOfAdoptedPet: values.genderOfAdoptedPet,
-                    adoptedPetName: values.adoptedPetName,
-                    ageOfAdoptedPet: values.ageOfAdoptedPet,
-                  },
-                  onError: (err) => {
-                    console.log("Network Error");
-                    console.log(err.networkError.result);
-                  },
-
-                  onCompleted: () => {
-                    console.log("OK");
-                  },
-                });
                 navigation.navigate("AdoptedPetInfo", {
                   petName: values.adoptedPetName,
+                  typeOfAdoptedPet: values.typeOfAdoptedPet,
+                  genderOfAdoptedPet: values.genderOfAdoptedPet,
+                  ageOfAdoptedPet: values.ageOfAdoptedPet,
                 });
               }}
             >

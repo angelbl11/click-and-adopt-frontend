@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 
 //Formik
@@ -21,6 +21,10 @@ import {
   StyledInputLabel,
 } from "../../components/Styles";
 
+//Queries
+import { ADOPTER_CUESTIONARY } from "../../graphql/client";
+import { useMutation } from "@apollo/client";
+
 //Colors
 const { brand, darkLight } = Colors;
 
@@ -30,6 +34,8 @@ import { NativeBaseProvider } from "native-base";
 
 //Yup
 import * as Yup from "yup";
+import { AuthContext } from "../../context/Auth";
+import { parse } from "react-native-svg";
 
 //Form fields validation
 const AdopterPreferencesCuestionarySchema = Yup.object().shape({
@@ -38,11 +44,31 @@ const AdopterPreferencesCuestionarySchema = Yup.object().shape({
   petGenderPreferences: Yup.array().min(1, "Debes elegir al menos una opción"),
 });
 
-const AdopterPreferencesCuestionary = ({ navigation }) => {
+const AdopterPreferencesCuestionary = ({ navigation, route }) => {
   const [groupSizeValues, setGroupSizeValues] = useState([]);
   const [groupAgeValues, setGroupAgeValues] = useState([]);
   const [groupGenderValues, setGroupGenderValues] = useState([]);
   const [isAgree, setIsAgree] = useState(true);
+  const [createAdopterUser] = useMutation(ADOPTER_CUESTIONARY);
+  const { user } = useContext(AuthContext);
+
+  const {
+    reasonsToAdopt,
+    petPreferences,
+    havePets,
+    hadPets,
+    hadPetsValue,
+    hadPetsDate,
+    numberOfDogs,
+    numberOfCats,
+    haveChildren,
+    numberOfDays,
+    numberOfMonths,
+    numberOfYears,
+    haveDog,
+    haveCat,
+  } = route.params;
+
   return (
     <NativeBaseProvider>
       <KeyboardAvoidingWrapper>
@@ -63,7 +89,38 @@ const AdopterPreferencesCuestionary = ({ navigation }) => {
                 values.petSizePreferences = [...groupSizeValues];
                 values.petAgePreferences = [...groupAgeValues];
                 values.petGenderPreferences = [...groupGenderValues];
-                console.log(values);
+                createAdopterUser({
+                  variables: {
+                    adopterQuestionnaireInput: {
+                      isAgreeWithProtocol: values.isAgreeWithProtocol,
+                      petAgePreferences: values.petAgePreferences,
+                      haveDog: haveDog,
+                      haveCat: haveCat,
+                      numberOfDogs: parseInt(numberOfDogs),
+                      numberOfCats: parseInt(numberOfCats),
+                      petPreferences: petPreferences,
+                      reasonToAdopt: reasonsToAdopt,
+                      havePets: havePets,
+                      isChildren: haveChildren,
+                      hadPets: hadPets,
+                      hadPetsDate: hadPetsDate,
+                      hadPetsValue: hadPetsValue,
+                      numberOfDays: parseInt(numberOfDays),
+                      numberOfMonths: parseInt(numberOfMonths),
+                      numberOfYears: parseInt(numberOfYears),
+                      userId: user.id,
+                    },
+                  },
+                  onError: (err) => {
+                    console.log("Network Error");
+                  },
+
+                  onCompleted: () => {
+                    console.log("OK");
+                    console.log(variables);
+                  },
+                });
+
                 navigation.navigate("AdopterProfile");
               }}
             >

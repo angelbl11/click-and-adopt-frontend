@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 
 //Queries
@@ -40,6 +40,9 @@ const { darkLight, primary } = Colors;
 //keyboard avoiding view
 import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
 
+//
+import { AuthContext } from "../../context/Auth";
+
 //Form fields validation
 const SingupSchema = Yup.object().shape({
   email: Yup.string().email("Email incorrecto").required("Ingresa tu email"),
@@ -67,6 +70,7 @@ const SignUp = ({ navigation }) => {
   const [value, setValue] = useState("adopter");
   const [createUser] = useMutation(REGISTER_USER);
 
+  const auth = useContext(AuthContext);
   return (
     <NativeBaseProvider>
       <KeyboardAvoidingWrapper>
@@ -101,26 +105,19 @@ const SignUp = ({ navigation }) => {
 
                   onError: (err) => {
                     console.log("Network Error");
-                    console.log(err.networkError.result);
                   },
 
                   onCompleted: () => {
                     console.log("Registrado correctamente");
                   },
                   update(proxy, { data }) {
-                    auth.login(data.register);
+                    auth.register(data.register);
                     console.log(data.register);
                     if (data.register.account === "adopter")
                       navigation.navigate("AdopterContract");
-                    else navigation.navigate("AdoptedProfile");
+                    else navigation.navigate("AdoptedContract");
                   },
                 });
-                if (values.account === "adopter") {
-                  navigation.navigate("AdopterContract");
-                }
-                if (values.account === "adopted") {
-                  navigation.navigate("AdoptedContract");
-                }
               }}
             >
               {({
