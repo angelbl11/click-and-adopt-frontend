@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-
+import { MaterialIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 //Styles
 import {
   StyledContainer,
@@ -14,7 +15,7 @@ import {
 import AdoptedProfileObject from "../../components/AdoptedProfileObject";
 
 //Native Base Components
-import { NativeBaseProvider, ScrollView, Button } from "native-base";
+import { NativeBaseProvider, ScrollView, View, IconButton } from "native-base";
 
 import { AuthContext } from "../../context/Auth";
 
@@ -26,15 +27,34 @@ const AdoptedProfile = ({ navigation }) => {
         <StatusBar style="dark" />
         <ScrollView>
           <InnerContainer>
-            <PageTitle profile={true}>Perfil</PageTitle>
-            <Button
-              onPress={() => {
-                logout();
-                navigation.navigate("Login");
-              }}
-            >
-              Cerrar Sesión
-            </Button>
+            <View flexDir={"row"} width={420} marginLeft={2} marginRight={12}>
+              <View width={40} marginLeft={6}>
+                <PageTitle profile={true}>Perfil</PageTitle>
+              </View>
+              <IconButton
+                _icon={{
+                  as: Entypo,
+                  name: "plus",
+                  color: "#1F2937",
+                }}
+                onPress={() => {
+                  logout();
+                  navigation.navigate("AdoptedCuestionary");
+                }}
+                marginLeft={140}
+              ></IconButton>
+              <IconButton
+                _icon={{
+                  as: MaterialIcons,
+                  name: "logout",
+                  color: "#1F2937",
+                }}
+                onPress={() => {
+                  logout();
+                  navigation.navigate("Login");
+                }}
+              ></IconButton>
+            </View>
             <ChildWrapper>
               <AdoptedItemWrapper>
                 <AdoptedProfileObject

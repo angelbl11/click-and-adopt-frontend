@@ -44,3 +44,43 @@ export const ADOPTER_CUESTIONARY = gql`
     )
   }
 `;
+
+export const UPLOAD_PROFILE_PICTURE = gql`
+  mutation addPicture($addProfilePictureId: String!, $profilePicture: Upload!) {
+    addProfilePicture(id: $addProfilePictureId, profilePicture: $profilePicture)
+  }
+`;
+
+export const GET_ADOPTER_INFO = gql`
+  query getAdopterInfo($getAdopterInfoId: String!) {
+    getAdopterInfo(id: $getAdopterInfoId) {
+      adopterInfo {
+        haveCat
+        haveDog
+        havePets
+        hadPets
+        hadPetsValue
+        hadPetsDate
+        numberOfDogs
+        numberOfCats
+        isAgreeWithProtocol
+        isChildren
+        petAgePreferences
+        petPreferences
+        petSizePreferences
+        reasonToAdopt
+        petGenderPreferences
+        numberOfDays
+        numberOfMonths
+        numberOfYears
+      }
+      userInfo {
+        account
+        age
+        fullName
+        id
+        email
+      }
+    }
+  }
+`;

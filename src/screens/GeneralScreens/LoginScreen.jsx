@@ -93,7 +93,7 @@ const Login = ({ navigation }) => {
                   update(proxy, { data }) {
                     auth.login(data.login);
                     console.log(data.login);
-                    if (data.login.account === "adopter")
+                    if (data.login.account === "Adoptante")
                       navigation.navigate("AdopterProfile");
                     else navigation.navigate("AdoptedProfile");
                   },
@@ -159,9 +159,7 @@ const Login = ({ navigation }) => {
                   </Pressable>
                   <ExtraView>
                     <ExtraText>¿No tienes cuenta? </ExtraText>
-                    <TextLink
-                      onPress={() => navigation.navigate("AdopterProfile")}
-                    >
+                    <TextLink onPress={() => navigation.navigate("SignUp")}>
                       <TextLinkContent>Registrate aquí</TextLinkContent>
                     </TextLink>
                   </ExtraView>

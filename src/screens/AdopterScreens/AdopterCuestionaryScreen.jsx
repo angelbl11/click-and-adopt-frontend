@@ -196,9 +196,9 @@ const AdopterCuestionary = ({ navigation }) => {
                         : undefined
                     }
                     onChange={setGroupValues}
-                    firstValue="dogs"
+                    firstValue="Perros"
                     firstCheckBoxLabel="Perros"
-                    secondValue="cats"
+                    secondValue="Gatos"
                     secondCheckBoxLabel="Gatos"
                   />
                   {errors.petPreferences && touched.petPreferences ? (
@@ -346,39 +346,39 @@ const AdopterCuestionary = ({ navigation }) => {
                           <RadioInput
                             label="¿Qué tipo de mascota era?"
                             groupValue={
-                              hadPetsValue == "dog"
-                                ? (values.hadPetsValue = "dog")
-                                : (values.hadPetsValue = "cat")
+                              hadPetsValue == "Perro"
+                                ? (values.hadPetsValue = "Perro")
+                                : (values.hadPetsValue = "Gato")
                             }
                             onChange={(nextValue) => {
                               setHadPetsValue(nextValue);
                             }}
                             firstRadioLabel="Perro"
-                            firstValue="dog"
+                            firstValue="Perro"
                             secondRadioLabel="Gato"
-                            secondValue="cat"
+                            secondValue="Gato"
                           />
                           <ThreeOptionsRadioInput
                             label="¿Hace cuánto tiempo fue esto?"
                             groupValue={
-                              hadPetsDate == "days"
-                                ? (values.hadPetsDate = "days")
-                                : hadPetsDate == "months"
-                                ? (values.hadPetsDate = "months")
-                                : (values.hadPetsDate = "years")
+                              hadPetsDate == "Días"
+                                ? (values.hadPetsDate = "Días")
+                                : hadPetsDate == "Meses"
+                                ? (values.hadPetsDate = "Meses")
+                                : (values.hadPetsDate = "Años")
                             }
                             onChange={(nextValue) => {
                               setHadPetsDate(nextValue);
                             }}
                             firstRadioLabel="Días"
-                            firstValue="days"
+                            firstValue="Días"
                             secondRadioLabel="Meses"
-                            secondValue="months"
+                            secondValue="Meses"
                             thirdRadioLabel="Años"
-                            thirdValue="years"
+                            thirdValue="Años"
                             keyboardType="number-pad"
                           />
-                          {hadPetsDate == "days" ? (
+                          {hadPetsDate == "Días" ? (
                             <View>
                               <TextInput
                                 label="Introduce el numero de días"
@@ -395,7 +395,7 @@ const AdopterCuestionary = ({ navigation }) => {
                                 </StyledInputLabel>
                               ) : undefined}
                             </View>
-                          ) : hadPetsDate == "months" ? (
+                          ) : hadPetsDate == "Meses" ? (
                             <View>
                               <TextInput
                                 label="Introduce el numero de meses"

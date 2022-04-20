@@ -22,8 +22,10 @@ export const Colors = {
   brand: "#6A994E",
   green: "#10B981",
   red: "#BC4749",
+  info: "#7E848F",
 };
-const { primary, secondary, tertiary, darkLight, brand, red, green } = Colors;
+const { primary, secondary, tertiary, darkLight, brand, red, green, info } =
+  Colors;
 export const StyledContainer = styled(View)`
   flex: 1;
   padding-top: ${StatusBarHeight}px;
@@ -79,11 +81,17 @@ export const PageTitle = styled(Heading)`
    ${(props) =>
     props.about &&
     `
-   padding-right: 270px;
-   padding-top: 13px;
+   margin-right: 273px;
+   margin-top: 5px;
    font-size: 25px;
    font-weight: bold;
   `}
+`;
+
+export const InfoContainer = styled(View)`
+  margin-left: 140px;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const AtributesContainer = styled(View)`
@@ -143,13 +151,13 @@ ${(props) =>
     props.atributes &&
     `
     font-size: 20px;
-    margin-bottom: 15px;
     font-weight: normal;
     padding-right: 260px;
     padding-left: 20px;
+    margin-top: 8px;
     width: 100%;
-    height: 100px;
-    color: ${darkLight}
+    height: 20px;
+    color: ${tertiary}
 `}
 ${(props) =>
     props.adoptedAtributes &&
@@ -398,6 +406,33 @@ export const InfoText = styled(Text)`
   justify-content: center;
   display: flex;
   z-index: -100;
+`;
+
+export const ReasonTextContainer = styled(View)`
+  flex-direction: row;
+  width: 90%;
+  ${(props) =>
+    props.otherInfo &&
+    `
+    flex-direction:column;
+`}
+`;
+
+export const ReasonText = styled(Text)`
+  font-size: 18px;
+  font-weight: normal;
+  color: ${info};
+  flex: 1;
+  flex-wrap: wrap;
+`;
+
+export const UserInfoText = styled(Text)`
+  font-size: 18px;
+  font-weight: normal;
+  padding-right: 260px;
+  width: 100%;
+  height: 40px;
+  color: ${info};
 `;
 
 export const CarruselButtonsWrapper = styled(View)`

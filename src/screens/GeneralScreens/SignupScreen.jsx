@@ -113,7 +113,7 @@ const SignUp = ({ navigation }) => {
                   update(proxy, { data }) {
                     auth.register(data.register);
                     console.log(data.register);
-                    if (data.register.account === "adopter")
+                    if (data.register.account === "Adoptante")
                       navigation.navigate("AdopterContract");
                     else navigation.navigate("AdoptedContract");
                   },
@@ -212,17 +212,17 @@ const SignUp = ({ navigation }) => {
                   <RadioInput
                     label="Quiero"
                     groupValue={
-                      value == "adopter"
-                        ? (values.account = "adopter")
-                        : (values.account = "adopted")
+                      value == "Adoptante"
+                        ? (values.account = "Adoptante")
+                        : (values.account = "Adoptado")
                     }
                     onChange={(nextValue) => {
                       setValue(nextValue);
                     }}
                     firstRadioLabel="Adoptar"
-                    firstValue="adopter"
+                    firstValue="Adoptante"
                     secondRadioLabel="Dar en Adopción"
-                    secondValue="adopted"
+                    secondValue="Adoptado"
                   />
 
                   <Pressable

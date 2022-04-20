@@ -99,6 +99,8 @@ const AdopterPreferencesCuestionary = ({ navigation, route }) => {
                       numberOfDogs: parseInt(numberOfDogs),
                       numberOfCats: parseInt(numberOfCats),
                       petPreferences: petPreferences,
+                      petSizePreferences: values.petSizePreferences,
+                      petGenderPreferences: values.petGenderPreferences,
                       reasonToAdopt: reasonsToAdopt,
                       havePets: havePets,
                       isChildren: haveChildren,
@@ -135,11 +137,11 @@ const AdopterPreferencesCuestionary = ({ navigation, route }) => {
                         : undefined
                     }
                     onChange={setGroupSizeValues}
-                    firstValue="small"
+                    firstValue="Chico"
                     firstCheckBoxLabel="Chico (ej. Pug o Chihuahua)"
-                    secondValue={"medium"}
+                    secondValue="Mediano"
                     secondCheckBoxLabel="Mediano (ej. Beagle o Shnauzer)"
-                    thirdValue="big"
+                    thirdValue="Grande"
                     thirdCheckBoxLabel="Grande (ej. Husky o Samoyedo)"
                   />
                   {errors.petSizePreferences && touched.petSizePreferences ? (
@@ -157,13 +159,13 @@ const AdopterPreferencesCuestionary = ({ navigation, route }) => {
                         : undefined
                     }
                     onChange={setGroupAgeValues}
-                    firstValue="puppy"
+                    firstValue="Cachorro"
                     firstCheckBoxLabel="Cachorro (2 a 6 meses)"
-                    secondValue="teenager"
+                    secondValue="Adolescente"
                     secondCheckBoxLabel="Adolescente (6 a 12 meses)"
-                    thirdValue="adult"
+                    thirdValue="Adulto"
                     thirdCheckBoxLabel="Adulto (De 1 año a 7 años)"
-                    fourthValue="senior"
+                    fourthValue="Senior"
                     fourthCheckBoxLabel="Senior (7 o más años)"
                   />
                   {errors.petAgePreferences && touched.petAgePreferences ? (
@@ -179,9 +181,9 @@ const AdopterPreferencesCuestionary = ({ navigation, route }) => {
                         : undefined
                     }
                     onChange={setGroupGenderValues}
-                    firstValue="male"
+                    firstValue="Macho"
                     firstCheckBoxLabel="Macho"
-                    secondValue="female"
+                    secondValue="Hembra"
                     secondCheckBoxLabel="Hembra"
                   />
                   {errors.petGenderPreferences &&
