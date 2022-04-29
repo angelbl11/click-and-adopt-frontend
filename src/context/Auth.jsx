@@ -1,7 +1,7 @@
 //Async storage
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import jwtDecode from "jwt-decode";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 let principalUser = {
   id: null,

@@ -36,6 +36,7 @@ import {
   ButtonText,
   StyledInputLabel,
 } from "../../components/Styles";
+import { PetsContext } from "../../context/PetsContext";
 
 const AdoptedPetInfoSchema = Yup.object().shape({
   adoptedPetDescription: Yup.string()
@@ -55,9 +56,11 @@ const AdoptedPetInfo = ({ navigation, route }) => {
   const [isHealthyWithKids, setIsHealthyWithKids] = useState(true);
   const [isHealthyWithOtherPets, setIsHealthyWithOtherPets] = useState(true);
   const [coexistenceWithOtherPets, setCoexistenceWithOtherPets] = useState([]);
-  const [adoptedPetProtocol, setAdoptedPetProtocol] = useState("full");
+  const [adoptedPetProtocol, setAdoptedPetProtocol] = useState("Completo");
   const [createAdoptedUser] = useMutation(ADOPTED_CUESTIONARY);
   const { user } = useContext(AuthContext);
+
+  const { pets, setPets } = useContext(PetsContext);
 
   const { petName, typeOfAdoptedPet, genderOfAdoptedPet, ageOfAdoptedPet } =
     route.params;
@@ -78,10 +81,9 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                 adoptedPetProtocol: "",
               }}
               validationSchema={AdoptedPetInfoSchema}
-              onSubmit={async (values) => {
+              onSubmit={async (values, { resetForm }) => {
                 await values.coexistenceWithOtherPets;
                 values.coexistenceWithOtherPets = [...coexistenceWithOtherPets];
-                console.log(values);
                 createAdoptedUser({
                   variables: {
                     adoptedQuestionnaireInput: {
@@ -98,14 +100,30 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                     },
                   },
                   onError: (err) => {
-                    console.log("Network Error");
-                    console.log(user.id);
+                    console.log(err?.graphQLErrors);
                   },
 
-                  onCompleted: () => {
-                    console.log("OK");
-                    console.log(variables);
+                  onCompleted: (proxy, data) => {
+                    console.log(data);
+
+                    setPets((oldArray) => [
+                      ...oldArray,
+                      {
+                        typeOfAdoptedPet: typeOfAdoptedPet,
+                        genderOfAdoptedPet: genderOfAdoptedPet,
+                        adoptedPetName: petName,
+                        ageOfAdoptedPet: ageOfAdoptedPet,
+                        userId: user.id,
+                        adoptedPetDescription: values.adoptedPetDescription,
+                        isHealthyWithKids: values.isHealthyWithKids,
+                        isHealthyWithOtherPets: values.isHealthyWithOtherPets,
+                        coexistenceWithOtherPets:
+                          values.coexistenceWithOtherPets,
+                        adoptedPetProtocol: values.adoptedPetProtocol,
+                      },
+                    ]);
                     navigation.navigate("AdoptedProfile");
+                    resetForm();
                   },
                 });
               }}
@@ -187,9 +205,9 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                             : undefined
                         }
                         onChange={setCoexistenceWithOtherPets}
-                        firstValue="dogs"
+                        firstValue="Perros"
                         firstCheckBoxLabel="Perros"
-                        secondValue="cats"
+                        secondValue="Gatos"
                         secondCheckBoxLabel="Gatos"
                       />
                       {errors.coexistenceWithOtherPets &&
@@ -203,22 +221,22 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                   <RadioInput
                     label={`Indica el tipo de protocolo con el que cuenta ${petName} (deberás corroborarlo posteriormente)`}
                     groupValue={
-                      adoptedPetProtocol == "full"
-                        ? (values.adoptedPetProtocol = "full")
-                        : adoptedPetProtocol == "incomplete"
-                        ? (values.adoptedPetProtocol = "incomplete")
-                        : (values.adoptedPetProtocol = "null")
+                      adoptedPetProtocol == "Completo"
+                        ? (values.adoptedPetProtocol = "Completo")
+                        : adoptedPetProtocol == "Incompleto"
+                        ? (values.adoptedPetProtocol = "Incompleto")
+                        : (values.adoptedPetProtocol = "No tiene")
                     }
                     onChange={(nextValue) => {
                       setAdoptedPetProtocol(nextValue);
                     }}
                     isThird={true}
                     firstRadioLabel="Completo"
-                    firstValue="full"
+                    firstValue="Completo"
                     secondRadioLabel="Incompleto"
-                    secondValue="incomplete"
+                    secondValue="Incompleto"
                     thirdRadioLabel="No tiene"
-                    thirdValue="null"
+                    thirdValue="No tiene"
                   />
                   {errors.adoptedPetProtocol && touched.adoptedPetProtocol ? (
                     <StyledInputLabel validation={true}>

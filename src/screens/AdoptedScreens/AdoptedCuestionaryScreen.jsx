@@ -53,10 +53,11 @@ const AdoptedCuestionarySchema = Yup.object().shape({
   ),
 });
 
-const AdoptedCuestionary = ({ navigation }) => {
-  const [typeOfAdoptedPet, setTypeOfAdoptedPet] = useState("dog");
-  const [genderOfAdoptedPet, setGenderOfAdoptedPet] = useState("male");
-  const [ageOfAdoptedPet, setAgeOfAdoptedPet] = useState("puppy");
+const AdoptedCuestionary = ({ navigation, route }) => {
+  const [typeOfAdoptedPet, setTypeOfAdoptedPet] = useState("Perro");
+  const [genderOfAdoptedPet, setGenderOfAdoptedPet] = useState("Macho");
+  const [ageOfAdoptedPet, setAgeOfAdoptedPet] = useState("Cachorro");
+
   return (
     <NativeBaseProvider>
       <KeyboardAvoidingWrapper>
@@ -72,7 +73,7 @@ const AdoptedCuestionary = ({ navigation }) => {
                 ageOfAdoptedPet: "",
               }}
               validationSchema={AdoptedCuestionarySchema}
-              onSubmit={(values) => {
+              onSubmit={(values, { resetForm }) => {
                 console.log(values);
                 navigation.navigate("AdoptedPetInfo", {
                   petName: values.adoptedPetName,
@@ -80,6 +81,7 @@ const AdoptedCuestionary = ({ navigation }) => {
                   genderOfAdoptedPet: values.genderOfAdoptedPet,
                   ageOfAdoptedPet: values.ageOfAdoptedPet,
                 });
+                resetForm();
               }}
             >
               {({
@@ -94,17 +96,17 @@ const AdoptedCuestionary = ({ navigation }) => {
                   <RadioInput
                     label="¿Qué tipo de mascota es la que darás en adopción?"
                     groupValue={
-                      typeOfAdoptedPet == "dog"
-                        ? (values.typeOfAdoptedPet = "dog")
-                        : (values.typeOfAdoptedPet = "cat")
+                      typeOfAdoptedPet == "Perro"
+                        ? (values.typeOfAdoptedPet = "Perro")
+                        : (values.typeOfAdoptedPet = "Gato")
                     }
                     onChange={(nextValue) => {
                       setTypeOfAdoptedPet(nextValue);
                     }}
                     firstRadioLabel="Perro"
-                    firstValue="dog"
+                    firstValue="Perro"
                     secondRadioLabel="Gato"
-                    secondValue="cat"
+                    secondValue="Gato"
                   />
                   {errors.typeOfAdoptedPet && touched.typeOfAdoptedPet ? (
                     <StyledInputLabel validation={true}>
@@ -114,17 +116,17 @@ const AdoptedCuestionary = ({ navigation }) => {
                   <RadioInput
                     label="¿Cuál es el sexo de tu mascota?"
                     groupValue={
-                      genderOfAdoptedPet == "male"
-                        ? (values.genderOfAdoptedPet = "male")
-                        : (values.genderOfAdoptedPet = "female")
+                      genderOfAdoptedPet == "Macho"
+                        ? (values.genderOfAdoptedPet = "Macho")
+                        : (values.genderOfAdoptedPet = "Hembra")
                     }
                     onChange={(nextValue) => {
                       setGenderOfAdoptedPet(nextValue);
                     }}
                     firstRadioLabel="Macho"
-                    firstValue="male"
+                    firstValue="Macho"
                     secondRadioLabel="Hembra"
-                    secondValue="female"
+                    secondValue="Hembra"
                   />
                   {errors.genderOfAdoptedPet && touched.genderOfAdoptedPet ? (
                     <StyledInputLabel validation={true}>
@@ -133,7 +135,7 @@ const AdoptedCuestionary = ({ navigation }) => {
                   ) : undefined}
                   <TextInput
                     label="¿Cuál es el nombre de tu mascota?"
-                    isDog={typeOfAdoptedPet == "dog" ? true : false}
+                    isDog={typeOfAdoptedPet == "Perro" ? true : false}
                     onChangeText={handleChange("adoptedPetName")}
                     onBlur={handleBlur("adoptedPetName")}
                     value={values.adoptedPetName}
@@ -146,25 +148,25 @@ const AdoptedCuestionary = ({ navigation }) => {
                   <RadioInput
                     label={`¿En qué rango de edad se encuentra ${values.adoptedPetName}?`}
                     groupValue={
-                      ageOfAdoptedPet == "puppy"
-                        ? (values.ageOfAdoptedPet = "puppy")
-                        : ageOfAdoptedPet == "teenager"
-                        ? (values.ageOfAdoptedPet = "teenager")
-                        : ageOfAdoptedPet == "adult"
-                        ? (values.ageOfAdoptedPet = "adult")
-                        : (values.ageOfAdoptedPet = "senior")
+                      ageOfAdoptedPet == "Cachorro"
+                        ? (values.ageOfAdoptedPet = "Cachorro")
+                        : ageOfAdoptedPet == "Adolescente"
+                        ? (values.ageOfAdoptedPet = "Adolescente")
+                        : ageOfAdoptedPet == "Adulto"
+                        ? (values.ageOfAdoptedPet = "Adulto")
+                        : (values.ageOfAdoptedPet = "Senior")
                     }
                     onChange={(nextValue) => {
                       setAgeOfAdoptedPet(nextValue);
                     }}
                     firstRadioLabel="Cachorro (2 a 6 meses)"
-                    firstValue="puppy"
+                    firstValue="Cachorro"
                     secondRadioLabel="Adolescente (6 a 12 meses)"
-                    secondValue="teenager"
+                    secondValue="Adolescente"
                     thirdRadioLabel="Adulto (De 1 año a 7 años)"
-                    thirdValue="adult"
+                    thirdValue="Adulto"
                     fourthRadioLabel="Senior (7 o más años)"
-                    fourthValue="senior"
+                    fourthValue="Senior"
                     isThird={true}
                     isFourth={true}
                   />

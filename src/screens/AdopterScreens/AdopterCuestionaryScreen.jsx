@@ -104,7 +104,7 @@ const AdopterCuestionary = ({ navigation }) => {
   const [haveDog, setHaveDog] = useState(false);
   const [haveCat, setHaveCat] = useState(false);
   const [value, setValue] = useState(true);
-  const [hadPets, setHadPets] = useState(true);
+  const [hadPets, setHadPets] = useState(false);
   const [hadPetsValue, setHadPetsValue] = useState("dog");
   const [hadPetsDate, setHadPetsDate] = useState("days");
   const [haveChildren, setHaveChildren] = useState(true);
@@ -123,7 +123,7 @@ const AdopterCuestionary = ({ navigation }) => {
                 reasonsToAdopt: "",
                 petPreferences: [],
                 havePets: true,
-                hadPets: true,
+                hadPets: false,
                 hadPetsValue: "",
                 hadPetsDate: "",
                 numberOfDogs: "",
@@ -143,7 +143,6 @@ const AdopterCuestionary = ({ navigation }) => {
               }}
               onSubmit={async (values, { resetForm }) => {
                 await values.petPreferences;
-                resetForm();
                 values.petPreferences = [...groupValues];
                 console.log(values);
                 navigation.navigate("AdopterPreferencesCuestionary", {
@@ -162,6 +161,7 @@ const AdopterCuestionary = ({ navigation }) => {
                   haveDog: values.haveDog,
                   haveCat: values.haveCat,
                 });
+                resetForm();
               }}
             >
               {({

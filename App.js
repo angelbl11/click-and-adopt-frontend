@@ -4,13 +4,16 @@ import RootStack from "./src/navigators/RootStack";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./src/graphql/client";
 import { AuthProvider } from "./src/context/Auth";
+import { PetsProvider } from "./src/context/PetsContext";
 
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <AuthProvider>
-        <RootStack />
-      </AuthProvider>
+      <PetsProvider>
+        <AuthProvider>
+          <RootStack />
+        </AuthProvider>
+      </PetsProvider>
     </ApolloProvider>
   );
 }

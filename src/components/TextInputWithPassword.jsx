@@ -1,10 +1,8 @@
 import React from "react";
 
-import { View, FormControl } from "native-base";
+import { FormControl } from "native-base";
 
 import { Octicons, Ionicons } from "@expo/vector-icons";
-
-import * as Yup from "yup";
 
 import {
   LeftIcon,
@@ -16,10 +14,6 @@ import {
 
 //Colors
 const { brand, darkLight } = Colors;
-
-const LoginSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Required"),
-});
 
 const TextInputWithPassword = ({
   label,

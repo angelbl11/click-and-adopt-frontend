@@ -1,7 +1,9 @@
 import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
 
+import { createUploadLink } from "apollo-upload-client";
+
 export const client = new ApolloClient({
-  link: new HttpLink({ uri: "http://192.168.100.17:4000/graphql" }),
+  link: new createUploadLink({ uri: "http://172.20.10.2:4000/graphql" }),
   cache: new InMemoryCache(),
 });
 export const REGISTER_USER = gql`
@@ -46,8 +48,24 @@ export const ADOPTER_CUESTIONARY = gql`
 `;
 
 export const UPLOAD_PROFILE_PICTURE = gql`
-  mutation addPicture($addProfilePictureId: String!, $profilePicture: Upload!) {
+  mutation addpic($addProfilePictureId: String!, $profilePicture: Upload!) {
     addProfilePicture(id: $addProfilePictureId, profilePicture: $profilePicture)
+  }
+`;
+
+export const GET_ADOPTED_INFO = gql`
+  query ($getAdoptedInfoId: String!) {
+    getAdoptedInfo(id: $getAdoptedInfoId) {
+      adoptedPetDescription
+      adoptedPetName
+      adoptedPetProtocol
+      ageOfAdoptedPet
+      coexistenceWithOtherPets
+      genderOfAdoptedPet
+      isHealthyWithKids
+      isHealthyWithOtherPets
+      typeOfAdoptedPet
+    }
   }
 `;
 

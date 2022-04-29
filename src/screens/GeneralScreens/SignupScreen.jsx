@@ -89,7 +89,7 @@ const SignUp = ({ navigation }) => {
                 repeatPassword: "",
               }}
               validationSchema={SingupSchema}
-              onSubmit={(values) => {
+              onSubmit={(values, { resetForm }) => {
                 values.account == value;
                 createUser({
                   variables: {
@@ -109,10 +109,11 @@ const SignUp = ({ navigation }) => {
 
                   onCompleted: () => {
                     console.log("Registrado correctamente");
+                    resetForm();
                   },
                   update(proxy, { data }) {
-                    auth.register(data.register);
                     console.log(data.register);
+                    auth.login(data.register);
                     if (data.register.account === "Adoptante")
                       navigation.navigate("AdopterContract");
                     else navigation.navigate("AdoptedContract");

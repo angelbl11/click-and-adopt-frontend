@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 //Styles
-import {
-  ParentWrapper,
-  StyledInputLabel,
-  SwitchWrapper,
-  LabelWrapper,
-} from "./Styles";
+import { StyledInputLabel, SwitchWrapper, LabelWrapper } from "./Styles";
 //Native Base Components
 import { NativeBaseProvider, Switch } from "native-base";
 import { Avatar } from "react-native-elements";
@@ -14,6 +9,7 @@ const AdoptedProfileObject = ({ navigation, pressed, url }) => {
   const handleMessage = () => {
     setShowMessage(!showMessage);
   };
+
   return (
     <NativeBaseProvider>
       <Avatar

@@ -6,19 +6,28 @@ import {
   StyledContainer,
   InnerContainer,
   PageTitle,
-  ChildWrapper,
-  AdoptedItemWrapper,
   SubTitle,
-  AtributesLabel,
-  AtributesContainer,
+  ReasonText,
+  ReasonTextContainer,
 } from "../../components/Styles";
 
-import AdoptedProfileObject from "../../components/AdoptedProfileObject";
 import { Avatar } from "react-native-elements";
 //Native Base Components
 import { NativeBaseProvider, ScrollView } from "native-base";
 
-const AdoptedPetProfileScreen = ({ navigation }) => {
+const AdoptedPetProfileScreen = ({ route }) => {
+  const {
+    name,
+    des,
+    protocol,
+    age,
+    coexistence,
+    gender,
+    isHealthyK,
+    isHealthyP,
+    typeOf,
+  } = route.params;
+
   return (
     <NativeBaseProvider>
       <StyledContainer>
@@ -33,16 +42,41 @@ const AdoptedPetProfileScreen = ({ navigation }) => {
               }}
               rounded
             ></Avatar>
-            <SubTitle profile={true}>Ace</SubTitle>
-            <SubTitle typeOfUserLabel={true}>Gato</SubTitle>
+            <SubTitle profile={true}>{name}</SubTitle>
+            <SubTitle typeOfUserLabel={true}>{typeOf}</SubTitle>
             <PageTitle about={true}>Acerca De</PageTitle>
-            <AtributesContainer>
-              <AtributesLabel>Macho</AtributesLabel>
-              <AtributesLabel>Cachorro</AtributesLabel>
-              <AtributesLabel>Convive con gatos</AtributesLabel>
-              <AtributesLabel>Protocolo completo</AtributesLabel>
-            </AtributesContainer>
+            <ReasonTextContainer otherInfo={true} marginBottom={3}>
+              <ReasonText>Descripción:</ReasonText>
+              <ReasonText>{des}</ReasonText>
+            </ReasonTextContainer>
+            <ReasonTextContainer otherInfo={true} marginBottom={3}>
+              <ReasonText>Edad:</ReasonText>
+              <ReasonText>{age}</ReasonText>
+            </ReasonTextContainer>
+            <ReasonTextContainer otherInfo={true} marginBottom={3}>
+              <ReasonText>Sexo:</ReasonText>
+              <ReasonText>{gender}</ReasonText>
+            </ReasonTextContainer>
+            <ReasonTextContainer otherInfo={true} marginBottom={3}>
+              <ReasonText>Convive con niños:</ReasonText>
+              <ReasonText>{isHealthyK === true ? "Si" : "No"}</ReasonText>
+            </ReasonTextContainer>
+            <ReasonTextContainer otherInfo={true} marginBottom={3}>
+              <ReasonText>Convive con otras mascotas:</ReasonText>
+              <ReasonText>{isHealthyP === true ? "Si" : "No"}</ReasonText>
+            </ReasonTextContainer>
+            {isHealthyP === true ? (
+              <ReasonTextContainer otherInfo={true} marginBottom={3}>
+                <ReasonText>Convive con:</ReasonText>
+                {coexistence.map((pet) => (
+                  <ReasonText key={pet}>{pet}</ReasonText>
+                ))}
+              </ReasonTextContainer>
+            ) : undefined}
             <PageTitle about={true}>Protocolo</PageTitle>
+            <ReasonTextContainer otherInfo={true} marginBottom={3}>
+              <ReasonText>{protocol}</ReasonText>
+            </ReasonTextContainer>
           </InnerContainer>
         </ScrollView>
       </StyledContainer>

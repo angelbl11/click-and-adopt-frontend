@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
@@ -10,6 +10,8 @@ import {
   ChildWrapper,
   AdoptedItemWrapper,
   SubTitle,
+  ReasonText,
+  ReasonTextContainer,
 } from "../../components/Styles";
 
 import AdoptedProfileObject from "../../components/AdoptedProfileObject";
@@ -18,9 +20,32 @@ import AdoptedProfileObject from "../../components/AdoptedProfileObject";
 import { NativeBaseProvider, ScrollView, View, IconButton } from "native-base";
 
 import { AuthContext } from "../../context/Auth";
+import { GET_ADOPTED_INFO, GET_ADOPTER_INFO } from "../../graphql/client";
+import { useQuery, useLazyQuery } from "@apollo/client";
+import { PetsContext } from "../../context/PetsContext";
 
 const AdoptedProfile = ({ navigation }) => {
-  const { logout } = useContext(AuthContext);
+  const { logout, user } = useContext(AuthContext);
+  const { pets, setPets } = useContext(PetsContext);
+  const { data } = useQuery(GET_ADOPTER_INFO, {
+    variables: {
+      getAdopterInfoId: user.id,
+    },
+  });
+
+  const [getInfo] = useLazyQuery(GET_ADOPTED_INFO, {
+    variables: {
+      getAdoptedInfoId: user.id,
+    },
+    onCompleted: (data) => {
+      setPets(data?.getAdoptedInfo);
+    },
+  });
+
+  useEffect(() => {
+    getInfo();
+  }, []);
+
   return (
     <NativeBaseProvider>
       <StyledContainer>
@@ -38,7 +63,6 @@ const AdoptedProfile = ({ navigation }) => {
                   color: "#1F2937",
                 }}
                 onPress={() => {
-                  logout();
                   navigation.navigate("AdoptedCuestionary");
                 }}
                 marginLeft={140}
@@ -56,19 +80,52 @@ const AdoptedProfile = ({ navigation }) => {
               ></IconButton>
             </View>
             <ChildWrapper>
-              <AdoptedItemWrapper>
-                <AdoptedProfileObject
-                  pressed={() => navigation.navigate("PetProfile")}
-                  url="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=843&q=80"
-                ></AdoptedProfileObject>
-              </AdoptedItemWrapper>
-              <AdoptedItemWrapper>
-                <AdoptedProfileObject url="https://images.unsplash.com/photo-1558788353-f76d92427f16?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=438&q=80"></AdoptedProfileObject>
-              </AdoptedItemWrapper>
+              {pets?.map((item, count) => {
+                return (
+                  <AdoptedItemWrapper key={count}>
+                    <AdoptedProfileObject
+                      key={count}
+                      pressed={() =>
+                        navigation.navigate("PetProfile", {
+                          name: item?.adoptedPetName,
+                          des: item?.adoptedPetDescription,
+                          protocol: item?.adoptedPetProtocol,
+                          age: item?.ageOfAdoptedPet,
+                          coexistence: item?.coexistenceWithOtherPets,
+                          gender: item?.genderOfAdoptedPet,
+                          isHealthyK: item?.isHealthyWithKids,
+                          isHealthyP: item?.isHealthyWithOtherPets,
+                          typeOf: item?.typeOfAdoptedPet,
+                        })
+                      }
+                      url={
+                        "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=436&q=80"
+                      }
+                    />
+                  </AdoptedItemWrapper>
+                );
+              })}
             </ChildWrapper>
             <PageTitle about={true}>Acerca De</PageTitle>
-            <SubTitle adoptedAtributes={true}>Nombre</SubTitle>
-            <SubTitle adoptedAtributes={true}>Contacto</SubTitle>
+            <SubTitle profile={true}>
+              {data?.getAdopterInfo?.userInfo?.fullName}
+            </SubTitle>
+
+            <SubTitle typeOfUserLabel={true}>
+              {data?.getAdopterInfo?.userInfo?.account}
+            </SubTitle>
+
+            <SubTitle atributes={true}>Información</SubTitle>
+            <ReasonTextContainer otherInfo={true} marginBottom={3}>
+              <ReasonText>Edad:</ReasonText>
+              <ReasonText>
+                {data?.getAdopterInfo?.userInfo?.age} años
+              </ReasonText>
+            </ReasonTextContainer>
+            <ReasonTextContainer otherInfo={true} marginBottom={3}>
+              <ReasonText>Email:</ReasonText>
+              <ReasonText>{data?.getAdopterInfo?.userInfo?.email}</ReasonText>
+            </ReasonTextContainer>
           </InnerContainer>
         </ScrollView>
       </StyledContainer>

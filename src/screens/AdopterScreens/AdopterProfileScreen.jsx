@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { ThemeProvider, Avatar } from "@rneui/themed";
 import * as ImagePicker from "expo-image-picker";
 import { MaterialIcons } from "@expo/vector-icons";
 
 //Apollo
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { GET_ADOPTER_INFO } from "../../graphql/client";
 import { UPLOAD_PROFILE_PICTURE } from "../../graphql/client";
 
@@ -19,8 +19,6 @@ import {
   PageTitle,
   SubTitle,
   StyledInputLabel,
-  UserInfoText,
-  InfoContainer,
   ReasonTextContainer,
   ReasonText,
 } from "../../components/Styles";
@@ -32,6 +30,7 @@ import {
   ScrollView,
   View,
   IconButton,
+  Button,
 } from "native-base";
 
 const AdopterProfileScreen = ({ navigation }) => {
@@ -42,11 +41,20 @@ const AdopterProfileScreen = ({ navigation }) => {
     setShowMessage((previousState) => !previousState);
   };
 
-  const { data } = useQuery(GET_ADOPTER_INFO, {
+  const [getInfo, { data }] = useLazyQuery(GET_ADOPTER_INFO, {
     variables: {
       getAdopterInfoId: user.id,
     },
+
+    onError: (err) => {
+      console.log("Network Error");
+      console.log(err.graphQLErrors);
+    },
+    onCompleted: (data) => {
+      console.log(data);
+    },
   });
+
   const [image, setImage] = useState("AB");
 
   const pickImage = async () => {
@@ -56,27 +64,17 @@ const AdopterProfileScreen = ({ navigation }) => {
       quality: 1,
     });
     console.log(res);
-    console.log(user.id);
     if (!res.cancelled) {
-      setImage(res.uri);
+      setImage(res);
     }
-    uploadPicture({
-      variables: {
-        addProfilePicture: {
-          addProfilePictureId: user.id,
-          profilePicture: res,
-        },
-      },
-      onError: (err) => {
-        console.log("Network Error");
-        console.log(err.networkError.result);
-      },
-
-      onCompleted: () => {
-        console.log("OK");
-      },
-    });
   };
+
+  useEffect(() => {
+    console.log("user: ");
+    console.log(user);
+
+    getInfo();
+  }, []);
 
   return (
     <NativeBaseProvider>
@@ -106,7 +104,15 @@ const AdopterProfileScreen = ({ navigation }) => {
 
               <View marginTop={5}>
                 {image && (
-                  <Avatar size={140} rounded source={{ uri: image }}>
+                  <Avatar
+                    size={140}
+                    rounded
+                    source={{
+                      uri: image
+                        ? image
+                        : "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg",
+                    }}
+                  >
                     <Avatar.Accessory size={25} onPress={pickImage} />
                   </Avatar>
                 )}

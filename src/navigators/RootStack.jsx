@@ -46,7 +46,7 @@ const RootStack = () => {
           name="Login"
           component={
             user.id
-              ? user.account === "adopter"
+              ? user.account === "Adoptante"
                 ? TabsAdopter
                 : TabsAdopted
               : Login

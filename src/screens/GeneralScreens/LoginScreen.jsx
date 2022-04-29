@@ -91,8 +91,8 @@ const Login = ({ navigation }) => {
                     console.log("OK");
                   },
                   update(proxy, { data }) {
-                    auth.login(data.login);
                     console.log(data.login);
+                    auth.login(data.login);
                     if (data.login.account === "Adoptante")
                       navigation.navigate("AdopterProfile");
                     else navigation.navigate("AdoptedProfile");
