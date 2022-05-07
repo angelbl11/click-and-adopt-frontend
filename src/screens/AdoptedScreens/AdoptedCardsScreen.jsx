@@ -13,7 +13,7 @@ import {
   CarruselButtonsWrapper,
   CarruselButton,
 } from "../../components/Styles";
-import { NativeBaseProvider, Pressable } from "native-base";
+import { NativeBaseProvider, Pressable, IconButton, View } from "native-base";
 const db = [
   {
     name: "Richard Hendricks",
@@ -86,9 +86,22 @@ const AdoptedCardsScreen = ({ navigation }) => {
                 onSwipe={(dir) => swiped(dir, character.name)}
                 onCardLeftScreen={() => outOfFrame(character.name)}
               >
-                <Card>
+                <Card flexDir={"row"}>
                   <CardImage source={character.img}></CardImage>
-                  <CardTitle>{character.name}</CardTitle>
+
+                  <CardTitle flexDir={"row"}>
+                    {character.name}
+                    <IconButton
+                      _icon={{
+                        as: MaterialIcons,
+                        name: "info-outline",
+                        color: "white",
+                        bottom: "0",
+                        marginLeft: "100px",
+                        position: "absolute",
+                      }}
+                    ></IconButton>
+                  </CardTitle>
                 </Card>
               </TinderCard>
             ))}

@@ -3,14 +3,18 @@ import { StatusBar } from "expo-status-bar";
 import { ThemeProvider, Avatar } from "@rneui/themed";
 import * as ImagePicker from "expo-image-picker";
 import { MaterialIcons } from "@expo/vector-icons";
-
 //Apollo
-import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
-import { GET_ADOPTER_INFO } from "../../graphql/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
+import { GET_ADOPTER_INFO, UPDATE_ADOPTER_STATUS } from "../../graphql/client";
 import { UPLOAD_PROFILE_PICTURE } from "../../graphql/client";
+import { ReactNativeFile } from "apollo-upload-client/public";
+import * as mime from "react-native-mime-types";
 
 //Auth
 import { AuthContext } from "../../context/Auth";
+
+//ip component
+import { ip } from "../../graphql/client";
 
 //Styles
 import {
@@ -21,6 +25,7 @@ import {
   StyledInputLabel,
   ReasonTextContainer,
   ReasonText,
+  UploadButtonText,
 } from "../../components/Styles";
 
 //Native Base Components
@@ -35,44 +40,98 @@ import {
 
 const AdopterProfileScreen = ({ navigation }) => {
   const [showMessage, setShowMessage] = useState(false);
+  const [showButton, setShowButton] = useState(false);
   const { logout, user } = useContext(AuthContext);
-  const [uploadPicture] = useMutation(UPLOAD_PROFILE_PICTURE);
+  const [uploadPicture, { loading }] = useMutation(UPLOAD_PROFILE_PICTURE);
+  const [updateAdopterStatus] = useMutation(UPDATE_ADOPTER_STATUS);
+  const [image, setImage] = useState(
+    `http://${ip}:4000/ProfilePictures/defaultprof.jpg`
+  );
+  const getImgUrl = `http://${ip}:4000/ProfilePictures/`;
+  const [status, setStatus] = useState(null);
   const handleMessage = () => {
     setShowMessage((previousState) => !previousState);
   };
-
   const [getInfo, { data }] = useLazyQuery(GET_ADOPTER_INFO, {
     variables: {
       getAdopterInfoId: user.id,
     },
-
     onError: (err) => {
       console.log("Network Error");
       console.log(err.graphQLErrors);
     },
     onCompleted: (data) => {
+      if (data?.getAdopterInfo?.userInfo?.profilePicture?.filename) {
+        setImage(
+          getImgUrl + data?.getAdopterInfo?.userInfo?.profilePicture?.filename
+        );
+      }
+      if (data?.getAdopterInfo.adopterInfo?.isAvailableToAdopt) {
+        setShowMessage(data?.getAdopterInfo.adopterInfo?.isAvailableToAdopt);
+      }
       console.log(data);
     },
   });
 
-  const [image, setImage] = useState("AB");
-
+  function generateRNFile(uri, name) {
+    return uri
+      ? new ReactNativeFile({
+          uri,
+          type: mime.lookup(uri) || "image",
+          name,
+        })
+      : null;
+  }
   const pickImage = async () => {
-    let res = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
+      allowsMultipleSelection: false,
+      aspect: [4, 3],
       quality: 1,
     });
-    console.log(res);
-    if (!res.cancelled) {
-      setImage(res);
+    if (!result.cancelled) {
+      setImage(result.uri);
     }
   };
 
-  useEffect(() => {
-    console.log("user: ");
-    console.log(user);
+  const updateStatus = () => {
+    updateAdopterStatus({
+      variables: {
+        updateAdopterStatusId: data?.getAdopterInfo?.adopterInfo?.id,
+        userStatus: !showMessage,
+      },
+      onCompleted: (data) => {
+        console.log("ACTUALIZADO");
+        console.log(data);
+        console.log(!showMessage);
+      },
+      onError: (err) => {
+        console.log("Network error");
+        console.log(err.networkError);
+      },
+    });
+  };
 
+  async function onUploadPress() {
+    status && setStatus(null);
+    const file = generateRNFile(image, `picture-${Date.now()}`);
+    try {
+      await uploadPicture({
+        variables: { addProfilePictureId: user.id, profilePicture: file },
+        onCompleted: (data) => {
+          console.log("Foto subida");
+          setShowButton(false);
+        },
+        onError: (err) => {
+          console.log(err.networkError.result);
+        },
+      });
+      setStatus("Subido");
+    } catch (e) {
+      setStatus("Error");
+    }
+  }
+  useEffect(() => {
     getInfo();
   }, []);
 
@@ -108,14 +167,39 @@ const AdopterProfileScreen = ({ navigation }) => {
                     size={140}
                     rounded
                     source={{
-                      uri: image
-                        ? image
-                        : "https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg",
+                      uri: image,
                     }}
                   >
-                    <Avatar.Accessory size={25} onPress={pickImage} />
+                    <Avatar.Accessory
+                      size={25}
+                      onPress={() => {
+                        pickImage();
+                        setShowButton(true);
+                      }}
+                    />
                   </Avatar>
                 )}
+                {image && showButton === true ? (
+                  <Button
+                    variant="unstyled"
+                    onPress={onUploadPress}
+                    isDisabled={loading}
+                    marginTop={2}
+                    width={100}
+                    marginLeft={6}
+                    leftIcon={
+                      <MaterialIcons
+                        name="file-upload"
+                        size={24}
+                        color="#1F2937"
+                      />
+                    }
+                  >
+                    <UploadButtonText marginRight={2}>
+                      {loading ? "Subiendo...." : "Subir"}
+                    </UploadButtonText>
+                  </Button>
+                ) : undefined}
               </View>
 
               <SubTitle profile={true}>
@@ -128,12 +212,16 @@ const AdopterProfileScreen = ({ navigation }) => {
 
               <Switch
                 onTrackColor="green"
-                onValueChange={handleMessage}
+                onValueChange={() => {
+                  handleMessage();
+                  updateStatus();
+                }}
                 isChecked={showMessage}
               />
               <StyledInputLabel userStatus={true}>
-                {showMessage == true ? "Adoptando" : "No disponible"}
+                {showMessage === true ? "Adoptando" : "No disponible"}
               </StyledInputLabel>
+
               <PageTitle about={true}>Acerca De</PageTitle>
               <SubTitle atributes={true}>Información</SubTitle>
 

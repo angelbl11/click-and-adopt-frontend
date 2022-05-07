@@ -261,10 +261,16 @@ export const ButtonText = styled(Text)`
   font-size: 16px;
 `;
 
+export const UploadButtonText = styled(Text)`
+  color: ${tertiary};
+  font-size: 16px;
+  font-weight: bold;
+`;
+
 export const MsgBox = styled(Text)`
   text-align: center;
   font-size: 13px;
-  color: ${(props) => (props.type == "SUCCESS" ? green : red)};
+  color: ${(props) => (props.type == "Success" ? green : red)};
 `;
 
 export const ExtraView = styled(View)`

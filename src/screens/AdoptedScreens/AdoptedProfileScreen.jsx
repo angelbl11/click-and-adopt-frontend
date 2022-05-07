@@ -23,22 +23,27 @@ import { AuthContext } from "../../context/Auth";
 import { GET_ADOPTED_INFO, GET_ADOPTER_INFO } from "../../graphql/client";
 import { useQuery, useLazyQuery } from "@apollo/client";
 import { PetsContext } from "../../context/PetsContext";
-
+import { ip } from "../../graphql/client";
 const AdoptedProfile = ({ navigation }) => {
   const { logout, user } = useContext(AuthContext);
-  const { pets, setPets } = useContext(PetsContext);
+  const { pets, setPets, petImage, setPetImage, petId, setPetId } =
+    useContext(PetsContext);
   const { data } = useQuery(GET_ADOPTER_INFO, {
     variables: {
       getAdopterInfoId: user.id,
     },
   });
-
+  const getImgUrl = `http://${ip}:4000/ProfilePictures/`;
   const [getInfo] = useLazyQuery(GET_ADOPTED_INFO, {
     variables: {
       getAdoptedInfoId: user.id,
     },
     onCompleted: (data) => {
       setPets(data?.getAdoptedInfo);
+      console.log(data?.getAdoptedInfo);
+      if (data?.getAdoptedInfo?.petPicture?.filename) {
+        setPetImage(getImgUrl + data?.getAdoptedInfo?.petPicture?.filename);
+      }
     },
   });
 
@@ -85,7 +90,8 @@ const AdoptedProfile = ({ navigation }) => {
                   <AdoptedItemWrapper key={count}>
                     <AdoptedProfileObject
                       key={count}
-                      pressed={() =>
+                      pressed={() => {
+                        console.log("url: " + item?.petPicture.filename);
                         navigation.navigate("PetProfile", {
                           name: item?.adoptedPetName,
                           des: item?.adoptedPetDescription,
@@ -96,11 +102,12 @@ const AdoptedProfile = ({ navigation }) => {
                           isHealthyK: item?.isHealthyWithKids,
                           isHealthyP: item?.isHealthyWithOtherPets,
                           typeOf: item?.typeOfAdoptedPet,
-                        })
-                      }
-                      url={
-                        "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=436&q=80"
-                      }
+                          petProfdata: item?.petPicture?.filename,
+                          petId: item?.id,
+                          petProfPic: getImgUrl + item?.petPicture?.filename,
+                        });
+                      }}
+                      url={getImgUrl + item?.petPicture?.filename}
                     />
                   </AdoptedItemWrapper>
                 );

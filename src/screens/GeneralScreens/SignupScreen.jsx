@@ -112,7 +112,6 @@ const SignUp = ({ navigation }) => {
                     resetForm();
                   },
                   update(proxy, { data }) {
-                    console.log(data.register);
                     auth.login(data.register);
                     if (data.register.account === "Adoptante")
                       navigation.navigate("AdopterContract");

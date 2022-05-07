@@ -50,6 +50,12 @@ const LoginSchema = Yup.object().shape({
 const Login = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [loginUser] = useMutation(LOGIN);
+  const [message, setMessage] = useState();
+  const [messageType, setMessageType] = useState();
+  const handleMessage = (message, type = "Error") => {
+    setMessage(message);
+    setMessageType(type);
+  };
 
   const { user } = useContext(AuthContext);
 
@@ -83,15 +89,14 @@ const Login = ({ navigation }) => {
                     },
                   },
                   onError: (err) => {
-                    console.log("Network Error");
+                    handleMessage("Error de conexión", "Error");
                     console.log(err.networkError.result);
                   },
 
                   onCompleted: () => {
-                    console.log("OK");
+                    handleMessage("Inicio de sesión correcto", "Success");
                   },
                   update(proxy, { data }) {
-                    console.log(data.login);
                     auth.login(data.login);
                     if (data.login.account === "Adoptante")
                       navigation.navigate("AdopterProfile");
@@ -142,7 +147,7 @@ const Login = ({ navigation }) => {
                       {errors.password}
                     </StyledInputLabel>
                   ) : undefined}
-                  <MsgBox></MsgBox>
+                  <MsgBox type={messageType}>{message}</MsgBox>
 
                   <Pressable
                     onPress={handleSubmit}

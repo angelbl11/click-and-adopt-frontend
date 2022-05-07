@@ -1,11 +1,13 @@
-import { ApolloClient, InMemoryCache, gql, HttpLink } from "@apollo/client";
+import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 import { createUploadLink } from "apollo-upload-client";
-
+export const ip = "192.168.100.17";
 export const client = new ApolloClient({
-  link: new createUploadLink({ uri: "http://172.20.10.2:4000/graphql" }),
+  link: new createUploadLink({ uri: `http://${ip}:4000/graphql` }),
   cache: new InMemoryCache(),
 });
+
+//Mutations
 export const REGISTER_USER = gql`
   mutation register($registerInput: RegisterInput!) {
     register(registerInput: $registerInput) {
@@ -53,9 +55,32 @@ export const UPLOAD_PROFILE_PICTURE = gql`
   }
 `;
 
+export const UPLOAD_PET_PROFILE_PICTURE = gql`
+  mutation addpetimage(
+    $addProfilePetPictureId: String!
+    $petProfilePicture: Upload!
+  ) {
+    addProfilePetPicture(
+      id: $addProfilePetPictureId
+      petProfilePicture: $petProfilePicture
+    )
+  }
+`;
+
+export const UPDATE_ADOPTER_STATUS = gql`
+  mutation updateAdopterStatus(
+    $updateAdopterStatusId: String!
+    $userStatus: Boolean!
+  ) {
+    updateAdopterStatus(id: $updateAdopterStatusId, userStatus: $userStatus)
+  }
+`;
+
+// QUERIES
 export const GET_ADOPTED_INFO = gql`
   query ($getAdoptedInfoId: String!) {
     getAdoptedInfo(id: $getAdoptedInfoId) {
+      id
       adoptedPetDescription
       adoptedPetName
       adoptedPetProtocol
@@ -64,7 +89,11 @@ export const GET_ADOPTED_INFO = gql`
       genderOfAdoptedPet
       isHealthyWithKids
       isHealthyWithOtherPets
+      isAvailableToBeAdopted
       typeOfAdoptedPet
+      petPicture {
+        filename
+      }
     }
   }
 `;
@@ -73,6 +102,7 @@ export const GET_ADOPTER_INFO = gql`
   query getAdopterInfo($getAdopterInfoId: String!) {
     getAdopterInfo(id: $getAdopterInfoId) {
       adopterInfo {
+        id
         haveCat
         haveDog
         havePets
@@ -83,6 +113,7 @@ export const GET_ADOPTER_INFO = gql`
         numberOfCats
         isAgreeWithProtocol
         isChildren
+        isAvailableToAdopt
         petAgePreferences
         petPreferences
         petSizePreferences
@@ -98,6 +129,9 @@ export const GET_ADOPTER_INFO = gql`
         fullName
         id
         email
+        profilePicture {
+          filename
+        }
       }
     }
   }

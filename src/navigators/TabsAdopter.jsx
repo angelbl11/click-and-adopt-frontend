@@ -16,7 +16,7 @@ const TabsAdopter = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
           position: "absolute",
-          bottom: 8,
+          bottom: 0,
           elevation: 0,
           backgroundColor: primary,
         },
