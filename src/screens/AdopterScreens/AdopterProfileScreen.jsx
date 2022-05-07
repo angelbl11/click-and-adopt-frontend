@@ -146,14 +146,25 @@ const AdopterProfileScreen = ({ navigation }) => {
                 <View width={40} marginLeft={6}>
                   <PageTitle profile={true}>Perfil</PageTitle>
                 </View>
-
+                <IconButton
+                  _icon={{
+                    as: MaterialIcons,
+                    name: "edit",
+                    color: "#1F2937",
+                  }}
+                  marginLeft={140}
+                  onPress={() => {
+                    navigation.navigate("EditScreen", {
+                      account: data?.getAdopterInfo?.userInfo?.account,
+                    });
+                  }}
+                ></IconButton>
                 <IconButton
                   _icon={{
                     as: MaterialIcons,
                     name: "logout",
                     color: "#1F2937",
                   }}
-                  marginLeft={190}
                   onPress={() => {
                     logout();
                     navigation.navigate("Login");

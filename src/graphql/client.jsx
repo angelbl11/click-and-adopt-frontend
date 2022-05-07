@@ -76,6 +76,12 @@ export const UPDATE_ADOPTER_STATUS = gql`
   }
 `;
 
+export const UPDATE_USER_INFO = gql`
+  mutation updateUserInfo($editUserInfoId: String!, $editInput: EditInput!) {
+    editUserInfo(id: $editUserInfoId, editInput: $editInput)
+  }
+`;
+
 // QUERIES
 export const GET_ADOPTED_INFO = gql`
   query ($getAdoptedInfoId: String!) {

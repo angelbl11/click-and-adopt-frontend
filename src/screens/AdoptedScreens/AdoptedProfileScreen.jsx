@@ -63,6 +63,19 @@ const AdoptedProfile = ({ navigation }) => {
               </View>
               <IconButton
                 _icon={{
+                  as: MaterialIcons,
+                  name: "edit",
+                  color: "#1F2937",
+                }}
+                marginLeft={100}
+                onPress={() => {
+                  navigation.navigate("EditScreen", {
+                    account: data?.getAdopterInfo?.userInfo?.account,
+                  });
+                }}
+              ></IconButton>
+              <IconButton
+                _icon={{
                   as: Entypo,
                   name: "plus",
                   color: "#1F2937",
@@ -70,7 +83,6 @@ const AdoptedProfile = ({ navigation }) => {
                 onPress={() => {
                   navigation.navigate("AdoptedCuestionary");
                 }}
-                marginLeft={140}
               ></IconButton>
               <IconButton
                 _icon={{

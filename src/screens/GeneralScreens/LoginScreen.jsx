@@ -56,9 +56,6 @@ const Login = ({ navigation }) => {
     setMessage(message);
     setMessageType(type);
   };
-
-  const { user } = useContext(AuthContext);
-
   const auth = useContext(AuthContext);
 
   return (

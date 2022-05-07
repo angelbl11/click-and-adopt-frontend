@@ -69,7 +69,6 @@ const SignUp = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [value, setValue] = useState("adopter");
   const [createUser] = useMutation(REGISTER_USER);
-
   const auth = useContext(AuthContext);
   return (
     <NativeBaseProvider>
@@ -112,7 +111,7 @@ const SignUp = ({ navigation }) => {
                     resetForm();
                   },
                   update(proxy, { data }) {
-                    auth.login(data.register);
+                    auth.register(data.register);
                     if (data.register.account === "Adoptante")
                       navigation.navigate("AdopterContract");
                     else navigation.navigate("AdoptedContract");
