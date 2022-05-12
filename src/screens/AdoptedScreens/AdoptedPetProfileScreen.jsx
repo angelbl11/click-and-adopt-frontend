@@ -1,9 +1,14 @@
 import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import * as ImagePicker from "expo-image-picker";
-import { ip } from "../../graphql/client";
 import { UPLOAD_PET_PROFILE_PICTURE } from "../../graphql/client";
 import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+
+// Import Document Picker
+import * as DocumentPicker from "expo-document-picker";
+import FileViewer from "react-native-file-viewer";
+
 //Styles
 import {
   StyledContainer,
@@ -13,7 +18,12 @@ import {
   ReasonText,
   ReasonTextContainer,
   UploadButtonText,
+  ChildWrapper,
+  AdoptedItemWrapper,
 } from "../../components/Styles";
+
+//Components
+import ProtocolFileObject from "../../components/ProtocolFileObject";
 
 //Apollo
 import { useMutation } from "@apollo/client";
@@ -21,10 +31,20 @@ import { ReactNativeFile } from "apollo-upload-client/public";
 import * as mime from "react-native-mime-types";
 import { PetsContext } from "../../context/PetsContext";
 import { Avatar } from "react-native-elements";
-//Native Base Components
-import { NativeBaseProvider, ScrollView, View, Button } from "native-base";
 
-const AdoptedPetProfileScreen = ({ route }) => {
+//Native Base Components
+
+import {
+  NativeBaseProvider,
+  ScrollView,
+  View,
+  Button,
+  IconButton,
+} from "native-base";
+
+import { Platform } from "react-native";
+
+const AdoptedPetProfileScreen = ({ route, navigation }) => {
   const {
     name,
     des,
@@ -38,10 +58,14 @@ const AdoptedPetProfileScreen = ({ route }) => {
     petProfData,
     petProfPic,
     petId,
+    count,
+    imageArray,
   } = route.params;
   const [status, setStatus] = useState(null);
   const [uploadPetImage] = useMutation(UPLOAD_PET_PROFILE_PICTURE);
   const { petImage, setPetImage } = useContext(PetsContext);
+  const [viewFile, setViewFile] = useState(null);
+  const [newPetImage, setNewPetImage] = useState(petProfPic);
   function generateRNFile(uri, name) {
     return uri
       ? new ReactNativeFile({
@@ -59,20 +83,32 @@ const AdoptedPetProfileScreen = ({ route }) => {
       quality: 1,
     });
     if (!result.cancelled) {
-      petProfPic = result.uri;
-      setPetImage(petProfPic);
+      //petProfPic = result.uri;
+
+      imageArray[count] = result.uri;
+
+      let images = petImage;
+
+      images[count] = result.uri;
+
+      console.log("hola, es menor" + count);
+      console.log(images);
+      setPetImage(images);
+
+      setNewPetImage(result.uri);
     }
   };
 
   async function onUploadPress() {
     status && setStatus(null);
-    const file = generateRNFile(petImage, `picture-${Date.now()}`);
+    const file = generateRNFile(newPetImage, `picture-${Date.now()}`);
     try {
       await uploadPetImage({
         variables: { addProfilePetPictureId: petId, petProfilePicture: file },
         onCompleted: (data) => {
           console.log("Foto subida");
           console.log(data);
+          navigation.navigate("AdoptedProfile");
         },
         onError: (err) => {
           console.log(err.networkError.result);
@@ -83,6 +119,28 @@ const AdoptedPetProfileScreen = ({ route }) => {
       setStatus("Error");
     }
   }
+
+  //File manage
+  const pickDocument = async () => {
+    let result = await DocumentPicker.getDocumentAsync({});
+    alert(result.uri);
+    console.log(result);
+    setViewFile(result.uri);
+  };
+
+  const viewDocument = async () => {
+    if (Platform.OS === "ios") {
+      viewFile = viewFile.replace("file://", "");
+    }
+    console.log(viewFile);
+    FileViewer.open(viewFile)
+      .then(() => {
+        console.log("Ok");
+      })
+      .catch((err) => {
+        console.log("Error:", err);
+      });
+  };
   return (
     <NativeBaseProvider>
       <StyledContainer>
@@ -96,7 +154,7 @@ const AdoptedPetProfileScreen = ({ route }) => {
                   size={140}
                   rounded
                   source={{
-                    uri: petProfPic,
+                    uri: newPetImage,
                   }}
                 >
                   <Avatar.Accessory size={25} onPress={pickImage} />
@@ -152,9 +210,34 @@ const AdoptedPetProfileScreen = ({ route }) => {
                 ))}
               </ReasonTextContainer>
             ) : undefined}
-            <PageTitle about={true}>Protocolo</PageTitle>
+            <View flexDir={"row"} width={420} marginLeft={2} marginRight={12}>
+              <View width={50} marginLeft={6}>
+                <PageTitle about={true}>Protocolo</PageTitle>
+              </View>
+              {protocol != "No tiene" ? (
+                <IconButton
+                  _icon={{
+                    as: AntDesign,
+                    name: "addfile",
+                    color: "#1F2937",
+                  }}
+                  onPress={pickDocument}
+                  marginLeft={82}
+                ></IconButton>
+              ) : undefined}
+            </View>
             <ReasonTextContainer otherInfo={true} marginBottom={3}>
               <ReasonText>{protocol}</ReasonText>
+              {protocol != "No tiene" ? (
+                <ChildWrapper>
+                  <AdoptedItemWrapper>
+                    <ProtocolFileObject
+                      fileName={"Si mande"}
+                      onPress={viewDocument}
+                    ></ProtocolFileObject>
+                  </AdoptedItemWrapper>
+                </ChildWrapper>
+              ) : undefined}
             </ReasonTextContainer>
           </InnerContainer>
         </ScrollView>

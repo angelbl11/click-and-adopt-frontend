@@ -1167,6 +1167,11 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@cometchat-pro/react-native-chat@3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@cometchat-pro/react-native-chat/-/react-native-chat-3.0.2.tgz#38cde052dfda9583cac1d58e8499ed1e2f7c7a2e"
+  integrity sha512-fZZ5v/WBqmXzFHU4Wo1zBj16EGhk2xcU+bPuVDKvrGINyMbxwP3axvo4Ytk/U5yHDttodsA3nqULPI1tper7ig==
+
 "@emotion/is-prop-valid@^0.8.8":
   version "0.8.8"
   resolved "https://registry.npmjs.org/@emotion/is-prop-valid/-/is-prop-valid-0.8.8.tgz"
@@ -3617,6 +3622,14 @@ expo-constants@~13.0.0:
   integrity sha512-DwElzs1k6KljlZln/X2O9b5K4bXlDk8nzF5nzSLgI+Ibg/xUoIL5QKM41Y9RDJfTzlDlV7nmeS/Xar+nP5KjMA==
   dependencies:
     "@expo/config" "^6.0.6"
+    uuid "^3.3.2"
+
+expo-document-picker@~10.1.3:
+  version "10.1.3"
+  resolved "https://registry.yarnpkg.com/expo-document-picker/-/expo-document-picker-10.1.3.tgz#68a82635e9473eb19f128193f1111e7400055a7d"
+  integrity sha512-JKARJBnQ5Aug92hg2MFKrM2LqiMQabcUBYJwBhwSuc0A7dNUeprw0hkaOK0D9Fk7Ae9t+flRX0N5R/aADek3HA==
+  dependencies:
+    "@expo/config-plugins" "^4.0.2"
     uuid "^3.3.2"
 
 expo-error-recovery@~3.0.4:

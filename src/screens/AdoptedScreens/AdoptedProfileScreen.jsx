@@ -26,29 +26,35 @@ import { PetsContext } from "../../context/PetsContext";
 import { ip } from "../../graphql/client";
 const AdoptedProfile = ({ navigation }) => {
   const { logout, user } = useContext(AuthContext);
-  const { pets, setPets, petImage, setPetImage, petId, setPetId } =
-    useContext(PetsContext);
+  const [refreshing, setRefreshing] = useState(false);
+  const { pets, setPets, petImage, setPetImage } = useContext(PetsContext);
   const { data } = useQuery(GET_ADOPTER_INFO, {
     variables: {
       getAdopterInfoId: user.id,
     },
   });
   const getImgUrl = `http://${ip}:4000/ProfilePictures/`;
-  const [getInfo] = useLazyQuery(GET_ADOPTED_INFO, {
+
+  let images = [];
+  const [getInfo, { loading }] = useLazyQuery(GET_ADOPTED_INFO, {
     variables: {
       getAdoptedInfoId: user.id,
     },
     onCompleted: (data) => {
       setPets(data?.getAdoptedInfo);
-      console.log(data?.getAdoptedInfo);
-      if (data?.getAdoptedInfo?.petPicture?.filename) {
-        setPetImage(getImgUrl + data?.getAdoptedInfo?.petPicture?.filename);
-      }
+      //console.log(data?.getAdoptedInfo);
+      data.getAdoptedInfo.map((item) => {
+        images.push(getImgUrl + item.petPicture.filename);
+      });
+      setPetImage(images);
+      console.log("hola");
+      console.log(petImage);
     },
   });
 
   useEffect(() => {
     getInfo();
+    console.log("use effect");
   }, []);
 
   return (
@@ -103,7 +109,7 @@ const AdoptedProfile = ({ navigation }) => {
                     <AdoptedProfileObject
                       key={count}
                       pressed={() => {
-                        console.log("url: " + item?.petPicture.filename);
+                        console.log(petImage);
                         navigation.navigate("PetProfile", {
                           name: item?.adoptedPetName,
                           des: item?.adoptedPetDescription,
@@ -116,10 +122,16 @@ const AdoptedProfile = ({ navigation }) => {
                           typeOf: item?.typeOfAdoptedPet,
                           petProfdata: item?.petPicture?.filename,
                           petId: item?.id,
-                          petProfPic: getImgUrl + item?.petPicture?.filename,
+                          petProfPic: petImage[count],
+                          count: count,
+                          imageArray: images,
                         });
                       }}
-                      url={getImgUrl + item?.petPicture?.filename}
+                      url={
+                        loading
+                          ? getImgUrl + "defaultprof.jpg"
+                          : petImage[count]
+                      }
                     />
                   </AdoptedItemWrapper>
                 );

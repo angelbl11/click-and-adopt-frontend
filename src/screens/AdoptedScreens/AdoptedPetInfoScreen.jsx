@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
+import { RefreshControl } from "react-native";
 
 //Formik
 import { Formik } from "formik";
@@ -55,12 +56,13 @@ const AdoptedPetInfoSchema = Yup.object().shape({
 const AdoptedPetInfo = ({ navigation, route }) => {
   const [isHealthyWithKids, setIsHealthyWithKids] = useState(true);
   const [isHealthyWithOtherPets, setIsHealthyWithOtherPets] = useState(true);
+  const [refreshing, setRefreshing] = React.useState(false);
   const [coexistenceWithOtherPets, setCoexistenceWithOtherPets] = useState([]);
   const [adoptedPetProtocol, setAdoptedPetProtocol] = useState("Completo");
   const [createAdoptedUser] = useMutation(ADOPTED_CUESTIONARY);
   const { user } = useContext(AuthContext);
 
-  const { pets, setPets } = useContext(PetsContext);
+  const { pets, setPets, setPetImage } = useContext(PetsContext);
 
   const { petName, typeOfAdoptedPet, genderOfAdoptedPet, ageOfAdoptedPet } =
     route.params;
@@ -103,8 +105,13 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                     console.log(err?.graphQLErrors);
                   },
 
-                  onCompleted: (proxy, data) => {
+                  onCompleted: (data) => {
                     console.log(data);
+
+                    setPetImage((oldArray) => [
+                      ...oldArray,
+                      "http://192.168.0.186:4000/ProfilePictures/null",
+                    ]);
 
                     setPets((oldArray) => [
                       ...oldArray,
@@ -122,6 +129,7 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                         adoptedPetProtocol: values.adoptedPetProtocol,
                       },
                     ]);
+
                     navigation.navigate("AdoptedProfile");
                     resetForm();
                   },

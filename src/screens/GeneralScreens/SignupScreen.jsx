@@ -35,12 +35,12 @@ import {
 } from "../../components/Styles";
 
 //Colors
-const { darkLight, primary } = Colors;
+const { darkLight } = Colors;
 
 //keyboard avoiding view
 import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
 
-//
+//Auth
 import { AuthContext } from "../../context/Auth";
 
 //Form fields validation
@@ -103,14 +103,14 @@ const SignUp = ({ navigation }) => {
                   },
 
                   onError: (err) => {
-                    console.log("Network Error");
+                    console.log("Error de conección", err.networkError);
                   },
 
                   onCompleted: () => {
                     console.log("Registrado correctamente");
                     resetForm();
                   },
-                  update(proxy, { data }) {
+                  update({ data }) {
                     auth.register(data.register);
                     if (data.register.account === "Adoptante")
                       navigation.navigate("AdopterContract");

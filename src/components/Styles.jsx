@@ -60,11 +60,7 @@ export const PageTitle = styled(Heading)`
   font-weight: bold;
   color: ${brand};
   padding: 10px;
-  ${(props) =>
-    props.welcome &&
-    `
-  font-size: 35px;
-  `}
+
   ${(props) =>
     props.contract &&
     `
@@ -72,7 +68,7 @@ export const PageTitle = styled(Heading)`
   margin-bottom: 10px;
   padding: 2px;
   `}
-   ${(props) =>
+  ${(props) =>
     props.profile &&
     `
    padding-right: 300px;
@@ -81,7 +77,7 @@ export const PageTitle = styled(Heading)`
    ${(props) =>
     props.about &&
     `
-   margin-right: 273px;
+   padding-right: 273px;
    margin-top: 5px;
    font-size: 25px;
    font-weight: bold;
