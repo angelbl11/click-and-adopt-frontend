@@ -7,8 +7,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 // Import Document Picker
 import * as DocumentPicker from "expo-document-picker";
-import FileViewer from "react-native-file-viewer";
-
+import Pdf from "react-native-pdf";
 //Styles
 import {
   StyledContainer,
@@ -41,8 +40,6 @@ import {
   Button,
   IconButton,
 } from "native-base";
-
-import { Platform } from "react-native";
 
 const AdoptedPetProfileScreen = ({ route, navigation }) => {
   const {
@@ -128,19 +125,12 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
     setViewFile(result.uri);
   };
 
-  const viewDocument = async () => {
-    if (Platform.OS === "ios") {
-      viewFile = viewFile.replace("file://", "");
-    }
-    console.log(viewFile);
-    FileViewer.open(viewFile)
-      .then(() => {
-        console.log("Ok");
-      })
-      .catch((err) => {
-        console.log("Error:", err);
-      });
+  const viewDocument = (source) => {
+    <View>
+      <Pdf source={source}></Pdf>;
+    </View>;
   };
+
   return (
     <NativeBaseProvider>
       <StyledContainer>
@@ -232,8 +222,8 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                 <ChildWrapper>
                   <AdoptedItemWrapper>
                     <ProtocolFileObject
+                      onPress={viewDocument(viewFile)}
                       fileName={"Si mande"}
-                      onPress={viewDocument}
                     ></ProtocolFileObject>
                   </AdoptedItemWrapper>
                 </ChildWrapper>

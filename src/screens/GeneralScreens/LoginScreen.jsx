@@ -35,7 +35,7 @@ import {
 } from "../../components/Styles";
 
 //Colors
-const { darkLight, primary } = Colors;
+const { darkLight } = Colors;
 
 //keyboard avoiding view
 import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
