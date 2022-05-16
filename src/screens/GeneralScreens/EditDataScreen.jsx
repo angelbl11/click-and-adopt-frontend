@@ -8,7 +8,7 @@ import * as Yup from "yup";
 //Formik
 import { Formik } from "formik";
 
-//GraphQL Components
+//GraphQL
 import { UPDATE_USER_INFO } from "../../graphql/client";
 import { useMutation } from "@apollo/client";
 
@@ -63,6 +63,7 @@ const EditDataScreen = ({ navigation, route }) => {
             <PageTitle>Editar información</PageTitle>
             <Formik
               initialValues={{ fullName: "", email: "", age: "" }}
+              validationSchema={UpdateInfoSchema}
               onSubmit={(values, { resetForm }) => {
                 console.log(values);
                 updateUser({
