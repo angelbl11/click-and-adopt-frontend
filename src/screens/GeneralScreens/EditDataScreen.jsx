@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-
+import { Alert } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 //Yup
@@ -63,26 +63,52 @@ const EditDataScreen = ({ navigation, route }) => {
             <PageTitle>Editar información</PageTitle>
             <Formik
               initialValues={{ fullName: "", email: "", age: "" }}
+              validationSchema={UpdateInfoSchema}
               onSubmit={(values, { resetForm }) => {
-                console.log(values);
-                updateUser({
-                  variables: {
-                    editUserInfoId: user.id,
-                    editInput: {
-                      age: values.age ? parseInt(values.age) : undefined,
-                      email: values.email ? values.email : undefined,
-                      fullName: values.fullName ? values.fullName : undefined,
+                Alert.alert(
+                  "¿Estás seguro que quieres actualizar tu información?",
+                  "",
+                  [
+                    {
+                      text: "Cancelar",
+                      onPress: () => console.log("cancelado"),
+                      style: "cancel",
                     },
-                  },
-                  onCompleted: (data) => {
-                    console.log("Info actualizada");
-                    console.log(data);
-                    resetForm();
-                  },
-                  onError: (err) => {
-                    console.log("Error:", err.networkError);
-                  },
-                });
+                    {
+                      text: "Actualizar",
+                      onPress: () => {
+                        updateUser({
+                          variables: {
+                            editUserInfoId: user.id,
+                            editInput: {
+                              age: values.age
+                                ? parseInt(values.age)
+                                : undefined,
+                              email: values.email ? values.email : undefined,
+                              fullName: values.fullName
+                                ? values.fullName
+                                : undefined,
+                            },
+                          },
+                          onCompleted: (data) => {
+                            resetForm();
+                            console.log("Info actualizada");
+                            console.log(data);
+                            navigation.navigate(
+                              account === "Adoptante"
+                                ? "AdopterProfile"
+                                : "AdoptedProfile"
+                            );
+                          },
+                          onError: (err) => {
+                            console.log("Error:", err.networkError);
+                          },
+                        });
+                      },
+                    },
+                  ]
+                );
+                console.log(values);
               }}
             >
               {({
@@ -144,9 +170,6 @@ const EditDataScreen = ({ navigation, route }) => {
                   <Pressable
                     onPress={() => {
                       handleSubmit();
-                      account === "Adoptante"
-                        ? navigation.navigate("AdopterProfile")
-                        : navigation.navigate("AdoptedProfile");
                     }}
                     justifyContent={"center"}
                     alignItems={"center"}

@@ -1,14 +1,17 @@
 import React, { useState, useContext } from "react";
+import { Alert } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import * as ImagePicker from "expo-image-picker";
-import { UPLOAD_PET_PROFILE_PICTURE } from "../../graphql/client";
+import {
+  UPLOAD_PET_PROFILE_PICTURE,
+  DELETE_PET_INFO,
+} from "../../graphql/client";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 // Import Document Picker
 import * as DocumentPicker from "expo-document-picker";
-import FileViewer from "react-native-file-viewer";
-
 //Styles
 import {
   StyledContainer,
@@ -42,8 +45,6 @@ import {
   IconButton,
 } from "native-base";
 
-import { Platform } from "react-native";
-
 const AdoptedPetProfileScreen = ({ route, navigation }) => {
   const {
     name,
@@ -63,6 +64,7 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
   } = route.params;
   const [status, setStatus] = useState(null);
   const [uploadPetImage] = useMutation(UPLOAD_PET_PROFILE_PICTURE);
+  const [deletePet] = useMutation(DELETE_PET_INFO);
   const { petImage, setPetImage } = useContext(PetsContext);
   const [viewFile, setViewFile] = useState(null);
   const [newPetImage, setNewPetImage] = useState(petProfPic);
@@ -128,26 +130,56 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
     setViewFile(result.uri);
   };
 
-  const viewDocument = async () => {
-    if (Platform.OS === "ios") {
-      viewFile = viewFile.replace("file://", "");
-    }
-    console.log(viewFile);
-    FileViewer.open(viewFile)
-      .then(() => {
-        console.log("Ok");
-      })
-      .catch((err) => {
-        console.log("Error:", err);
-      });
+  const deletePetInfoAlert = () => {
+    Alert.alert("¿Estás seguro que quieres eliminar esta mascota?", "", [
+      {
+        text: "Cancelar",
+        onPress: () => console.log("cancelado"),
+        style: "cancel",
+      },
+      {
+        text: "Eliminar",
+        onPress: () => {
+          deletePet({
+            variables: {
+              petId: petId,
+            },
+            onCompleted: (data) => {
+              console.log("Eliminado: ", data);
+              navigation.navigate("AdoptedProfile");
+            },
+            onError: (err) => {
+              console.log("Error: ", err.networkError);
+            },
+          });
+        },
+      },
+    ]);
   };
+
   return (
     <NativeBaseProvider>
       <StyledContainer>
         <StatusBar style="dark" />
         <ScrollView>
           <InnerContainer>
-            <PageTitle profile={true}>Perfil</PageTitle>
+            <View flexDir={"row"} width={420} marginLeft={2} marginRight={12}>
+              <View width={40} marginLeft={6}>
+                <PageTitle profile={true}>Perfil</PageTitle>
+              </View>
+              <IconButton
+                _icon={{
+                  as: Ionicons,
+                  name: "trash",
+                  color: "#1F2937",
+                }}
+                marginLeft={180}
+                onPress={() => {
+                  deletePetInfoAlert();
+                  console.log("Si m");
+                }}
+              ></IconButton>
+            </View>
             <View marginTop={5}>
               {petProfPic && (
                 <Avatar
@@ -233,7 +265,6 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                   <AdoptedItemWrapper>
                     <ProtocolFileObject
                       fileName={"Si mande"}
-                      onPress={viewDocument}
                     ></ProtocolFileObject>
                   </AdoptedItemWrapper>
                 </ChildWrapper>
