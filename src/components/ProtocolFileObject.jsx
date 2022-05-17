@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 //Native Base Components
 import { Button, Icon, NativeBaseProvider } from "native-base";

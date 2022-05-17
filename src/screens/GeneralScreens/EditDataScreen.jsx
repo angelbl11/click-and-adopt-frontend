@@ -8,7 +8,7 @@ import * as Yup from "yup";
 //Formik
 import { Formik } from "formik";
 
-//GraphQL Components
+//GraphQL
 import { UPDATE_USER_INFO } from "../../graphql/client";
 import { useMutation } from "@apollo/client";
 

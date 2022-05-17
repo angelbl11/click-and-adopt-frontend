@@ -264,6 +264,7 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                 <ChildWrapper>
                   <AdoptedItemWrapper>
                     <ProtocolFileObject
+                      onPress={viewDocument(viewFile)}
                       fileName={"Si mande"}
                     ></ProtocolFileObject>
                   </AdoptedItemWrapper>
