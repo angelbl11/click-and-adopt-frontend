@@ -4,7 +4,7 @@ import { StatusBar } from "expo-status-bar";
 //Yup
 import * as Yup from "yup";
 
-//GraphQL
+//Queries
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../../graphql/client";
 
@@ -16,9 +16,6 @@ import { NativeBaseProvider, Image, Pressable } from "native-base";
 
 //Components
 import TextInputWithPassword from "../../components/TextInputWithPassword";
-
-//Context
-const auth = useContext(AuthContext);
 
 //Styles
 import {
@@ -50,19 +47,16 @@ const LoginSchema = Yup.object().shape({
   password: Yup.string().required("Ingresa tu contraseña"),
 });
 
-//Login component
 const Login = ({ navigation }) => {
-  //password hook status managment
   const [hidePassword, setHidePassword] = useState(true);
-  //login mutation hook
   const [loginUser] = useMutation(LOGIN);
-  //error message handle hooks and function
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
   const handleMessage = (message, type = "Error") => {
     setMessage(message);
     setMessageType(type);
   };
+  const auth = useContext(AuthContext);
 
   return (
     <NativeBaseProvider>
@@ -83,7 +77,6 @@ const Login = ({ navigation }) => {
             <Formik
               initialValues={{ email: "", password: "" }}
               validationSchema={LoginSchema}
-              //Mutation submitted
               onSubmit={(values) => {
                 loginUser({
                   variables: {
@@ -92,7 +85,6 @@ const Login = ({ navigation }) => {
                       password: values.password,
                     },
                   },
-                  //handling error or success status
                   onError: (err) => {
                     handleMessage("Error de conexión", "Error");
                     console.log(err.networkError.result);
@@ -101,8 +93,7 @@ const Login = ({ navigation }) => {
                   onCompleted: () => {
                     handleMessage("Inicio de sesión correcto", "Success");
                   },
-                  //Routes validation with context
-                  update({ data }) {
+                  update(proxy, { data }) {
                     auth.login(data.login);
                     if (data.login.account === "Adoptante")
                       navigation.navigate("AdopterProfile");

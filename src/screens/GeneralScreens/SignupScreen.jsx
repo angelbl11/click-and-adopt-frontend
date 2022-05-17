@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 
-//GraphQL
+//Queries
 import { REGISTER_USER } from "../../graphql/client";
 import { useMutation } from "@apollo/client";
 
@@ -40,7 +40,7 @@ const { darkLight } = Colors;
 //keyboard avoiding view
 import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
 
-//Context
+//Auth
 import { AuthContext } from "../../context/Auth";
 
 //Form fields validation

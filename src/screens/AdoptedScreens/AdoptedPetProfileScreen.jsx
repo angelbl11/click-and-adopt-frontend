@@ -176,7 +176,6 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                 marginLeft={180}
                 onPress={() => {
                   deletePetInfoAlert();
-                  console.log("Si m");
                 }}
               ></IconButton>
             </View>
@@ -264,7 +263,6 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                 <ChildWrapper>
                   <AdoptedItemWrapper>
                     <ProtocolFileObject
-                      onPress={viewDocument(viewFile)}
                       fileName={"Si mande"}
                     ></ProtocolFileObject>
                   </AdoptedItemWrapper>

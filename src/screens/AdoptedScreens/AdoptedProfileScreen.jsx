@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
@@ -26,16 +26,16 @@ import { PetsContext } from "../../context/PetsContext";
 import { ip } from "../../graphql/client";
 const AdoptedProfile = ({ navigation }) => {
   const { logout, user } = useContext(AuthContext);
-  const [refreshing, setRefreshing] = useState(false);
   const { pets, setPets, petImage, setPetImage } = useContext(PetsContext);
-  const { data } = useQuery(GET_ADOPTER_INFO, {
+  const getImgUrl = `http://${ip}:4000/ProfilePictures/`;
+
+  let images = [];
+
+  const [getUserInfo, { data }] = useLazyQuery(GET_ADOPTER_INFO, {
     variables: {
       getAdopterInfoId: user.id,
     },
   });
-  const getImgUrl = `http://${ip}:4000/ProfilePictures/`;
-
-  let images = [];
   const [getInfo, { loading }] = useLazyQuery(GET_ADOPTED_INFO, {
     variables: {
       getAdoptedInfoId: user.id,
@@ -53,6 +53,7 @@ const AdoptedProfile = ({ navigation }) => {
   });
 
   useEffect(() => {
+    getUserInfo();
     getInfo();
     console.log("use effect");
   }, []);
