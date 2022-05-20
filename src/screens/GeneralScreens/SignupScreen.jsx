@@ -67,7 +67,7 @@ const SingupSchema = Yup.object().shape({
 
 const SignUp = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
-  const [value, setValue] = useState("adopter");
+  const [value, setValue] = useState("Adoptante");
   const [createUser] = useMutation(REGISTER_USER);
   const auth = useContext(AuthContext);
   return (
@@ -103,18 +103,21 @@ const SignUp = ({ navigation }) => {
                   },
 
                   onError: (err) => {
-                    console.log("Error de conección", err.networkError);
+                    console.log("Error de conexión", err);
                   },
 
                   onCompleted: () => {
-                    console.log("Registrado correctamente");
-                    resetForm();
+                    console.log("Registrado");
                   },
-                  update({ data }) {
-                    auth.register(data.register);
-                    if (data.register.account === "Adoptante")
+
+                  update(cache, { data }) {
+                    auth.login(data?.register);
+                    console.log(data);
+                    if (data?.register?.account === "Adoptante")
                       navigation.navigate("AdopterContract");
                     else navigation.navigate("AdoptedContract");
+                    console.log("Registrado correctamente");
+                    resetForm();
                   },
                 });
               }}
@@ -211,7 +214,7 @@ const SignUp = ({ navigation }) => {
                   <RadioInput
                     label="Quiero"
                     groupValue={
-                      value == "Adoptante"
+                      value === "Adoptante"
                         ? (values.account = "Adoptante")
                         : (values.account = "Adoptado")
                     }

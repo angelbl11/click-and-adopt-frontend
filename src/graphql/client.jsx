@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 import { createUploadLink } from "apollo-upload-client";
-export const ip = "192.168.100.17";
+export const ip = "192.168.1.107";
 export const client = new ApolloClient({
   link: new createUploadLink({ uri: `http://${ip}:4000/graphql` }),
   cache: new InMemoryCache(),
