@@ -104,7 +104,7 @@ const AdoptedProfile = ({ navigation }) => {
               ></IconButton>
             </View>
             <ChildWrapper>
-              {pets?.map((item, count) => {
+              {petImage?.map((item, count) => {
                 return (
                   <AdoptedItemWrapper key={count}>
                     <AdoptedProfileObject
@@ -112,27 +112,23 @@ const AdoptedProfile = ({ navigation }) => {
                       pressed={() => {
                         console.log(petImage);
                         navigation.navigate("PetProfile", {
-                          name: item?.adoptedPetName,
-                          des: item?.adoptedPetDescription,
-                          protocol: item?.adoptedPetProtocol,
-                          age: item?.ageOfAdoptedPet,
-                          coexistence: item?.coexistenceWithOtherPets,
-                          gender: item?.genderOfAdoptedPet,
-                          isHealthyK: item?.isHealthyWithKids,
-                          isHealthyP: item?.isHealthyWithOtherPets,
-                          typeOf: item?.typeOfAdoptedPet,
-                          petProfdata: item?.petPicture?.filename,
-                          petId: item?.id,
-                          petProfPic: petImage[count],
+                          name: pets[count].adoptedPetName,
+                          des: pets[count].adoptedPetDescription,
+                          protocol: pets[count].adoptedPetProtocol,
+                          age: pets[count].ageOfAdoptedPet,
+                          coexistence: pets[count].coexistenceWithOtherPets,
+                          gender: pets[count].genderOfAdoptedPet,
+                          isHealthyK: pets[count].isHealthyWithKids,
+                          isHealthyP: pets[count].isHealthyWithOtherPets,
+                          typeOf: pets[count].typeOfAdoptedPet,
+                          petProfdata: pets[count].petPicture?.filename,
+                          petId: pets[count].id,
+                          petProfPic: item,
                           count: count,
                           imageArray: images,
                         });
                       }}
-                      url={
-                        loading
-                          ? getImgUrl + "defaultprof.jpg"
-                          : petImage[count]
-                      }
+                      url={item ? item : getImgUrl + "defaultprof.jpg"}
                     />
                   </AdoptedItemWrapper>
                 );

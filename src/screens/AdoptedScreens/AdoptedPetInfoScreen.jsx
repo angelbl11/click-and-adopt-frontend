@@ -18,8 +18,8 @@ import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
 //Yup
 import * as Yup from "yup";
 
-//Queries
-import { ADOPTED_CUESTIONARY } from "../../graphql/client";
+//Queries and ip
+import { ADOPTED_CUESTIONARY, ip } from "../../graphql/client";
 import { useMutation } from "@apollo/client";
 
 //
@@ -110,7 +110,7 @@ const AdoptedPetInfo = ({ navigation, route }) => {
 
                     setPetImage((oldArray) => [
                       ...oldArray,
-                      "http://192.168.0.186:4000/ProfilePictures/null",
+                      `http://${ip}:4000/ProfilePictures/null`,
                     ]);
 
                     setPets((oldArray) => [
@@ -127,6 +127,7 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                         coexistenceWithOtherPets:
                           values.coexistenceWithOtherPets,
                         adoptedPetProtocol: values.adoptedPetProtocol,
+                        id: data?.answerAdoptedQuestionnaire,
                       },
                     ]);
 
