@@ -207,7 +207,7 @@ const AdopterProfileScreen = ({ navigation }) => {
                     }
                   >
                     <UploadButtonText marginRight={2}>
-                      {loading ? "Subiendo...." : "Subir"}
+                      {loading ? "Subiendo..." : "Subir"}
                     </UploadButtonText>
                   </Button>
                 ) : undefined}

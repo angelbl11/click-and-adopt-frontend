@@ -63,7 +63,8 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
     imageArray,
   } = route.params;
   const [status, setStatus] = useState(null);
-  const [uploadPetImage] = useMutation(UPLOAD_PET_PROFILE_PICTURE);
+  const [uploadPetImage, { loading }] = useMutation(UPLOAD_PET_PROFILE_PICTURE);
+  const [showButton, setShowButton] = useState(false);
   const [deletePet] = useMutation(DELETE_PET_INFO);
   const { petImage, setPetImage } = useContext(PetsContext);
   const [viewFile, setViewFile] = useState(null);
@@ -108,6 +109,7 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
       await uploadPetImage({
         variables: { addProfilePetPictureId: petId, petProfilePicture: file },
         onCompleted: (data) => {
+          setShowButton(false);
           console.log("Foto subida");
           console.log(data);
           navigation.navigate("AdoptedProfile");
@@ -188,13 +190,20 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                     uri: newPetImage,
                   }}
                 >
-                  <Avatar.Accessory size={25} onPress={pickImage} />
+                  <Avatar.Accessory
+                    size={25}
+                    onPress={() => {
+                      pickImage();
+                      setShowButton(true);
+                    }}
+                  />
                 </Avatar>
               )}
-              {petImage && (
+              {petImage && showButton === true ? (
                 <Button
                   variant="unstyled"
                   onPress={onUploadPress}
+                  isDisabled={loading}
                   marginTop={2}
                   width={100}
                   marginLeft={6}
@@ -206,9 +215,11 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                     />
                   }
                 >
-                  <UploadButtonText marginRight={2}>Subir</UploadButtonText>
+                  <UploadButtonText marginRight={2}>
+                    {loading ? "Subiendo..." : "Subir"}
+                  </UploadButtonText>
                 </Button>
-              )}
+              ) : undefined}
             </View>
             <SubTitle profile={true}>{name}</SubTitle>
             <SubTitle typeOfUserLabel={true}>{typeOf}</SubTitle>
