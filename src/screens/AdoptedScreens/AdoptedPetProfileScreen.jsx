@@ -100,6 +100,9 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
 
       setNewPetImage(result.uri);
     }
+    if (result.cancelled) {
+      setShowButton(false);
+    }
   };
 
   async function onUploadPress() {
@@ -112,6 +115,7 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
           setShowButton(false);
           console.log("Foto subida");
           console.log(data);
+          showUploadAlert();
           navigation.navigate("AdoptedProfile");
         },
         onError: (err) => {
@@ -131,7 +135,13 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
     console.log(result);
     setViewFile(result.uri);
   };
-
+  const showUploadAlert = () =>
+    Alert.alert("Completado", "Foto de perfil subida con éxito", [
+      {
+        text: "Cerrar",
+        style: "cancel",
+      },
+    ]);
   const deletePetInfoAlert = () => {
     Alert.alert("¿Estás seguro que quieres eliminar esta mascota?", "", [
       {

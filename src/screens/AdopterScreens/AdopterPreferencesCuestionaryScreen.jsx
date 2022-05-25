@@ -30,7 +30,7 @@ const { brand, darkLight } = Colors;
 
 //keyboard avoiding view
 import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, Spinner } from "native-base";
 
 //Yup
 import * as Yup from "yup";
@@ -49,7 +49,7 @@ const AdopterPreferencesCuestionary = ({ navigation, route }) => {
   const [groupAgeValues, setGroupAgeValues] = useState([]);
   const [groupGenderValues, setGroupGenderValues] = useState([]);
   const [isAgree, setIsAgree] = useState(true);
-  const [createAdopterUser] = useMutation(ADOPTER_CUESTIONARY);
+  const [createAdopterUser, { loading }] = useMutation(ADOPTER_CUESTIONARY);
   const { user } = useContext(AuthContext);
 
   const {
@@ -210,7 +210,9 @@ const AdopterPreferencesCuestionary = ({ navigation, route }) => {
                   />
                   <Separation></Separation>
                   <StyledButton onPress={handleSubmit}>
-                    <ButtonText>Siguiente</ButtonText>
+                    <ButtonText>
+                      {loading ? <Spinner color={"#FFFFFF"} /> : "Siguiente"}
+                    </ButtonText>
                   </StyledButton>
                 </StyledFormArea>
               )}

@@ -6,7 +6,7 @@ import { RefreshControl } from "react-native";
 import { Formik } from "formik";
 
 //Native Base Components
-import { NativeBaseProvider, View } from "native-base";
+import { NativeBaseProvider, View, Spinner } from "native-base";
 
 //Components
 import RadioInput from "../../components/RadioInput";
@@ -56,10 +56,9 @@ const AdoptedPetInfoSchema = Yup.object().shape({
 const AdoptedPetInfo = ({ navigation, route }) => {
   const [isHealthyWithKids, setIsHealthyWithKids] = useState(true);
   const [isHealthyWithOtherPets, setIsHealthyWithOtherPets] = useState(true);
-  const [refreshing, setRefreshing] = React.useState(false);
   const [coexistenceWithOtherPets, setCoexistenceWithOtherPets] = useState([]);
   const [adoptedPetProtocol, setAdoptedPetProtocol] = useState("Completo");
-  const [createAdoptedUser] = useMutation(ADOPTED_CUESTIONARY);
+  const [createAdoptedUser, { loading }] = useMutation(ADOPTED_CUESTIONARY);
   const { user } = useContext(AuthContext);
 
   const { pets, setPets, setPetImage } = useContext(PetsContext);
@@ -253,7 +252,9 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                     </StyledInputLabel>
                   ) : undefined}
                   <StyledButton onPress={handleSubmit}>
-                    <ButtonText>Siguiente</ButtonText>
+                    <ButtonText>
+                      {loading ? <Spinner color={"#FFFFFF"} /> : "Siguiente"}
+                    </ButtonText>
                   </StyledButton>
                 </StyledFormArea>
               )}

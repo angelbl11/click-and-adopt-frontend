@@ -12,8 +12,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 
 //Native Base Components
-import { NativeBaseProvider, Pressable } from "native-base";
-
+import { NativeBaseProvider, Pressable, Spinner } from "native-base";
 //Components
 import RadioInput from "../../components/RadioInput";
 import TextInputWithPassword from "../../components/TextInputWithPassword";
@@ -68,7 +67,7 @@ const SingupSchema = Yup.object().shape({
 const SignUp = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
   const [value, setValue] = useState("Adoptante");
-  const [createUser] = useMutation(REGISTER_USER);
+  const [createUser, { loading }] = useMutation(REGISTER_USER);
   const auth = useContext(AuthContext);
   return (
     <NativeBaseProvider>
@@ -228,6 +227,7 @@ const SignUp = ({ navigation }) => {
                   />
 
                   <Pressable
+                    disabled={loading}
                     onPress={handleSubmit}
                     justifyContent={"center"}
                     alignItems={"center"}
@@ -238,7 +238,9 @@ const SignUp = ({ navigation }) => {
                     mt={"22px"}
                     backgroundColor={"#6A994E"}
                   >
-                    <ButtonText> Registrate </ButtonText>
+                    <ButtonText>
+                      {loading ? <Spinner color={"#FFFFFF"} /> : "Registrate"}
+                    </ButtonText>
                   </Pressable>
 
                   <ExtraView>

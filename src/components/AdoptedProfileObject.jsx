@@ -4,6 +4,7 @@ import { StyledInputLabel, SwitchWrapper, LabelWrapper } from "./Styles";
 //Native Base Components
 import { NativeBaseProvider, Switch } from "native-base";
 import { Avatar } from "react-native-elements";
+
 const AdoptedProfileObject = ({ pressed, url }) => {
   const [showMessage, setShowMessage] = useState(false);
   const handleMessage = () => {

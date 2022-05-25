@@ -13,6 +13,7 @@ import { Formik } from "formik";
 
 //Native Base Components
 import { NativeBaseProvider, Image, Pressable } from "native-base";
+import { ActivityIndicator } from "react-native";
 
 //Components
 import TextInputWithPassword from "../../components/TextInputWithPassword";
@@ -49,7 +50,7 @@ const LoginSchema = Yup.object().shape({
 
 const Login = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
-  const [loginUser] = useMutation(LOGIN);
+  const [loginUser, { loading }] = useMutation(LOGIN);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
   const handleMessage = (message, type = "Error") => {
@@ -57,7 +58,6 @@ const Login = ({ navigation }) => {
     setMessageType(type);
   };
   const auth = useContext(AuthContext);
-
   return (
     <NativeBaseProvider>
       <KeyboardAvoidingWrapper>
@@ -87,7 +87,7 @@ const Login = ({ navigation }) => {
                   },
                   onError: (err) => {
                     handleMessage("Error de conexión", "Error");
-                    console.log(err.networkError.result);
+                    console.log(err.graphQLErrors);
                   },
 
                   onCompleted: () => {
@@ -148,6 +148,7 @@ const Login = ({ navigation }) => {
 
                   <Pressable
                     onPress={handleSubmit}
+                    disabled={loading}
                     justifyContent={"center"}
                     alignItems={"center"}
                     borderRadius={"5px"}
@@ -157,7 +158,9 @@ const Login = ({ navigation }) => {
                     mt={"20px"}
                     backgroundColor={"#6A994E"}
                   >
-                    <ButtonText>Iniciar Sesión</ButtonText>
+                    <ButtonText>
+                      {loading ? <ActivityIndicator /> : "Iniciar Sesión"}
+                    </ButtonText>
                   </Pressable>
                   <ExtraView>
                     <ExtraText>¿No tienes cuenta? </ExtraText>

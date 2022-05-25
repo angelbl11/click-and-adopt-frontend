@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Alert } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { ThemeProvider, Avatar } from "@rneui/themed";
 import * as ImagePicker from "expo-image-picker";
@@ -52,6 +53,14 @@ const AdopterProfileScreen = ({ navigation }) => {
   const handleMessage = () => {
     setShowMessage((previousState) => !previousState);
   };
+  const showAlert = () =>
+    Alert.alert("Completado", "Foto de perfil subida con éxito", [
+      {
+        text: "Cerrar",
+        style: "cancel",
+      },
+    ]);
+
   const [getInfo, { data }] = useLazyQuery(GET_ADOPTER_INFO, {
     variables: {
       getAdopterInfoId: user.id,
@@ -91,6 +100,8 @@ const AdopterProfileScreen = ({ navigation }) => {
     });
     if (!result.cancelled) {
       setImage(result.uri);
+    } else {
+      setShowButton(false);
     }
   };
 
@@ -121,6 +132,7 @@ const AdopterProfileScreen = ({ navigation }) => {
         onCompleted: (data) => {
           console.log("Foto subida");
           setShowButton(false);
+          showAlert();
         },
         onError: (err) => {
           console.log(err.networkError.result);

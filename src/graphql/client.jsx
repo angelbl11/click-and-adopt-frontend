@@ -76,6 +76,12 @@ export const UPDATE_ADOPTER_STATUS = gql`
   }
 `;
 
+export const UPDATE_PET_STATUS = gql`
+  mutation updatePetStatus($updatePetStatusId: String!, $petStatus: Boolean!) {
+    updatePetStatus(id: $updatePetStatusId, petStatus: $petStatus)
+  }
+`;
+
 export const UPDATE_USER_INFO = gql`
   mutation updateUserInfo($editUserInfoId: String!, $editInput: EditInput!) {
     editUserInfo(id: $editUserInfoId, editInput: $editInput)

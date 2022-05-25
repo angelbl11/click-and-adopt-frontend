@@ -140,7 +140,9 @@ const AdoptedProfile = ({ navigation }) => {
             </SubTitle>
 
             <SubTitle typeOfUserLabel={true}>
-              {data?.getAdopterInfo?.userInfo?.account}
+              {data?.getAdopterInfo?.userInfo?.account === "Adoptado"
+                ? "Responsable"
+                : null}
             </SubTitle>
 
             <SubTitle atributes={true}>Información</SubTitle>
