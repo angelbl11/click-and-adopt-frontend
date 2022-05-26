@@ -49,11 +49,13 @@ const UpdateInfoSchema = Yup.object().shape({
 
 //keyboard avoiding view
 import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
+import { PetsContext } from "../../context/PetsContext";
 
 const EditDataScreen = ({ navigation, route }) => {
   const { account } = route.params;
   const [updateUser] = useMutation(UPDATE_USER_INFO);
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
+  const { num, setNum } = useContext(PetsContext);
   return (
     <NativeBaseProvider>
       <KeyboardAvoidingWrapper>
@@ -62,7 +64,11 @@ const EditDataScreen = ({ navigation, route }) => {
           <InnerContainer>
             <PageTitle>Editar información</PageTitle>
             <Formik
-              initialValues={{ fullName: "", email: "", age: "" }}
+              initialValues={{
+                fullName: user.fullName,
+                email: user.email,
+                age: user.age + "",
+              }}
               validationSchema={UpdateInfoSchema}
               onSubmit={(values, { resetForm }) => {
                 Alert.alert(
@@ -81,19 +87,32 @@ const EditDataScreen = ({ navigation, route }) => {
                           variables: {
                             editUserInfoId: user.id,
                             editInput: {
-                              age: values.age
-                                ? parseInt(values.age)
-                                : undefined,
-                              email: values.email ? values.email : undefined,
+                              age: values.age ? parseInt(values.age) : user.age,
+                              email: values.email ? values.email : user.email,
                               fullName: values.fullName
                                 ? values.fullName
-                                : undefined,
+                                : user.fullName,
                             },
                           },
-                          onCompleted: (data) => {
+                          update: (proxy, { data }) => {
                             resetForm();
                             console.log("Info actualizada");
                             console.log(data);
+
+                            setUser({
+                              age: values.age,
+                              email: values.email,
+                              fullName: values.fullName,
+                              id: user.id,
+                              account: user.account,
+                            });
+
+                            setNum(num + 1);
+
+                            console.log("user-----------------");
+                            console.log(user);
+                            console.log("values----------------");
+                            console.log(values);
                             navigation.navigate(
                               account === "Adoptante"
                                 ? "AdopterProfile"

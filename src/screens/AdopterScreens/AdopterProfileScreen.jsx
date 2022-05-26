@@ -13,6 +13,7 @@ import * as mime from "react-native-mime-types";
 
 //Auth
 import { AuthContext } from "../../context/Auth";
+import { PetsContext } from "../../context/PetsContext";
 
 //ip component
 import { ip } from "../../graphql/client";
@@ -43,6 +44,7 @@ const AdopterProfileScreen = ({ navigation }) => {
   const [showMessage, setShowMessage] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const { logout, user } = useContext(AuthContext);
+  const { num } = useContext(PetsContext);
   const [uploadPicture, { loading }] = useMutation(UPLOAD_PROFILE_PICTURE);
   const [updateAdopterStatus] = useMutation(UPDATE_ADOPTER_STATUS);
   const [image, setImage] = useState(
@@ -66,8 +68,9 @@ const AdopterProfileScreen = ({ navigation }) => {
       getAdopterInfoId: user.id,
     },
     onError: (err) => {
-      console.log("Network Error");
-      console.log(err.graphQLErrors);
+      console.log("Network Error in User");
+      console.log(err);
+      console.log(user.id);
     },
     onCompleted: (data) => {
       if (data?.getAdopterInfo?.userInfo?.profilePicture?.filename) {
@@ -78,7 +81,6 @@ const AdopterProfileScreen = ({ navigation }) => {
       if (data?.getAdopterInfo.adopterInfo?.isAvailableToAdopt) {
         setShowMessage(data?.getAdopterInfo.adopterInfo?.isAvailableToAdopt);
       }
-      console.log(data);
     },
   });
 
@@ -111,11 +113,7 @@ const AdopterProfileScreen = ({ navigation }) => {
         updateAdopterStatusId: data?.getAdopterInfo?.adopterInfo?.id,
         userStatus: !showMessage,
       },
-      onCompleted: (data) => {
-        console.log("ACTUALIZADO");
-        console.log(data);
-        console.log(!showMessage);
-      },
+      onCompleted: (data) => {},
       onError: (err) => {
         console.log("Network error");
         console.log(err.networkError);
@@ -130,7 +128,6 @@ const AdopterProfileScreen = ({ navigation }) => {
       await uploadPicture({
         variables: { addProfilePictureId: user.id, profilePicture: file },
         onCompleted: (data) => {
-          console.log("Foto subida");
           setShowButton(false);
           showAlert();
         },
@@ -145,7 +142,9 @@ const AdopterProfileScreen = ({ navigation }) => {
   }
   useEffect(() => {
     getInfo();
-  }, []);
+    console.log("eL EFECTO");
+    console.log(data);
+  }, [num]);
 
   return (
     <NativeBaseProvider>
@@ -167,7 +166,7 @@ const AdopterProfileScreen = ({ navigation }) => {
                   marginLeft={140}
                   onPress={() => {
                     navigation.navigate("EditScreen", {
-                      account: data?.getAdopterInfo?.userInfo?.account,
+                      account: user.account,
                     });
                   }}
                 ></IconButton>
@@ -225,13 +224,9 @@ const AdopterProfileScreen = ({ navigation }) => {
                 ) : undefined}
               </View>
 
-              <SubTitle profile={true}>
-                {data?.getAdopterInfo?.userInfo?.fullName}
-              </SubTitle>
+              <SubTitle profile={true}>{user.fullName}</SubTitle>
 
-              <SubTitle typeOfUserLabel={true}>
-                {data?.getAdopterInfo?.userInfo?.account}
-              </SubTitle>
+              <SubTitle typeOfUserLabel={true}>{user.account}</SubTitle>
 
               <Switch
                 onTrackColor="green"
@@ -250,13 +245,11 @@ const AdopterProfileScreen = ({ navigation }) => {
 
               <ReasonTextContainer otherInfo={true} marginBottom={3}>
                 <ReasonText>Edad:</ReasonText>
-                <ReasonText>
-                  {data?.getAdopterInfo?.userInfo?.age} años
-                </ReasonText>
+                <ReasonText>{user.age} años</ReasonText>
               </ReasonTextContainer>
               <ReasonTextContainer otherInfo={true} marginBottom={3}>
                 <ReasonText>Email:</ReasonText>
-                <ReasonText>{data?.getAdopterInfo?.userInfo?.email}</ReasonText>
+                <ReasonText>{user.email}</ReasonText>
               </ReasonTextContainer>
 
               <SubTitle atributes={true}>Preferencias</SubTitle>

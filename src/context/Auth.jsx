@@ -32,7 +32,8 @@ const getData = async () => {
 };
 
 const AuthContext = createContext({
-  user: null,
+  user: { id: null, fullName: null, account: null, age: null, email: null },
+  setUser: () => {},
   login: (loginData) => {},
   logout: () => {},
 });
@@ -66,12 +67,14 @@ const AuthProvider = (props) => {
       id: null,
       fullName: null,
       account: null,
+      age: null,
+      fullName: null,
     });
   };
 
   return (
     <AuthContext.Provider
-      value={{ user: user, login: login, logout: logout }}
+      value={{ user: user, login: login, logout: logout, setUser: setUser }}
       {...props}
     />
   );

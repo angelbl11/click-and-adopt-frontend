@@ -36,19 +36,15 @@ const AdoptedProfile = ({ navigation }) => {
     },
     onCompleted: (data) => {
       setPets(data?.getAdoptedInfo);
-      //console.log(data?.getAdoptedInfo);
       data.getAdoptedInfo.map((item) => {
         images.push(getImgUrl + item.petPicture.filename);
       });
       setPetImage(images);
-      console.log("hola");
-      console.log(petImage);
     },
   });
 
   useEffect(() => {
     getInfo();
-    console.log("use effect");
   }, [num]);
 
   return (
@@ -102,8 +98,9 @@ const AdoptedProfile = ({ navigation }) => {
                   <AdoptedItemWrapper key={count}>
                     <AdoptedProfileObject
                       key={count}
+                      id={pets[count].id}
+                      status={pets[count].isAvailableToBeAdopted}
                       pressed={() => {
-                        console.log(petImage);
                         navigation.navigate("PetProfile", {
                           name: pets[count].adoptedPetName,
                           des: pets[count].adoptedPetDescription,

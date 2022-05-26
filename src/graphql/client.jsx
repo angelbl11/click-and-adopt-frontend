@@ -82,8 +82,11 @@ export const UPDATE_ADOPTER_STATUS = gql`
 `;
 
 export const UPDATE_PET_STATUS = gql`
-  mutation updatePetStatus($updatePetStatusId: String!, $petStatus: Boolean!) {
-    updatePetStatus(id: $updatePetStatusId, petStatus: $petStatus)
+  mutation updateAdoptedStatus(
+    $updateAdoptedStatusId: String!
+    $petStatus: Boolean!
+  ) {
+    updateAdoptedStatus(id: $updateAdoptedStatusId, petStatus: $petStatus)
   }
 `;
 

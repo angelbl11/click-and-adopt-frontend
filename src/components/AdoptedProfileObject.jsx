@@ -4,13 +4,31 @@ import { StyledInputLabel, SwitchWrapper, LabelWrapper } from "./Styles";
 //Native Base Components
 import { NativeBaseProvider, Switch } from "native-base";
 import { Avatar } from "react-native-elements";
+import { useMutation } from "@apollo/client";
+import { UPDATE_PET_STATUS } from "../graphql/client";
 
-const AdoptedProfileObject = ({ pressed, url }) => {
-  const [showMessage, setShowMessage] = useState(false);
+const AdoptedProfileObject = ({ pressed, url, id, status }) => {
+  const [showMessage, setShowMessage] = useState(status);
+  const [updatePetStatus] = useMutation(UPDATE_PET_STATUS);
   const handleMessage = () => {
     setShowMessage(!showMessage);
   };
-
+  const updateStatus = () => {
+    updatePetStatus({
+      variables: {
+        updateAdoptedStatusId: id,
+        petStatus: !showMessage,
+      },
+      onCompleted: (data) => {
+        console.log(data);
+        console.log(!showMessage + "");
+      },
+      onError: (err) => {
+        console.log("Network error");
+        console.log(err);
+      },
+    });
+  };
   return (
     <NativeBaseProvider>
       <Avatar
@@ -24,7 +42,10 @@ const AdoptedProfileObject = ({ pressed, url }) => {
       <SwitchWrapper>
         <Switch
           onTrackColor="green"
-          onValueChange={handleMessage}
+          onValueChange={() => {
+            handleMessage();
+            updateStatus();
+          }}
           value={showMessage}
           isChecked={showMessage}
         />
