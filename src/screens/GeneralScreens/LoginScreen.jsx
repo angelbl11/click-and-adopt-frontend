@@ -87,7 +87,7 @@ const Login = ({ navigation }) => {
                   },
                   onError: (err) => {
                     handleMessage("Error de conexión", "Error");
-                    console.log(err.graphQLErrors);
+                    console.log(err.networkError);
                   },
 
                   onCompleted: () => {
