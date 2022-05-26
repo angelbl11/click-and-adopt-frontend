@@ -23,19 +23,13 @@ import { AuthContext } from "../../context/Auth";
 import { GET_ADOPTED_INFO, GET_ADOPTER_INFO } from "../../graphql/client";
 import { useQuery, useLazyQuery } from "@apollo/client";
 import { PetsContext } from "../../context/PetsContext";
-import { ip } from "../../graphql/client";
 const AdoptedProfile = ({ navigation }) => {
   const { logout, user } = useContext(AuthContext);
-  const { pets, setPets, petImage, setPetImage } = useContext(PetsContext);
-  const getImgUrl = `http://${ip}:4000/ProfilePictures/`;
+  const { pets, setPets, petImage, setPetImage, num } = useContext(PetsContext);
+  const getImgUrl = `https://calm-forest-47055.herokuapp.com/ProfilePictures/`;
 
   let images = [];
 
-  const [getUserInfo, { data }] = useLazyQuery(GET_ADOPTER_INFO, {
-    variables: {
-      getAdopterInfoId: user.id,
-    },
-  });
   const [getInfo, { loading }] = useLazyQuery(GET_ADOPTED_INFO, {
     variables: {
       getAdoptedInfoId: user.id,
@@ -53,10 +47,9 @@ const AdoptedProfile = ({ navigation }) => {
   });
 
   useEffect(() => {
-    getUserInfo();
     getInfo();
     console.log("use effect");
-  }, []);
+  }, [num]);
 
   return (
     <NativeBaseProvider>
@@ -77,7 +70,7 @@ const AdoptedProfile = ({ navigation }) => {
                 marginLeft={100}
                 onPress={() => {
                   navigation.navigate("EditScreen", {
-                    account: data?.getAdopterInfo?.userInfo?.account,
+                    account: user.account,
                   });
                 }}
               ></IconButton>
@@ -135,26 +128,20 @@ const AdoptedProfile = ({ navigation }) => {
               })}
             </ChildWrapper>
             <PageTitle about={true}>Acerca De</PageTitle>
-            <SubTitle profile={true}>
-              {data?.getAdopterInfo?.userInfo?.fullName}
-            </SubTitle>
+            <SubTitle profile={true}>{user.fullName}</SubTitle>
 
             <SubTitle typeOfUserLabel={true}>
-              {data?.getAdopterInfo?.userInfo?.account === "Adoptado"
-                ? "Responsable"
-                : null}
+              {user.account === "Adoptado" ? "Responsable" : null}
             </SubTitle>
 
             <SubTitle atributes={true}>Información</SubTitle>
             <ReasonTextContainer otherInfo={true} marginBottom={3}>
               <ReasonText>Edad:</ReasonText>
-              <ReasonText>
-                {data?.getAdopterInfo?.userInfo?.age} años
-              </ReasonText>
+              <ReasonText>{user.age} años</ReasonText>
             </ReasonTextContainer>
             <ReasonTextContainer otherInfo={true} marginBottom={3}>
               <ReasonText>Email:</ReasonText>
-              <ReasonText>{data?.getAdopterInfo?.userInfo?.email}</ReasonText>
+              <ReasonText>{user.email}</ReasonText>
             </ReasonTextContainer>
           </InnerContainer>
         </ScrollView>

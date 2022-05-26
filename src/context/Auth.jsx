@@ -7,6 +7,8 @@ let principalUser = {
   id: null,
   fullName: null,
   account: null,
+  age: null,
+  email: null,
 };
 
 const getData = async () => {
@@ -44,9 +46,17 @@ const AuthProvider = (props) => {
     console.log(loginData);
     await AsyncStorage.setItem("@storage_Key", loginData.token);
     const data = jwtDecode(loginData.token);
-    setUser(data);
 
-    console.log(user.id);
+    setUser({
+      email: data.email,
+      id: data.id,
+      account: loginData.account,
+      age: loginData.age,
+      fullName: loginData.fullName,
+    });
+
+    console.log("usuario----------------------");
+    console.log(user);
   };
 
   const logout = async () => {

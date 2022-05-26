@@ -66,7 +66,8 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
   const [uploadPetImage, { loading }] = useMutation(UPLOAD_PET_PROFILE_PICTURE);
   const [showButton, setShowButton] = useState(false);
   const [deletePet] = useMutation(DELETE_PET_INFO);
-  const { petImage, setPetImage } = useContext(PetsContext);
+  const { petImage, setPetImage, num, setNum, pets, setPets } =
+    useContext(PetsContext);
   const [viewFile, setViewFile] = useState(null);
   const [newPetImage, setNewPetImage] = useState(petProfPic);
   function generateRNFile(uri, name) {
@@ -86,10 +87,6 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
       quality: 1,
     });
     if (!result.cancelled) {
-      //petProfPic = result.uri;
-
-      imageArray[count] = result.uri;
-
       let images = petImage;
 
       images[count] = result.uri;
@@ -99,6 +96,8 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
       setPetImage(images);
 
       setNewPetImage(result.uri);
+      setNum(num + 1);
+      console.log("num: " + num);
     }
     if (result.cancelled) {
       setShowButton(false);
@@ -113,9 +112,8 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
         variables: { addProfilePetPictureId: petId, petProfilePicture: file },
         onCompleted: (data) => {
           setShowButton(false);
-          console.log("Foto subida");
-          console.log(data);
           showUploadAlert();
+          setNum(num + 1);
           navigation.navigate("AdoptedProfile");
         },
         onError: (err) => {
@@ -158,6 +156,17 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
             },
             onCompleted: (data) => {
               console.log("Eliminado: ", data);
+              let newPets = [];
+              let newPetsImage = [];
+              for (let i = 0; i < petImage.length; i++) {
+                if (i != count) {
+                  newPets.push(pets[i]);
+                  newPetsImage.push(petImage[i]);
+                }
+              }
+
+              setPets(newPets);
+              setPetImage(newPetsImage);
               navigation.navigate("AdoptedProfile");
             },
             onError: (err) => {

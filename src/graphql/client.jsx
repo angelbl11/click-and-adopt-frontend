@@ -27,6 +27,9 @@ export const LOGIN = gql`
       account
       email
       token
+      age
+      email
+      fullName
     }
   }
 `;

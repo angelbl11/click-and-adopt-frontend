@@ -109,7 +109,7 @@ const AdoptedPetInfo = ({ navigation, route }) => {
 
                     setPetImage((oldArray) => [
                       ...oldArray,
-                      `http://${ip}:4000/ProfilePictures/null`,
+                      `https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg`,
                     ]);
 
                     setPets((oldArray) => [

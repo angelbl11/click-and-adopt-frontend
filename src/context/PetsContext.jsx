@@ -7,12 +7,15 @@ const PetsContext = createContext({
   petImage: [],
   petId: "",
   setPetId: () => {},
+  num: 0,
+  setNum: () => {},
 });
 
 const PetsProvider = (props) => {
   const [pets, setPets] = useState([]);
   const [petImage, setPetImage] = useState([]);
-  const [petId, setPetId] = useState();
+  const [petId, setPetId] = useState("");
+  const [num, setNum] = useState(0);
   return (
     <PetsContext.Provider
       value={{
@@ -22,6 +25,8 @@ const PetsProvider = (props) => {
         setPetImage: setPetImage,
         setPetId: setPetId,
         petId: petId,
+        num,
+        setNum,
       }}
       {...props}
     />

@@ -46,9 +46,9 @@ const AdopterProfileScreen = ({ navigation }) => {
   const [uploadPicture, { loading }] = useMutation(UPLOAD_PROFILE_PICTURE);
   const [updateAdopterStatus] = useMutation(UPDATE_ADOPTER_STATUS);
   const [image, setImage] = useState(
-    `http://${ip}:4000/ProfilePictures/defaultprof.jpg`
+    `https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg`
   );
-  const getImgUrl = `http://${ip}:4000/ProfilePictures/`;
+  const getImgUrl = `https://calm-forest-47055.herokuapp.com/ProfilePictures/`;
   const [status, setStatus] = useState(null);
   const handleMessage = () => {
     setShowMessage((previousState) => !previousState);
