@@ -7,17 +7,14 @@ import {
   UserLikeWrapper,
 } from "../../components/Styles";
 import LikedUserComponent from "../../components/LikedUserComponent";
-import { NativeBaseProvider } from "native-base";
 const LikesScreen = () => {
   return (
-    <NativeBaseProvider>
-      <StyledContainer>
-        <StatusBar style="dark" />
-        <InnerContainer>
-          <PageTitle>Likes</PageTitle>
-        </InnerContainer>
-      </StyledContainer>
-    </NativeBaseProvider>
+    <StyledContainer>
+      <StatusBar style="dark" />
+      <InnerContainer>
+        <PageTitle>Likes</PageTitle>
+      </InnerContainer>
+    </StyledContainer>
   );
 };
 

@@ -1,15 +1,13 @@
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 //Native Base Components
-import { Button, Icon, NativeBaseProvider } from "native-base";
+import { Button, Icon } from "native-base";
 
 const ProtocolFileObject = ({ fileName }) => {
   return (
-    <NativeBaseProvider>
-      <Button leftIcon={<Icon as={AntDesign} name="file1" size="sm" />}>
-        {fileName}
-      </Button>
-    </NativeBaseProvider>
+    <Button leftIcon={<Icon as={AntDesign} name="file1" size="sm" />}>
+      {fileName}
+    </Button>
   );
 };
 

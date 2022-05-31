@@ -37,13 +37,7 @@ import { Avatar } from "react-native-elements";
 
 //Native Base Components
 
-import {
-  NativeBaseProvider,
-  ScrollView,
-  View,
-  Button,
-  IconButton,
-} from "native-base";
+import { ScrollView, View, Button, IconButton } from "native-base";
 
 const AdoptedPetProfileScreen = ({ route, navigation }) => {
   const {
@@ -62,7 +56,6 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
     count,
     imageArray,
   } = route.params;
-  const [status, setStatus] = useState(null);
   const [uploadPetImage, { loading }] = useMutation(UPLOAD_PET_PROFILE_PICTURE);
   const [showButton, setShowButton] = useState(false);
   const [deletePet] = useMutation(DELETE_PET_INFO);
@@ -105,7 +98,6 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
   };
 
   async function onUploadPress() {
-    status && setStatus(null);
     const file = generateRNFile(newPetImage, `picture-${Date.now()}`);
     try {
       await uploadPetImage({
@@ -120,9 +112,8 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
           console.log(err.networkError.result);
         },
       });
-      setStatus("Subido");
     } catch (e) {
-      setStatus("Error");
+      return;
     }
   }
 
@@ -179,130 +170,126 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
   };
 
   return (
-    <NativeBaseProvider>
-      <StyledContainer>
-        <StatusBar style="dark" />
-        <ScrollView>
-          <InnerContainer>
-            <View flexDir={"row"} width={420} marginLeft={2} marginRight={12}>
-              <View width={40} marginLeft={6}>
-                <PageTitle profile={true}>Perfil</PageTitle>
-              </View>
+    <StyledContainer>
+      <StatusBar style="dark" />
+      <ScrollView>
+        <InnerContainer>
+          <View flexDir={"row"} width={420} marginLeft={2} marginRight={12}>
+            <View width={40} marginLeft={6}>
+              <PageTitle profile={true}>Perfil</PageTitle>
+            </View>
+            <IconButton
+              _icon={{
+                as: Ionicons,
+                name: "trash",
+                color: "#1F2937",
+              }}
+              marginLeft={180}
+              onPress={() => {
+                deletePetInfoAlert();
+              }}
+            ></IconButton>
+          </View>
+          <View marginTop={5}>
+            {petProfPic && (
+              <Avatar
+                size={140}
+                rounded
+                source={{
+                  uri: newPetImage
+                    ? newPetImage
+                    : "https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg",
+                }}
+              >
+                <Avatar.Accessory
+                  size={25}
+                  onPress={() => {
+                    pickImage();
+                    setShowButton(true);
+                  }}
+                />
+              </Avatar>
+            )}
+            {petImage && showButton === true ? (
+              <Button
+                variant="unstyled"
+                onPress={onUploadPress}
+                isDisabled={loading}
+                marginTop={2}
+                width={100}
+                marginLeft={6}
+                leftIcon={
+                  <MaterialIcons name="file-upload" size={24} color="#1F2937" />
+                }
+              >
+                <UploadButtonText marginRight={2}>
+                  {loading ? "Subiendo..." : "Subir"}
+                </UploadButtonText>
+              </Button>
+            ) : undefined}
+          </View>
+          <SubTitle profile={true}>{name}</SubTitle>
+          <SubTitle typeOfUserLabel={true}>{typeOf}</SubTitle>
+          <PageTitle about={true}>Acerca De</PageTitle>
+          <ReasonTextContainer otherInfo={true} marginBottom={3}>
+            <ReasonText>Descripción:</ReasonText>
+            <ReasonText>{des}</ReasonText>
+          </ReasonTextContainer>
+          <ReasonTextContainer otherInfo={true} marginBottom={3}>
+            <ReasonText>Edad:</ReasonText>
+            <ReasonText>{age}</ReasonText>
+          </ReasonTextContainer>
+          <ReasonTextContainer otherInfo={true} marginBottom={3}>
+            <ReasonText>Sexo:</ReasonText>
+            <ReasonText>{gender}</ReasonText>
+          </ReasonTextContainer>
+          <ReasonTextContainer otherInfo={true} marginBottom={3}>
+            <ReasonText>Convive con niños:</ReasonText>
+            <ReasonText>{isHealthyK === true ? "Si" : "No"}</ReasonText>
+          </ReasonTextContainer>
+          <ReasonTextContainer otherInfo={true} marginBottom={3}>
+            <ReasonText>Convive con otras mascotas:</ReasonText>
+            <ReasonText>{isHealthyP === true ? "Si" : "No"}</ReasonText>
+          </ReasonTextContainer>
+          {isHealthyP === true ? (
+            <ReasonTextContainer otherInfo={true} marginBottom={3}>
+              <ReasonText>Convive con:</ReasonText>
+              {coexistence.map((pet) => (
+                <ReasonText key={pet}>{pet}</ReasonText>
+              ))}
+            </ReasonTextContainer>
+          ) : undefined}
+          <View flexDir={"row"} width={420} marginLeft={2} marginRight={12}>
+            <View width={50} marginLeft={6}>
+              <PageTitle about={true}>Protocolo</PageTitle>
+            </View>
+            {protocol != "No tiene" ? (
               <IconButton
                 _icon={{
-                  as: Ionicons,
-                  name: "trash",
+                  as: AntDesign,
+                  name: "addfile",
                   color: "#1F2937",
                 }}
-                marginLeft={180}
-                onPress={() => {
-                  deletePetInfoAlert();
-                }}
+                onPress={pickDocument}
+                marginLeft={82}
               ></IconButton>
-            </View>
-            <View marginTop={5}>
-              {petProfPic && (
-                <Avatar
-                  size={140}
-                  rounded
-                  source={{
-                    uri: newPetImage,
-                  }}
-                >
-                  <Avatar.Accessory
-                    size={25}
-                    onPress={() => {
-                      pickImage();
-                      setShowButton(true);
-                    }}
-                  />
-                </Avatar>
-              )}
-              {petImage && showButton === true ? (
-                <Button
-                  variant="unstyled"
-                  onPress={onUploadPress}
-                  isDisabled={loading}
-                  marginTop={2}
-                  width={100}
-                  marginLeft={6}
-                  leftIcon={
-                    <MaterialIcons
-                      name="file-upload"
-                      size={24}
-                      color="#1F2937"
-                    />
-                  }
-                >
-                  <UploadButtonText marginRight={2}>
-                    {loading ? "Subiendo..." : "Subir"}
-                  </UploadButtonText>
-                </Button>
-              ) : undefined}
-            </View>
-            <SubTitle profile={true}>{name}</SubTitle>
-            <SubTitle typeOfUserLabel={true}>{typeOf}</SubTitle>
-            <PageTitle about={true}>Acerca De</PageTitle>
-            <ReasonTextContainer otherInfo={true} marginBottom={3}>
-              <ReasonText>Descripción:</ReasonText>
-              <ReasonText>{des}</ReasonText>
-            </ReasonTextContainer>
-            <ReasonTextContainer otherInfo={true} marginBottom={3}>
-              <ReasonText>Edad:</ReasonText>
-              <ReasonText>{age}</ReasonText>
-            </ReasonTextContainer>
-            <ReasonTextContainer otherInfo={true} marginBottom={3}>
-              <ReasonText>Sexo:</ReasonText>
-              <ReasonText>{gender}</ReasonText>
-            </ReasonTextContainer>
-            <ReasonTextContainer otherInfo={true} marginBottom={3}>
-              <ReasonText>Convive con niños:</ReasonText>
-              <ReasonText>{isHealthyK === true ? "Si" : "No"}</ReasonText>
-            </ReasonTextContainer>
-            <ReasonTextContainer otherInfo={true} marginBottom={3}>
-              <ReasonText>Convive con otras mascotas:</ReasonText>
-              <ReasonText>{isHealthyP === true ? "Si" : "No"}</ReasonText>
-            </ReasonTextContainer>
-            {isHealthyP === true ? (
-              <ReasonTextContainer otherInfo={true} marginBottom={3}>
-                <ReasonText>Convive con:</ReasonText>
-                {coexistence.map((pet) => (
-                  <ReasonText key={pet}>{pet}</ReasonText>
-                ))}
-              </ReasonTextContainer>
             ) : undefined}
-            <View flexDir={"row"} width={420} marginLeft={2} marginRight={12}>
-              <View width={50} marginLeft={6}>
-                <PageTitle about={true}>Protocolo</PageTitle>
-              </View>
-              {protocol != "No tiene" ? (
-                <IconButton
-                  _icon={{
-                    as: AntDesign,
-                    name: "addfile",
-                    color: "#1F2937",
-                  }}
-                  onPress={pickDocument}
-                  marginLeft={82}
-                ></IconButton>
-              ) : undefined}
-            </View>
-            <ReasonTextContainer otherInfo={true} marginBottom={3}>
-              <ReasonText>{protocol}</ReasonText>
-              {protocol != "No tiene" ? (
-                <ChildWrapper>
-                  <AdoptedItemWrapper>
-                    <ProtocolFileObject
-                      fileName={"Si mande"}
-                    ></ProtocolFileObject>
-                  </AdoptedItemWrapper>
-                </ChildWrapper>
-              ) : undefined}
-            </ReasonTextContainer>
-          </InnerContainer>
-        </ScrollView>
-      </StyledContainer>
-    </NativeBaseProvider>
+          </View>
+          <ReasonTextContainer otherInfo={true} marginBottom={3}>
+            <ReasonText>{protocol}</ReasonText>
+            {protocol != "No tiene" ? (
+              <ChildWrapper>
+                <AdoptedItemWrapper>
+                  <ProtocolFileObject
+                    fileName={"Si mande"}
+                  ></ProtocolFileObject>
+                </AdoptedItemWrapper>
+              </ChildWrapper>
+            ) : undefined}
+          </ReasonTextContainer>
+        </InnerContainer>
+      </ScrollView>
+    </StyledContainer>
   );
 };
 

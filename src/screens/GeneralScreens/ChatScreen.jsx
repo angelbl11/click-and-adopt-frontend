@@ -6,18 +6,14 @@ import {
   PageTitle,
 } from "../../components/Styles";
 
-import { NativeBaseProvider } from "native-base";
-
 const ChatScreen = () => {
   return (
-    <NativeBaseProvider>
-      <StyledContainer>
-        <StatusBar style="dark" />
-        <InnerContainer>
-          <PageTitle>Chats</PageTitle>
-        </InnerContainer>
-      </StyledContainer>
-    </NativeBaseProvider>
+    <StyledContainer>
+      <StatusBar style="dark" />
+      <InnerContainer>
+        <PageTitle>Chats</PageTitle>
+      </InnerContainer>
+    </StyledContainer>
   );
 };
 

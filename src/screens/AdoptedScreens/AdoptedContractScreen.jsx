@@ -14,7 +14,7 @@ import {
   StyledInputLabel,
 } from "../../components/Styles";
 
-import { NativeBaseProvider, Checkbox, ScrollView } from "native-base";
+import { Checkbox, ScrollView } from "native-base";
 
 //Yup
 import * as Yup from "yup";
@@ -28,55 +28,53 @@ const AdoptedContractSchema = Yup.object().shape({
 const AdoptedContract = ({ navigation }) => {
   const [check, setCheck] = useState(false);
   return (
-    <NativeBaseProvider>
-      <ScrollView>
-        <StyledContainer>
-          <StatusBar style="dark" />
-          <InnerContainer>
-            <PageTitle>Acuerdo de Responsabilidad</PageTitle>
-            <Formik
-              initialValues={{ isAccepted: false }}
-              validationSchema={AdoptedContractSchema}
-              onSubmit={(values) => {
-                values.isAccepted == check;
-                console.log(values);
-                navigation.navigate("AdoptedCuestionary");
-              }}
-            >
-              {({ handleSubmit, values, errors, touched }) => (
-                <StyledFormArea>
-                  <ContractView>
-                    <ContractText>Cuestionario adoptado.</ContractText>
-                  </ContractView>
-                  <ContractCheckBoxView>
-                    <Checkbox
-                      colorScheme="green"
-                      value={
-                        check === true
-                          ? (values.isAccepted = true)
-                          : (values.isAccepted = false)
-                      }
-                      isChecked={check}
-                      onPress={() => setCheck(!check)}
-                    >
-                      He Leído y acepto
-                    </Checkbox>
-                    {errors.isAccepted && touched.isAccepted ? (
-                      <StyledInputLabel validation={true}>
-                        {errors.isAccepted}
-                      </StyledInputLabel>
-                    ) : undefined}
-                  </ContractCheckBoxView>
-                  <StyledButton secondButton={true} onPress={handleSubmit}>
-                    <ButtonText>Continuar</ButtonText>
-                  </StyledButton>
-                </StyledFormArea>
-              )}
-            </Formik>
-          </InnerContainer>
-        </StyledContainer>
-      </ScrollView>
-    </NativeBaseProvider>
+    <ScrollView>
+      <StyledContainer>
+        <StatusBar style="dark" />
+        <InnerContainer>
+          <PageTitle>Acuerdo de Responsabilidad</PageTitle>
+          <Formik
+            initialValues={{ isAccepted: false }}
+            validationSchema={AdoptedContractSchema}
+            onSubmit={(values) => {
+              values.isAccepted == check;
+              console.log(values);
+              navigation.navigate("AdoptedCuestionary");
+            }}
+          >
+            {({ handleSubmit, values, errors, touched }) => (
+              <StyledFormArea>
+                <ContractView>
+                  <ContractText>Cuestionario adoptado.</ContractText>
+                </ContractView>
+                <ContractCheckBoxView>
+                  <Checkbox
+                    colorScheme="green"
+                    value={
+                      check === true
+                        ? (values.isAccepted = true)
+                        : (values.isAccepted = false)
+                    }
+                    isChecked={check}
+                    onPress={() => setCheck(!check)}
+                  >
+                    He Leído y acepto
+                  </Checkbox>
+                  {errors.isAccepted && touched.isAccepted ? (
+                    <StyledInputLabel validation={true}>
+                      {errors.isAccepted}
+                    </StyledInputLabel>
+                  ) : undefined}
+                </ContractCheckBoxView>
+                <StyledButton secondButton={true} onPress={handleSubmit}>
+                  <ButtonText>Continuar</ButtonText>
+                </StyledButton>
+              </StyledFormArea>
+            )}
+          </Formik>
+        </InnerContainer>
+      </StyledContainer>
+    </ScrollView>
   );
 };
 

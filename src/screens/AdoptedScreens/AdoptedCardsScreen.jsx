@@ -13,7 +13,7 @@ import {
   CarruselButtonsWrapper,
   CarruselButton,
 } from "../../components/Styles";
-import { NativeBaseProvider, Pressable, IconButton, View } from "native-base";
+import { Pressable, IconButton, View } from "native-base";
 const db = [
   {
     name: "Richard Hendricks",
@@ -72,62 +72,60 @@ const AdoptedCardsScreen = ({ navigation }) => {
     }
   };
   return (
-    <NativeBaseProvider>
-      <StyledContainer>
-        <StatusBar style="dark" />
-        <InnerContainer>
-          <PageTitle>Encuentra Adoptantes</PageTitle>
+    <StyledContainer>
+      <StatusBar style="dark" />
+      <InnerContainer>
+        <PageTitle>Encuentra Adoptantes</PageTitle>
 
-          <CardContainer>
-            {characters.map((character, index) => (
-              <TinderCard
-                ref={childRefs[index]}
-                key={character.name}
-                onSwipe={(dir) => swiped(dir, character.name)}
-                onCardLeftScreen={() => outOfFrame(character.name)}
-              >
-                <Card flexDir={"row"}>
-                  <CardImage source={character.img}></CardImage>
+        <CardContainer>
+          {characters.map((character, index) => (
+            <TinderCard
+              ref={childRefs[index]}
+              key={character.name}
+              onSwipe={(dir) => swiped(dir, character.name)}
+              onCardLeftScreen={() => outOfFrame(character.name)}
+            >
+              <Card flexDir={"row"}>
+                <CardImage source={character.img}></CardImage>
 
-                  <CardTitle flexDir={"row"}>
-                    {character.name}
-                    <IconButton
-                      _icon={{
-                        as: MaterialIcons,
-                        name: "info-outline",
-                        color: "white",
-                        bottom: "0",
-                        marginLeft: "100px",
-                        position: "absolute",
-                      }}
-                    ></IconButton>
-                  </CardTitle>
-                </Card>
-              </TinderCard>
-            ))}
-          </CardContainer>
+                <CardTitle flexDir={"row"}>
+                  {character.name}
+                  <IconButton
+                    _icon={{
+                      as: MaterialIcons,
+                      name: "info-outline",
+                      color: "white",
+                      bottom: "0",
+                      marginLeft: "100px",
+                      position: "absolute",
+                    }}
+                  ></IconButton>
+                </CardTitle>
+              </Card>
+            </TinderCard>
+          ))}
+        </CardContainer>
 
-          <CarruselButtonsWrapper>
-            <CarruselButton
-              onPress={() => swipe("left")}
-              _icon={{
-                as: MaterialIcons,
-                name: "close",
-                color: "#9CA3AF",
-              }}
-            ></CarruselButton>
-            <CarruselButton
-              onPress={() => swipe("right")}
-              _icon={{
-                as: MaterialIcons,
-                name: "favorite",
-                color: "#BC4749",
-              }}
-            ></CarruselButton>
-          </CarruselButtonsWrapper>
-        </InnerContainer>
-      </StyledContainer>
-    </NativeBaseProvider>
+        <CarruselButtonsWrapper>
+          <CarruselButton
+            onPress={() => swipe("left")}
+            _icon={{
+              as: MaterialIcons,
+              name: "close",
+              color: "#9CA3AF",
+            }}
+          ></CarruselButton>
+          <CarruselButton
+            onPress={() => swipe("right")}
+            _icon={{
+              as: MaterialIcons,
+              name: "favorite",
+              color: "#BC4749",
+            }}
+          ></CarruselButton>
+        </CarruselButtonsWrapper>
+      </InnerContainer>
+    </StyledContainer>
   );
 };
 

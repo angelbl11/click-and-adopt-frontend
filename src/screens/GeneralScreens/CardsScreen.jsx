@@ -5,18 +5,15 @@ import {
   InnerContainer,
   PageTitle,
 } from "../../components/Styles";
-import { NativeBaseProvider } from "native-base";
 
 const CardsScreen = () => {
   return (
-    <NativeBaseProvider>
-      <StyledContainer>
-        <StatusBar style="dark" />
-        <InnerContainer>
-          <PageTitle>Cards</PageTitle>
-        </InnerContainer>
-      </StyledContainer>
-    </NativeBaseProvider>
+    <StyledContainer>
+      <StatusBar style="dark" />
+      <InnerContainer>
+        <PageTitle>Cards</PageTitle>
+      </InnerContainer>
+    </StyledContainer>
   );
 };
 

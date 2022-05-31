@@ -2,7 +2,7 @@ import React, { useState } from "react";
 //Styles
 import { StyledInputLabel, SwitchWrapper, LabelWrapper } from "./Styles";
 //Native Base Components
-import { NativeBaseProvider, Switch } from "native-base";
+import { Switch, View } from "native-base";
 import { Avatar } from "react-native-elements";
 import { useMutation } from "@apollo/client";
 import { UPDATE_PET_STATUS } from "../graphql/client";
@@ -30,7 +30,7 @@ const AdoptedProfileObject = ({ pressed, url, id, status }) => {
     });
   };
   return (
-    <NativeBaseProvider>
+    <View>
       <Avatar
         size={100}
         source={{
@@ -55,7 +55,7 @@ const AdoptedProfileObject = ({ pressed, url, id, status }) => {
           {showMessage == true ? "Disponible" : "No disponible"}
         </StyledInputLabel>
       </LabelWrapper>
-    </NativeBaseProvider>
+    </View>
   );
 };
 
