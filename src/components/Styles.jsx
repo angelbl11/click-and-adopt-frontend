@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import Constants from "expo-constants";
+import CARD from "./CardConstants";
+import { LinearGradient } from "expo-linear-gradient";
 const StatusBarHeight = Constants.statusBarHeight;
-
+const CARDWIDTH = CARD.WIDTH;
+const CARDHEIGHT = CARD.HEIGHT;
+const CARDBORDER = CARD.BORDER_RADIUS;
 import {
   Input,
   View,
@@ -24,6 +28,7 @@ export const Colors = {
   red: "#BC4749",
   info: "#7E848F",
 };
+
 const { primary, secondary, tertiary, darkLight, brand, red, green, info } =
   Colors;
 export const StyledContainer = styled(View)`
@@ -36,22 +41,6 @@ export const InnerContainer = styled(View)`
   flex: 1;
   width: 100%;
   align-items: center;
-`;
-
-export const Pic = styled(Image)`
-  width: 100px;
-  height: 100px;
-  margin: auto;
-  border-radius: 50px;
-  border-width: 2px;
-  border-color: ${secondary};
-  margin-bottom: 10px;
-  margin-top: 10px;
-`;
-
-export const WelcomeImage = styled(Image)`
-  height: 50%;
-  min-width: 100%;
 `;
 
 export const PageTitle = styled(Heading)`
@@ -294,12 +283,6 @@ export const TextLinkContent = styled(Text)`
   font-size: 15px;
 `;
 
-export const Separation = styled(View)`
-  height: 1px;
-  width: 100%;
-  margin-vertical: 20px;
-`;
-
 export const ContractText = styled(Text)`
   color: ${tertiary};
   font-size: 14px;
@@ -474,4 +457,39 @@ export const UserLikeWrapper = styled(View)`
   margin: 18px;
   flex-flow: column wrap;
   height: 30%;
+`;
+
+export const CardWrapper = styled(View)`
+  position: absolute;
+  margin-top: 30px;
+`;
+
+export const CardPicture = styled(Image)`
+  border-radius: ${CARDBORDER}px;
+  width: ${CARDWIDTH}px;
+  height: ${CARDHEIGHT}px;
+`;
+
+export const CardName = styled(Text)`
+  position: absolute;
+  bottom: 2px;
+  left: 22px;
+  font-size: 24px;
+  font-weight: bold;
+  color: ${primary};
+`;
+
+export const CardGradient = styled(LinearGradient)`
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  height: 160px;
+  border-radius: ${CARDBORDER}px;
+`;
+
+export const CardCont = styled(View)`
+  flex: 1;
+  background-color: #fafafa;
+  align-items: center;
 `;

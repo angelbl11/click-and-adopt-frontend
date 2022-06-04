@@ -96,8 +96,11 @@ const AdoptedCardsScreen = ({ navigation }) => {
                       name: "info-outline",
                       color: "white",
                       bottom: "0",
-                      marginLeft: "100px",
+                      marginLeft: "90px",
                       position: "absolute",
+                    }}
+                    onPress={() => {
+                      navigation.navigate("Login");
                     }}
                   ></IconButton>
                 </CardTitle>
