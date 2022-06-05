@@ -99,9 +99,6 @@ const AdoptedCardsScreen = ({ navigation }) => {
                       marginLeft: "90px",
                       position: "absolute",
                     }}
-                    onPress={() => {
-                      navigation.navigate("Login");
-                    }}
                   ></IconButton>
                 </CardTitle>
               </Card>

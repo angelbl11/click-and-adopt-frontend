@@ -11,7 +11,6 @@ import { FontAwesome5 } from "@expo/vector-icons";
 //Components
 import RadioInput from "../../components/RadioInput";
 import CheckBoxInput from "../../components/CheckBoxInput";
-import ThreeOptionsRadioInput from "../../components/ThreeOptionsRadioInput";
 
 //Yup
 import * as Yup from "yup";

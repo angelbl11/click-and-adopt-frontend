@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import Constants from "expo-constants";
-import CARD from "./CardConstants";
+import { COLORS, CARD } from "./CardConstants";
 import { LinearGradient } from "expo-linear-gradient";
 const StatusBarHeight = Constants.statusBarHeight;
 const CARDWIDTH = CARD.WIDTH;
 const CARDHEIGHT = CARD.HEIGHT;
 const CARDBORDER = CARD.BORDER_RADIUS;
+
 import {
   Input,
   View,
@@ -48,7 +49,6 @@ export const PageTitle = styled(Heading)`
   text-align: center;
   font-weight: bold;
   color: ${brand};
-  padding: 10px;
 
   ${(props) =>
     props.contract &&
@@ -62,6 +62,8 @@ export const PageTitle = styled(Heading)`
     `
    padding-right: 300px;
    font-size: 35px;
+   padding-top: 10px;
+   margin-left: 13px;
   `}
    ${(props) =>
     props.about &&
@@ -424,9 +426,11 @@ export const CarruselButtonsWrapper = styled(View)`
   display: flex;
   flex-direction: row;
   width: 100%;
-  bottom: -150px;
+  position: absolute;
+  bottom: 110px;
   justify-content: space-evenly;
   margin-top: 13px;
+  z-index: -1;
 `;
 
 export const CarruselButton = styled(IconButton)`
@@ -461,7 +465,6 @@ export const UserLikeWrapper = styled(View)`
 
 export const CardWrapper = styled(View)`
   position: absolute;
-  margin-top: 30px;
 `;
 
 export const CardPicture = styled(Image)`
@@ -472,9 +475,10 @@ export const CardPicture = styled(Image)`
 
 export const CardName = styled(Text)`
   position: absolute;
-  bottom: 2px;
-  left: 22px;
-  font-size: 24px;
+  bottom: 22px;
+  left: 26px;
+  font-size: 28px;
+  padding-top: 12px;
   font-weight: bold;
   color: ${primary};
 `;
@@ -484,12 +488,25 @@ export const CardGradient = styled(LinearGradient)`
   bottom: 0px;
   left: 0px;
   right: 0px;
-  height: 160px;
+  height: 110px;
   border-radius: ${CARDBORDER}px;
 `;
 
 export const CardCont = styled(View)`
-  flex: 1;
-  background-color: #fafafa;
   align-items: center;
+`;
+
+export const ChoiceContainer = styled(View)`
+  border-width: 6px;
+  padding-horizontal: 15px;
+  border-radius: 15px;
+  background-color: rgba(0, 0, 0, 0.2);
+`;
+
+export const ChoiceText = styled(Text)`
+  font-size: 32px;
+  padding-top: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 4px;
 `;
