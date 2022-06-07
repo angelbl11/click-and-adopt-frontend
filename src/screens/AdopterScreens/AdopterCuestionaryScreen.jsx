@@ -9,8 +9,8 @@ import { Checkbox, View } from "native-base";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 //Components
-import RadioInput from "../../components/RadioInput";
-import CheckBoxInput from "../../components/CheckBoxInput";
+import RadioInput from "../../components/Inputs/RadioInput";
+import CheckBoxInput from "../../components/Inputs/CheckBoxInput";
 
 //Yup
 import * as Yup from "yup";
@@ -29,14 +29,13 @@ import {
   StyledButton,
   ButtonText,
   Colors,
-  Separation,
-} from "../../components/Styles";
+} from "../../components/Utils/Styles";
 
 //Colors
 const { brand } = Colors;
 
 //keyboard avoiding view
-import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
+import KeyboardAvoidingWrapper from "../../components/Utils/KeyboardAvoidingWrapper";
 
 //Form fields validation
 const AdopterCuestionarySchema = Yup.object().shape({
@@ -421,7 +420,6 @@ const AdopterCuestionary = ({ navigation }) => {
                     ) : undefined}
                   </View>
                 )}
-                <Separation />
                 <StyledButton onPress={handleSubmit}>
                   <ButtonText>Siguiente</ButtonText>
                 </StyledButton>

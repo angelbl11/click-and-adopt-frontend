@@ -1,6 +1,6 @@
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
-import { CarruselButton, CarruselButtonsWrapper } from "./Styles";
+import { CarruselButton, CarruselButtonsWrapper } from "../Utils/Styles";
 const FooterButtons = ({ handleChoice }) => {
   return (
     <CarruselButtonsWrapper>

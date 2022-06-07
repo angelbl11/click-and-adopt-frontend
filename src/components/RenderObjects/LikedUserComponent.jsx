@@ -7,7 +7,7 @@ import {
   SubTitle,
   LikeComponentInfoWrapper,
   LikeComponentDate,
-} from "../components/Styles";
+} from "../Utils/Styles";
 const LikedUserComponent = ({ pressed, url, name, date }) => {
   return (
     <LikeComponentWrapper>

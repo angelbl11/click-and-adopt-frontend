@@ -4,24 +4,24 @@ import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { Colors } from "../components/Styles";
+import { Colors } from "../Utils/Styles";
 const { tertiary } = Colors;
 //screens
-import Login from "../screens/GeneralScreens/LoginScreen";
-import SignUp from "../screens/GeneralScreens/SignupScreen";
-import AdopterContract from "../screens/AdopterScreens/AdopterContractScreen";
-import AdopterCuestionary from "../screens/AdopterScreens/AdopterCuestionaryScreen";
-import AdopterPreferencesCuestionary from "../screens/AdopterScreens/AdopterPreferencesCuestionaryScreen";
-import AdoptedContract from "../screens/AdoptedScreens/AdoptedContractScreen";
-import AdoptedCuestionary from "../screens/AdoptedScreens/AdoptedCuestionaryScreen";
-import AdoptedPetInfo from "../screens/AdoptedScreens/AdoptedPetInfoScreen";
-import AdoptedPetProfileScreen from "../screens/AdoptedScreens/AdoptedPetProfileScreen";
-import AdoptedCardsScreen from "../screens/AdoptedScreens/AdoptedCardsScreen";
-import EditDataScreen from "../screens/GeneralScreens/EditDataScreen";
+import Login from "../../screens/GeneralScreens/LoginScreen";
+import SignUp from "../../screens/GeneralScreens/SignupScreen";
+import AdopterContract from "../../screens/AdopterScreens/AdopterContractScreen";
+import AdopterCuestionary from "../../screens/AdopterScreens/AdopterCuestionaryScreen";
+import AdopterPreferencesCuestionary from "../../screens/AdopterScreens/AdopterPreferencesCuestionaryScreen";
+import AdoptedContract from "../../screens/AdoptedScreens/AdoptedContractScreen";
+import AdoptedCuestionary from "../../screens/AdoptedScreens/AdoptedCuestionaryScreen";
+import AdoptedPetInfo from "../../screens/AdoptedScreens/AdoptedPetInfoScreen";
+import AdoptedPetProfileScreen from "../../screens/AdoptedScreens/AdoptedPetProfileScreen";
+import AdoptedCardsScreen from "../../screens/AdoptedScreens/AdoptedCardsScreen";
+import EditDataScreen from "../../screens/GeneralScreens/EditDataScreen";
 import TabsAdopter from "./TabsAdopter";
 import TabsAdopted from "./TabsAdopted";
-import { AuthContext } from "../context/Auth";
-import AdoptedProfile from "../screens/AdoptedScreens/AdoptedProfileScreen";
+import { AuthContext } from "../../context/Auth";
+import AdoptedProfile from "../../screens/AdoptedScreens/AdoptedProfileScreen";
 const Stack = createNativeStackNavigator();
 
 const RootStack = () => {

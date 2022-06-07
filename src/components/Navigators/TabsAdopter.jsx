@@ -1,15 +1,15 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import AdoptedProfile from "../screens/AdoptedScreens/AdoptedProfileScreen";
-import AdoptedCardsScreen from "../screens/AdoptedScreens/AdoptedCardsScreen";
-import ChatScreen from "../screens/GeneralScreens/ChatScreen";
-import AdoptedLikesScreen from "../screens/AdoptedScreens/AdoptedLikesScreen";
+import AdopterProfileScreen from "../../screens/AdopterScreens/AdopterProfileScreen";
+import CardsScreen from "../../screens/GeneralScreens/CardsScreen";
+import ChatScreen from "../../screens/GeneralScreens/ChatScreen";
+import LikesScreen from "../../screens/GeneralScreens/LikesScreen";
 const Tab = createBottomTabNavigator();
 
 import { NativeBaseProvider, View, Image } from "native-base";
-import { Colors } from "../components/Styles";
+import { Colors } from "../Utils/Styles";
 const { primary, tertiary, brand, darkLight } = Colors;
 
-const Tabs = () => {
+const TabsAdopter = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -34,13 +34,13 @@ const Tabs = () => {
     >
       <Tab.Screen
         name="Inicio"
-        component={AdoptedCardsScreen}
+        component={CardsScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <NativeBaseProvider>
               <View>
                 <Image
-                  source={require("../assets/home.png")}
+                  source={require("../../assets/home.png")}
                   resizeMode="contain"
                   alt="home-logo"
                   style={{
@@ -56,13 +56,13 @@ const Tabs = () => {
       ></Tab.Screen>
       <Tab.Screen
         name="Likes"
-        component={AdoptedLikesScreen}
+        component={LikesScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <NativeBaseProvider>
               <View>
                 <Image
-                  source={require("../assets/like.png")}
+                  source={require("../../assets/like.png")}
                   resizeMode="contain"
                   alt="like-logo"
                   style={{
@@ -84,7 +84,7 @@ const Tabs = () => {
             <NativeBaseProvider>
               <View>
                 <Image
-                  source={require("../assets/chat.png")}
+                  source={require("../../assets/chat.png")}
                   resizeMode="contain"
                   alt="chat-logo"
                   style={{
@@ -100,13 +100,13 @@ const Tabs = () => {
       ></Tab.Screen>
       <Tab.Screen
         name="Perfil"
-        component={AdoptedProfile}
+        component={AdopterProfileScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <NativeBaseProvider>
               <View>
                 <Image
-                  source={require("../assets/profile.png")}
+                  source={require("../../assets/profile.png")}
                   resizeMode="contain"
                   alt="profile-logo"
                   style={{
@@ -124,4 +124,4 @@ const Tabs = () => {
   );
 };
 
-export default Tabs;
+export default TabsAdopter;

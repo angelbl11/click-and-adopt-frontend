@@ -2,16 +2,21 @@ import React, { useState, useContext } from "react";
 import { Alert } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import * as ImagePicker from "expo-image-picker";
-import {
-  UPLOAD_PET_PROFILE_PICTURE,
-  DELETE_PET_INFO,
-} from "../../graphql/client";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
 // Import Document Picker
 import * as DocumentPicker from "expo-document-picker";
+
+//Graphql
+import {
+  UPLOAD_PET_PROFILE_PICTURE,
+  DELETE_PET_INFO,
+} from "../../graphql/mutations";
+import { useMutation } from "@apollo/client";
+import { ReactNativeFile } from "apollo-upload-client/public";
+
 //Styles
 import {
   StyledContainer,
@@ -23,20 +28,17 @@ import {
   UploadButtonText,
   ChildWrapper,
   AdoptedItemWrapper,
-} from "../../components/Styles";
+} from "../../components/Utils/Styles";
 
 //Components
-import ProtocolFileObject from "../../components/ProtocolFileObject";
-
-//Apollo
-import { useMutation } from "@apollo/client";
-import { ReactNativeFile } from "apollo-upload-client/public";
-import * as mime from "react-native-mime-types";
-import { PetsContext } from "../../context/PetsContext";
+import ProtocolFileObject from "../../components/RenderObjects/ProtocolFileObject";
 import { Avatar } from "react-native-elements";
+import * as mime from "react-native-mime-types";
+
+//Context
+import { PetsContext } from "../../context/PetsContext";
 
 //Native Base Components
-
 import { ScrollView, View, Button, IconButton } from "native-base";
 
 const AdoptedPetProfileScreen = ({ route, navigation }) => {

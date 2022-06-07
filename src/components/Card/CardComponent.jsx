@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import Choice from "./Choice";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Animated, View, StyleSheet } from "react-native";
+import { Animated, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   nopeContainer: { right: 45, transform: [{ rotate: "30deg" }] },
 });
 
-import { CardPicture, CardName, CardGradient } from "./Styles";
+import { CardPicture, CardName, CardGradient } from "../Utils/Styles";
 import { Icon, IconButton } from "native-base";
 import { ACTION_OFFSET } from "./CardConstants";
 const CardComponent = ({

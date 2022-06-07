@@ -8,13 +8,13 @@ import * as Yup from "yup";
 //Formik
 import { Formik } from "formik";
 
-//GraphQL Components
-import { UPDATE_USER_INFO } from "../../graphql/client";
+//GraphQL
+import { UPDATE_USER_INFO } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
 
 //Native Base Components
 import { View, Pressable } from "native-base";
-import TextInputWithPassword from "../../components/TextInputWithPassword";
+import TextInputWithPassword from "../../components/Inputs/TextInputWithPassword";
 
 //Auth
 import { AuthContext } from "../../context/Auth";
@@ -28,7 +28,7 @@ import {
   ButtonText,
   Colors,
   StyledInputLabel,
-} from "../../components/Styles";
+} from "../../components/Utils/Styles";
 
 //Colors
 const { darkLight } = Colors;
@@ -50,7 +50,7 @@ const UpdateInfoSchema = Yup.object().shape({
 });
 
 //keyboard avoiding view
-import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
+import KeyboardAvoidingWrapper from "../../components/Utils/KeyboardAvoidingWrapper";
 import { PetsContext } from "../../context/PetsContext";
 
 const EditDataScreen = ({ navigation, route }) => {

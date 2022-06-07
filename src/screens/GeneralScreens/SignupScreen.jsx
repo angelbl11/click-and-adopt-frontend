@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 
-//Queries
-import { REGISTER_USER } from "../../graphql/client";
+//Graphql
+import { REGISTER_USER } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
 
 //Formik
@@ -14,8 +14,8 @@ import * as Yup from "yup";
 //Native Base Components
 import { Pressable, Spinner } from "native-base";
 //Components
-import RadioInput from "../../components/RadioInput";
-import TextInputWithPassword from "../../components/TextInputWithPassword";
+import RadioInput from "../../components/Inputs/RadioInput";
+import TextInputWithPassword from "../../components/Inputs/TextInputWithPassword";
 
 //Styles
 import {
@@ -32,13 +32,13 @@ import {
   TextLinkContent,
   StyledInputLabel,
   MsgBox,
-} from "../../components/Styles";
+} from "../../components/Utils/Styles";
 
 //Colors
 const { darkLight } = Colors;
 
 //keyboard avoiding view
-import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
+import KeyboardAvoidingWrapper from "../../components/Utils/KeyboardAvoidingWrapper";
 
 //Auth
 import { AuthContext } from "../../context/Auth";

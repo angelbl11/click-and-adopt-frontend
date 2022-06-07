@@ -1,6 +1,6 @@
 import React from "react";
 import { Checkbox, View } from "native-base";
-import { SubTitle } from "./Styles";
+import { SubTitle } from "../Utils/Styles";
 
 const CheckBoxInput = ({
   label,

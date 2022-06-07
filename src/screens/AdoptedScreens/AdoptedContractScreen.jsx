@@ -12,7 +12,7 @@ import {
   ContractView,
   ContractCheckBoxView,
   StyledInputLabel,
-} from "../../components/Styles";
+} from "../../components/Utils/Styles";
 
 import { Checkbox, ScrollView } from "native-base";
 

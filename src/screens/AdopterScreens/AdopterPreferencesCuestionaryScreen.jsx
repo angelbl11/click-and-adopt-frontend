@@ -5,8 +5,8 @@ import { StatusBar } from "expo-status-bar";
 import { Formik } from "formik";
 
 //Components
-import RadioInput from "../../components/RadioInput";
-import CheckBoxInput from "../../components/CheckBoxInput";
+import RadioInput from "../../components/Inputs/RadioInput";
+import CheckBoxInput from "../../components/Inputs/CheckBoxInput";
 
 //Styles
 import {
@@ -17,19 +17,18 @@ import {
   StyledButton,
   ButtonText,
   Colors,
-  Separation,
   StyledInputLabel,
-} from "../../components/Styles";
+} from "../../components/Utils/Styles";
 
 //Queries
-import { ADOPTER_CUESTIONARY } from "../../graphql/client";
+import { ADOPTER_CUESTIONARY } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
 
 //Colors
 const { brand, darkLight } = Colors;
 
 //keyboard avoiding view
-import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
+import KeyboardAvoidingWrapper from "../../components/Utils/KeyboardAvoidingWrapper";
 import { Spinner } from "native-base";
 
 //Yup
@@ -205,7 +204,6 @@ const AdopterPreferencesCuestionary = ({ navigation, route }) => {
                   secondRadioLabel="No"
                   secondValue={false}
                 />
-                <Separation></Separation>
                 <StyledButton onPress={handleSubmit}>
                   <ButtonText>
                     {loading ? <Spinner color={"#FFFFFF"} /> : "Siguiente"}

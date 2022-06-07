@@ -1,11 +1,11 @@
 import React, { useRef, useState, useCallback, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { pets as petsArray } from "./data";
-import CardComponent from "../../components/CardComponent";
-import { StyledContainer, PageTitle, CardCont } from "../../components/Styles";
-import FooterButtons from "../../components/FooterButtons";
+import CardComponent from "../../components/Card/CardComponent";
+import { PageTitle, CardCont } from "../../components/Utils/Styles";
+import FooterButtons from "../../components/Card/FooterButtons";
 import { Animated, PanResponder } from "react-native";
-import { CARD, ACTION_OFFSET } from "../../components/CardConstants";
+import { CARD, ACTION_OFFSET } from "../../components/Card/CardConstants";
 import { View } from "native-base";
 const CardsScreen = ({ navigation }) => {
   const [petsCards, setPetsCards] = useState(petsArray);

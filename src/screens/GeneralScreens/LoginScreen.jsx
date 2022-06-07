@@ -4,9 +4,9 @@ import { StatusBar } from "expo-status-bar";
 //Yup
 import * as Yup from "yup";
 
-//Queries
+//Graphql
 import { useMutation } from "@apollo/client";
-import { LOGIN } from "../../graphql/client";
+import { LOGIN } from "../../graphql/mutations";
 
 //Formik
 import { Formik } from "formik";
@@ -15,7 +15,7 @@ import { Formik } from "formik";
 import { Image, Pressable, Spinner } from "native-base";
 
 //Components
-import TextInputWithPassword from "../../components/TextInputWithPassword";
+import TextInputWithPassword from "../../components/Inputs/TextInputWithPassword";
 
 //Styles
 import {
@@ -32,13 +32,15 @@ import {
   TextLink,
   TextLinkContent,
   StyledInputLabel,
-} from "../../components/Styles";
+} from "../../components/Utils/Styles";
 
 //Colors
 const { darkLight } = Colors;
 
 //keyboard avoiding view
-import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
+import KeyboardAvoidingWrapper from "../../components/Utils/KeyboardAvoidingWrapper";
+
+//Auth
 import { AuthContext } from "../../context/Auth";
 
 //Form fields validation
@@ -68,6 +70,8 @@ const Login = ({ navigation }) => {
             alt="logo"
             width={"150px"}
             height={"150px"}
+            marginLeft={"auto"}
+            marginRight={"auto"}
             marginBottom={"2"}
           />
           <PageTitle>Click&Adopt</PageTitle>

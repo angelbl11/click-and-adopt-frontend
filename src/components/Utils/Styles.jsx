@@ -1,12 +1,15 @@
 import styled from "styled-components";
 import Constants from "expo-constants";
-import { COLORS, CARD } from "./CardConstants";
+import { CARD } from "../Card/CardConstants";
 import { LinearGradient } from "expo-linear-gradient";
 const StatusBarHeight = Constants.statusBarHeight;
+
+//Card Constants
 const CARDWIDTH = CARD.WIDTH;
 const CARDHEIGHT = CARD.HEIGHT;
 const CARDBORDER = CARD.BORDER_RADIUS;
 
+//Native Base Components
 import {
   Input,
   View,
@@ -18,7 +21,7 @@ import {
   IconButton,
 } from "native-base";
 
-//colors
+//Colors
 export const Colors = {
   primary: "#FFFFFF",
   secondary: "#E5E7EB",
@@ -32,6 +35,9 @@ export const Colors = {
 
 const { primary, secondary, tertiary, darkLight, brand, red, green, info } =
   Colors;
+
+//General containers
+
 export const StyledContainer = styled(View)`
   flex: 1;
   padding-top: ${StatusBarHeight}px;
@@ -40,9 +46,25 @@ export const StyledContainer = styled(View)`
 
 export const InnerContainer = styled(View)`
   flex: 1;
-  width: 100%;
+  height: 100%;
   align-items: center;
 `;
+
+export const InfoContainer = styled(View)`
+  margin-left: 140px;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ExtraView = styled(View)`
+justify-content: center;
+flex-direction; row;
+align-items: center;
+padding: 20px;
+padding-bottom:150px;
+`;
+
+//General Text
 
 export const PageTitle = styled(Heading)`
   font-size: 30px;
@@ -73,25 +95,6 @@ export const PageTitle = styled(Heading)`
    font-size: 25px;
    font-weight: bold;
   `}
-`;
-
-export const InfoContainer = styled(View)`
-  margin-left: 140px;
-  display: flex;
-  flex-direction: column;
-`;
-
-export const AtributesContainer = styled(View)`
-  text-align: left;
-`;
-
-export const AtributesLabel = styled(Text)`
-  font-size: 14px;
-  margin-bottom: 12px;
-  font-weight: normal;
-  color: ${darkLight};
-  padding-right: 230px;
-  height: 18px;
 `;
 
 export const SubTitle = styled(Text)`
@@ -161,10 +164,40 @@ ${(props) =>
 `}
 `;
 
+export const MsgBox = styled(Text)`
+  text-align: center;
+  font-size: 13px;
+  color: ${(props) => (props.type == "Success" ? green : red)};
+`;
+
+export const ExtraText = styled(Text)`
+  justify-content: center;
+  align-content: center;
+  color: ${tertiary};
+  font-size: 15px;
+`;
+
+//Atributes
+export const AtributesContainer = styled(View)`
+  text-align: left;
+`;
+
+export const AtributesLabel = styled(Text)`
+  font-size: 14px;
+  margin-bottom: 12px;
+  font-weight: normal;
+  color: ${darkLight};
+  padding-right: 230px;
+  height: 18px;
+`;
+
+//Forms
+
 export const StyledFormArea = styled(View)`
   width: 90%;
 `;
 
+//Form Input
 export const StyledTextInput = styled(Input)`
   background-color: ${secondary};
   padding: 15px;
@@ -177,6 +210,8 @@ export const StyledTextInput = styled(Input)`
   margin-bottom: 10px;
   color: ${tertiary};
 `;
+
+//Form Label
 
 export const StyledInputLabel = styled(Text)`
   color: ${tertiary};
@@ -194,15 +229,7 @@ export const StyledInputLabel = styled(Text)`
 `}
 `;
 
-export const StyledTextContract = styled(Text)`
-  color: ${tertiary};
-  font-size: 15px;
-  margin-bottom: 8px;
-  padding-left: 50px;
-  padding-right: 50px;
-  padding-top: 12px;
-  height: 480px;
-`;
+//Form Input Icon
 
 export const LeftIcon = styled(View)`
   left: 15px;
@@ -218,6 +245,8 @@ export const RightIcon = styled(Pressable)`
   z-index: 1;
 `;
 
+//Form Button & BtnText
+
 export const StyledButton = styled(Pressable)`
 padding: 15px;
 background- color: ${brand};
@@ -226,8 +255,6 @@ align-items: center;
 border-radius: 5px;
 margin-vertical: 5px;
 height: 60px;
-
-
 ${(props) =>
   props.secondButton &&
   `
@@ -254,35 +281,29 @@ export const UploadButtonText = styled(Text)`
   font-weight: bold;
 `;
 
-export const MsgBox = styled(Text)`
-  text-align: center;
+//Text Area
+
+export const StyledTextArea = styled(TextArea)`
+  background-color: ${secondary};
+  padding: 15px;
+  border-radius: 5px;
   font-size: 13px;
-  color: ${(props) => (props.type == "Success" ? green : red)};
+  height: 80px;
+  margin-vertical: 3px;
+  margin-bottom: 10px;
+  color: ${tertiary};
 `;
 
-export const ExtraView = styled(View)`
-justify-content: center;
-flex-direction; row;
-align-items: center;
-padding: 20px;
-padding-bottom:150px;
-`;
+//Contract
 
-export const ExtraText = styled(Text)`
-  justify-content: center;
-  align-content: center;
+export const StyledTextContract = styled(Text)`
   color: ${tertiary};
   font-size: 15px;
-`;
-
-export const TextLink = styled(Pressable)`
-  justify-content: center;
-  align-items: center;
-`;
-
-export const TextLinkContent = styled(Text)`
-  color: ${brand};
-  font-size: 15px;
+  margin-bottom: 8px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 12px;
+  height: 480px;
 `;
 
 export const ContractText = styled(Text)`
@@ -304,17 +325,19 @@ export const ContractCheckBoxView = styled(View)`
   width: 90%;
 `;
 
-export const StyledTextArea = styled(TextArea)`
-  background-color: ${secondary};
-  padding: 15px;
-  border-radius: 5px;
-  font-size: 13px;
-  height: 80px;
-  margin-vertical: 3px;
-  margin-bottom: 10px;
-  color: ${tertiary};
+//TextLink
+
+export const TextLink = styled(Pressable)`
+  justify-content: center;
+  align-items: center;
 `;
 
+export const TextLinkContent = styled(Text)`
+  color: ${brand};
+  font-size: 15px;
+`;
+
+//Generic Image
 export const StyledImage = styled(Image)`
   justify-content: center;
   align-items: center;
@@ -322,6 +345,7 @@ export const StyledImage = styled(Image)`
   min-width: 90%;
 `;
 
+//Credential Component
 export const ChildWrapper = styled(View)`
   flex: 50%;
   flex-wrap: wrap;
@@ -354,114 +378,7 @@ export const AdoptedItemWrapper = styled(View)`
   padding-bottom: 10px;
 `;
 
-export const CardContainer = styled(View)`
-  width: 90%;
-  max-width: 260px;
-  height: 300px;
-  padding-top: 18px;
-`;
-
-export const Card = styled(View)`
-  position: absolute;
-  background-color: #fff;
-  width: 100%;
-  max-width: 260px;
-  height: 390px;
-  shadow-color: black;
-  shadow-opacity: 0.2;
-  shadow-radius: 13px;
-  border-radius: 13px;
-  resize-mode: cover;
-`;
-
-export const CardImage = styled.ImageBackground`
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 12px;
-`;
-
-export const CardTitle = styled(Text)`
-  position: absolute;
-  bottom: 0;
-  margin: 10px;
-  color: #fff;
-`;
-
-export const InfoText = styled(Text)`
-  height: 28px;
-  justify-content: center;
-  display: flex;
-  z-index: -100;
-`;
-
-export const ReasonTextContainer = styled(View)`
-  flex-direction: row;
-  width: 90%;
-  ${(props) =>
-    props.otherInfo &&
-    `
-    flex-direction:column;
-`}
-`;
-
-export const ReasonText = styled(Text)`
-  font-size: 18px;
-  font-weight: normal;
-  color: ${info};
-  flex: 1;
-  flex-wrap: wrap;
-`;
-
-export const UserInfoText = styled(Text)`
-  font-size: 18px;
-  font-weight: normal;
-  padding-right: 260px;
-  width: 100%;
-  height: 40px;
-  color: ${info};
-`;
-
-export const CarruselButtonsWrapper = styled(View)`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  position: absolute;
-  bottom: 110px;
-  justify-content: space-evenly;
-  margin-top: 13px;
-  z-index: -1;
-`;
-
-export const CarruselButton = styled(IconButton)`
-  background-color: white;
-  shadow-opacity: 0.3;
-  shadow-radius: 6px;
-  border-radius: 40px;
-`;
-
-export const LikeComponentWrapper = styled(View)`
-  flex-direction: row;
-  display: flex;
-  align-content: flex-start;
-  margin: 22px 65px 0 30px;
-`;
-
-export const LikeComponentInfoWrapper = styled(View)`
-  margin-left: 8px;
-`;
-
-export const LikeComponentDate = styled(Text)`
-  font-size: 14px;
-  color: ${darkLight};
-`;
-
-export const UserLikeWrapper = styled(View)`
-  display: flex;
-  margin: 18px;
-  flex-flow: column wrap;
-  height: 30%;
-`;
+//Cards
 
 export const CardWrapper = styled(View)`
   position: absolute;
@@ -496,6 +413,8 @@ export const CardCont = styled(View)`
   align-items: center;
 `;
 
+//Card choice
+
 export const ChoiceContainer = styled(View)`
   border-width: 6px;
   padding-horizontal: 15px;
@@ -509,4 +428,78 @@ export const ChoiceText = styled(Text)`
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 4px;
+`;
+
+//Carrousel
+
+export const CarruselButtonsWrapper = styled(View)`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  position: absolute;
+  bottom: 110px;
+  justify-content: space-evenly;
+  margin-top: 13px;
+  z-index: -1;
+`;
+
+export const CarruselButton = styled(IconButton)`
+  background-color: white;
+  shadow-opacity: 0.3;
+  shadow-radius: 6px;
+  border-radius: 40px;
+`;
+
+//Reason/Info Component
+
+export const ReasonTextContainer = styled(View)`
+  flex-direction: row;
+  width: 90%;
+  ${(props) =>
+    props.otherInfo &&
+    `
+    flex-direction:column;
+`}
+`;
+
+export const ReasonText = styled(Text)`
+  font-size: 18px;
+  font-weight: normal;
+  color: ${info};
+  flex: 1;
+  flex-wrap: wrap;
+`;
+
+export const UserInfoText = styled(Text)`
+  font-size: 18px;
+  font-weight: normal;
+  padding-right: 260px;
+  width: 100%;
+  height: 40px;
+  color: ${info};
+`;
+
+//Like Component
+
+export const LikeComponentWrapper = styled(View)`
+  flex-direction: row;
+  display: flex;
+  align-content: flex-start;
+  margin: 22px 65px 0 30px;
+`;
+
+export const LikeComponentInfoWrapper = styled(View)`
+  margin-left: 8px;
+`;
+
+export const LikeComponentDate = styled(Text)`
+  font-size: 14px;
+  color: ${darkLight};
+`;
+
+export const UserLikeWrapper = styled(View)`
+  display: flex;
+  margin: 18px;
+  flex-flow: column wrap;
+  height: 30%;
 `;

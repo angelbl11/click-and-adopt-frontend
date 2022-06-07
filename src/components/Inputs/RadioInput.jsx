@@ -1,6 +1,6 @@
 import React from "react";
 import { Radio, View } from "native-base";
-import { SubTitle } from "./Styles";
+import { SubTitle } from "../Utils/Styles";
 
 const RadioInput = ({
   label,

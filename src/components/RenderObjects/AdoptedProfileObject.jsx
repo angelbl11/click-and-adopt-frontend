@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 //Styles
-import { StyledInputLabel, SwitchWrapper, LabelWrapper } from "./Styles";
+import { StyledInputLabel, SwitchWrapper, LabelWrapper } from "../Utils/Styles";
 //Native Base Components
 import { Switch, View } from "native-base";
 import { Avatar } from "react-native-elements";
 import { useMutation } from "@apollo/client";
-import { UPDATE_PET_STATUS } from "../graphql/client";
+import { UPDATE_PET_STATUS } from "../../graphql/mutations";
 
 const AdoptedProfileObject = ({ pressed, url, id, status }) => {
   const [showMessage, setShowMessage] = useState(status);

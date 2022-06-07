@@ -4,10 +4,14 @@ import { StatusBar } from "expo-status-bar";
 import { Avatar } from "@rneui/themed";
 import * as ImagePicker from "expo-image-picker";
 import { MaterialIcons } from "@expo/vector-icons";
-//Apollo
+
+//Graphql
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { GET_ADOPTER_INFO, UPDATE_ADOPTER_STATUS } from "../../graphql/client";
-import { UPLOAD_PROFILE_PICTURE } from "../../graphql/client";
+import { GET_ADOPTER_INFO } from "../../graphql/queries";
+import {
+  UPLOAD_PROFILE_PICTURE,
+  UPDATE_ADOPTER_STATUS,
+} from "../../graphql/mutations";
 import { ReactNativeFile } from "apollo-upload-client/public";
 import * as mime from "react-native-mime-types";
 
@@ -25,7 +29,7 @@ import {
   ReasonTextContainer,
   ReasonText,
   UploadButtonText,
-} from "../../components/Styles";
+} from "../../components/Utils/Styles";
 
 //Native Base Components
 import { Switch, ScrollView, View, IconButton, Button } from "native-base";

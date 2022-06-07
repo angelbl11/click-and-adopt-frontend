@@ -1,6 +1,5 @@
 import React from "react";
-import { ChoiceContainer, ChoiceText } from "./Styles";
-import { View, Text } from "native-base";
+import { ChoiceContainer, ChoiceText } from "../Utils/Styles";
 import { COLORS } from "./CardConstants";
 const Choice = ({ type }) => {
   const TYPECOLOR = COLORS[type];

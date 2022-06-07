@@ -12,17 +12,21 @@ import {
   SubTitle,
   ReasonText,
   ReasonTextContainer,
-} from "../../components/Styles";
+} from "../../components/Utils/Styles";
 
-import AdoptedProfileObject from "../../components/AdoptedProfileObject";
+import AdoptedProfileObject from "../../components/RenderObjects/AdoptedProfileObject";
 
 //Native Base Components
 import { ScrollView, View, IconButton } from "native-base";
 
+//Auth
 import { AuthContext } from "../../context/Auth";
-import { GET_ADOPTED_INFO } from "../../graphql/client";
-import { useLazyQuery } from "@apollo/client";
 import { PetsContext } from "../../context/PetsContext";
+
+//Graphql
+import { GET_ADOPTED_INFO } from "../../graphql/queries";
+import { useLazyQuery } from "@apollo/client";
+
 const AdoptedProfile = ({ navigation }) => {
   const { logout, user } = useContext(AuthContext);
   const { pets, setPets, petImage, setPetImage, num } = useContext(PetsContext);

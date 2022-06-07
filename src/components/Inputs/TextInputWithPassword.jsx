@@ -10,7 +10,7 @@ import {
   StyledTextInput,
   RightIcon,
   Colors,
-} from "./Styles";
+} from "../Utils/Styles";
 
 //Colors
 const { brand, darkLight } = Colors;

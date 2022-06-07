@@ -1,6 +1,6 @@
 import React from "react";
 import { AppRegistry } from "react-native";
-import RootStack from "./src/navigators/RootStack";
+import RootStack from "./src/components/Navigators/RootStack";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./src/graphql/client";
 import { AuthProvider } from "./src/context/Auth";

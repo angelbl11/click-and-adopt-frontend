@@ -11,7 +11,7 @@ import {
   ContractView,
   ContractCheckBoxView,
   StyledInputLabel,
-} from "../../components/Styles";
+} from "../../components/Utils/Styles";
 
 import { Checkbox, ScrollView, View } from "native-base";
 
@@ -95,7 +95,7 @@ const AdopterContract = ({ navigation }) => {
                 ) : undefined}
               </ContractCheckBoxView>
               <StyledButton onPress={handleSubmit}>
-                <ButtonText> Continuar </ButtonText>
+                <ButtonText>Continuar</ButtonText>
               </StyledButton>
             </View>
           )}

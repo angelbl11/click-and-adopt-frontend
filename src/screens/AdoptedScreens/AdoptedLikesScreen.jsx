@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   StyledContainer,
   InnerContainer,
   PageTitle,
   UserLikeWrapper,
-} from "../../components/Styles";
-import LikedUserComponent from "../../components/LikedUserComponent";
+} from "../../components/Utils/Styles";
+
+import LikedUserComponent from "../../components/RenderObjects/LikedUserComponent";
 const AdoptedLikesScreen = () => {
   return (
     <StyledContainer>

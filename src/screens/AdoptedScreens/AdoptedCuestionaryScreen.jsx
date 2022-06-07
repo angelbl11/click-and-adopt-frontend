@@ -9,10 +9,10 @@ import { View } from "native-base";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 //Components
-import RadioInput from "../../components/RadioInput";
+import RadioInput from "../../components/Inputs/RadioInput";
 
 //keyboard avoiding view
-import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
+import KeyboardAvoidingWrapper from "../../components/Utils/KeyboardAvoidingWrapper";
 
 //Yup
 import * as Yup from "yup";
@@ -32,7 +32,7 @@ import {
   StyledButton,
   ButtonText,
   Colors,
-} from "../../components/Styles";
+} from "../../components/Utils/Styles";
 
 const AdoptedCuestionarySchema = Yup.object().shape({
   typeOfAdoptedPet: Yup.string().required("Debes seleccionar una opción"),
@@ -47,7 +47,7 @@ const AdoptedCuestionarySchema = Yup.object().shape({
   ),
 });
 
-const AdoptedCuestionary = ({ navigation, route }) => {
+const AdoptedCuestionary = ({ navigation }) => {
   const [typeOfAdoptedPet, setTypeOfAdoptedPet] = useState("Perro");
   const [genderOfAdoptedPet, setGenderOfAdoptedPet] = useState("Macho");
   const [ageOfAdoptedPet, setAgeOfAdoptedPet] = useState("Cachorro");

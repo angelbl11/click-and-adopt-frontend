@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import { RefreshControl } from "react-native";
 
 //Formik
 import { Formik } from "formik";
@@ -9,20 +8,20 @@ import { Formik } from "formik";
 import { View, Spinner } from "native-base";
 
 //Components
-import RadioInput from "../../components/RadioInput";
-import CheckBoxInput from "../../components/CheckBoxInput";
+import RadioInput from "../../components/Inputs/RadioInput";
+import CheckBoxInput from "../../components/Inputs/CheckBoxInput";
 
 //keyboard avoiding view
-import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper";
+import KeyboardAvoidingWrapper from "../../components/Utils/KeyboardAvoidingWrapper";
 
 //Yup
 import * as Yup from "yup";
 
-//Queries and ip
-import { ADOPTED_CUESTIONARY } from "../../graphql/client";
+//Graphql
+import { ADOPTED_CUESTIONARY } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
 
-//
+//Auth
 import { AuthContext } from "../../context/Auth";
 
 //Styles
@@ -36,7 +35,8 @@ import {
   StyledButton,
   ButtonText,
   StyledInputLabel,
-} from "../../components/Styles";
+} from "../../components/Utils/Styles";
+
 import { PetsContext } from "../../context/PetsContext";
 
 const AdoptedPetInfoSchema = Yup.object().shape({
