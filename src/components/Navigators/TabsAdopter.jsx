@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AdopterProfileScreen from "../../screens/AdopterScreens/AdopterProfileScreen";
-import CardsScreen from "../../screens/GeneralScreens/CardsScreen";
+import CardsScreen from "../../screens/AdopterScreens/CardsScreen";
 import ChatScreen from "../../screens/GeneralScreens/ChatScreen";
 import LikesScreen from "../../screens/GeneralScreens/LikesScreen";
 const Tab = createBottomTabNavigator();

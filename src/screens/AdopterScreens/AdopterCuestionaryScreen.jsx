@@ -192,9 +192,9 @@ const AdopterCuestionary = ({ navigation }) => {
                       : undefined
                   }
                   onChange={setGroupValues}
-                  firstValue="Perros"
+                  firstValue="Perro"
                   firstCheckBoxLabel="Perros"
-                  secondValue="Gatos"
+                  secondValue="Gato"
                   secondCheckBoxLabel="Gatos"
                 />
                 {errors.petPreferences && touched.petPreferences ? (

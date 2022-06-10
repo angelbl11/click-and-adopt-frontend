@@ -52,11 +52,10 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
     isHealthyK,
     isHealthyP,
     typeOf,
-    petProfData,
     petProfPic,
     petId,
     count,
-    imageArray,
+    isVisible,
   } = route.params;
   const [uploadPetImage, { loading }] = useMutation(UPLOAD_PET_PROFILE_PICTURE);
   const [showButton, setShowButton] = useState(false);
@@ -180,17 +179,19 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
             <View width={40} marginLeft={6}>
               <PageTitle profile={true}>Perfil</PageTitle>
             </View>
-            <IconButton
-              _icon={{
-                as: Ionicons,
-                name: "trash",
-                color: "#1F2937",
-              }}
-              marginLeft={180}
-              onPress={() => {
-                deletePetInfoAlert();
-              }}
-            ></IconButton>
+            {isVisible ? (
+              <IconButton
+                _icon={{
+                  as: Ionicons,
+                  name: "trash",
+                  color: "#1F2937",
+                }}
+                marginLeft={180}
+                onPress={() => {
+                  deletePetInfoAlert();
+                }}
+              ></IconButton>
+            ) : undefined}
           </View>
           <View marginTop={5}>
             {petProfPic && (
@@ -203,13 +204,15 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                     : "https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg",
                 }}
               >
-                <Avatar.Accessory
-                  size={25}
-                  onPress={() => {
-                    pickImage();
-                    setShowButton(true);
-                  }}
-                />
+                {isVisible ? (
+                  <Avatar.Accessory
+                    size={25}
+                    onPress={() => {
+                      pickImage();
+                      setShowButton(true);
+                    }}
+                  />
+                ) : undefined}
               </Avatar>
             )}
             {petImage && showButton === true ? (
@@ -265,7 +268,7 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
             <View width={50} marginLeft={6}>
               <PageTitle about={true}>Protocolo</PageTitle>
             </View>
-            {protocol != "No tiene" ? (
+            {protocol != "No tiene" && isVisible ? (
               <IconButton
                 _icon={{
                   as: AntDesign,

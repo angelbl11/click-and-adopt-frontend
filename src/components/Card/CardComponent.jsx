@@ -78,7 +78,7 @@ const CardComponent = ({
       style={[styles.container, isFirst && animatedCardStyle]}
       {...props}
     >
-      <CardPicture source={source} alt={"ok"} {...props}></CardPicture>
+      <CardPicture source={{ uri: source }} alt={"ok"} {...props}></CardPicture>
       <CardGradient colors={["transparent", "rgba(0,0,0,0.9)"]}></CardGradient>
       <CardName>{name}</CardName>
       <IconButton

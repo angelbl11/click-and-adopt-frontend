@@ -59,3 +59,24 @@ export const GET_ADOPTER_INFO = gql`
     }
   }
 `;
+
+export const GET_RANDOM_PETS = gql`
+  query getRandomPet($userId: String!) {
+    getRandomPet(userId: $userId) {
+      id
+      adoptedPetDescription
+      adoptedPetName
+      adoptedPetProtocol
+      ageOfAdoptedPet
+      coexistenceWithOtherPets
+      genderOfAdoptedPet
+      isHealthyWithKids
+      isHealthyWithOtherPets
+      typeOfAdoptedPet
+      adoptedPetName
+      petPicture {
+        filename
+      }
+    }
+  }
+`;
