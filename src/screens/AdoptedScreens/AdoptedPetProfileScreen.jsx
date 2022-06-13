@@ -235,7 +235,9 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
           </View>
           <SubTitle profile={true}>{name}</SubTitle>
           <SubTitle typeOfUserLabel={true}>{typeOf}</SubTitle>
-          <PageTitle about={true}>Acerca De</PageTitle>
+          <PageTitle about={true} marginLeft={"15px"}>
+            Acerca De
+          </PageTitle>
           <ReasonTextContainer otherInfo={true} marginBottom={3}>
             <ReasonText>Descripción:</ReasonText>
             <ReasonText>{des}</ReasonText>
@@ -266,7 +268,9 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
           ) : undefined}
           <View flexDir={"row"} width={420} marginLeft={2} marginRight={12}>
             <View width={50} marginLeft={6}>
-              <PageTitle about={true}>Protocolo</PageTitle>
+              <PageTitle about={true} marginLeft={"15px"}>
+                Protocolo
+              </PageTitle>
             </View>
             {protocol != "No tiene" && isVisible ? (
               <IconButton

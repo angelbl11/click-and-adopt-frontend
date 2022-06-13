@@ -4,7 +4,6 @@ import { StatusBar } from "expo-status-bar";
 import { Avatar } from "@rneui/themed";
 import * as ImagePicker from "expo-image-picker";
 import { MaterialIcons } from "@expo/vector-icons";
-
 //Graphql
 import { useMutation, useLazyQuery } from "@apollo/client";
 import { GET_ADOPTER_INFO } from "../../graphql/queries";

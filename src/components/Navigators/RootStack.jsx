@@ -21,7 +21,7 @@ import EditDataScreen from "../../screens/GeneralScreens/EditDataScreen";
 import TabsAdopter from "./TabsAdopter";
 import TabsAdopted from "./TabsAdopted";
 import { AuthContext } from "../../context/Auth";
-import AdoptedProfile from "../../screens/AdoptedScreens/AdoptedProfileScreen";
+import CarrouselAdopterProfile from "../../screens/AdopterScreens/CarrouselAdopterProfile";
 const Stack = createNativeStackNavigator();
 
 const RootStack = () => {
@@ -98,6 +98,10 @@ const RootStack = () => {
         <Stack.Screen
           name="EditScreen"
           component={EditDataScreen}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="CarrouselAdopter"
+          component={CarrouselAdopterProfile}
         ></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

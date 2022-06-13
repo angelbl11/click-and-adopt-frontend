@@ -3,7 +3,6 @@ import Constants from "expo-constants";
 import { CARD } from "../Card/CardConstants";
 import { LinearGradient } from "expo-linear-gradient";
 const StatusBarHeight = Constants.statusBarHeight;
-
 //Card Constants
 const CARDWIDTH = CARD.WIDTH;
 const CARDHEIGHT = CARD.HEIGHT;

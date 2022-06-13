@@ -121,6 +121,7 @@ const AdoptedProfile = ({ navigation }) => {
                         petProfPic: item,
                         count: count,
                         imageArray: images,
+                        isVisible: true,
                       });
                     }}
                     url={
