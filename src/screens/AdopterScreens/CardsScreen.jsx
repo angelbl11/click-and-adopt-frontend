@@ -13,19 +13,31 @@ import { Animated, PanResponder } from "react-native";
 import { CARD, ACTION_OFFSET } from "../../components/Card/CardConstants";
 import { View } from "native-base";
 import { AuthContext } from "../../context/Auth";
-
 //Graphql
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_RANDOM_PETS } from "../../graphql/queries";
+import { GIVE_LIKE_PET } from "../../graphql/mutations";
 
 const CardsScreen = ({ navigation }) => {
-  const [petsCards, setPetsCards] = useState(data?.getRandomPet);
+  const [petsCards, setPetsCards] = useState();
   const swipe = useRef(new Animated.ValueXY()).current;
   const tiltSign = useRef(new Animated.Value(1)).current;
   const { user } = useContext(AuthContext);
   const url = "https://calm-forest-47055.herokuapp.com/ProfilePictures/";
-
-  const [getPets, { data }] = useLazyQuery(GET_RANDOM_PETS, {
+  const [giveLikeToPet] = useMutation(GIVE_LIKE_PET, {
+    variables: {
+      petId: data?.getRandomPet?.id,
+      userId: user.id,
+    },
+    onCompleted: (data) => {
+      console.log("LIKE PARA QUE LO VEA");
+      console.log(data);
+    },
+    onError: (err) => {
+      console.log("ERROR ", err.clientErrors);
+    },
+  });
+  const [getPets, { data, loading }] = useLazyQuery(GET_RANDOM_PETS, {
     variables: {
       userId: user.id,
     },
@@ -40,6 +52,8 @@ const CardsScreen = ({ navigation }) => {
 
   useEffect(() => {
     getPets();
+    console.log("MASCOTAS DEL EFECTO ------------------");
+    console.log(petsCards);
   }, []);
 
   const panResponder = PanResponder.create({
@@ -61,6 +75,9 @@ const CardsScreen = ({ navigation }) => {
           },
           useNativeDriver: true,
         }).start(removeTopCard);
+        direction * CARD.OUT_OF_SCREEN == 621
+          ? giveLikeToPet() && console.log("CARTAS DE LIKE: ", petsCards)
+          : console.log(direction * CARD.OUT_OF_SCREEN);
       } else {
         Animated.spring(swipe, {
           toValue: {
@@ -75,7 +92,7 @@ const CardsScreen = ({ navigation }) => {
   });
 
   const removeTopCard = useCallback(() => {
-    setPetsCards((previousState) => previousState.slice(1));
+    setPetsCards((previousState) => previousState?.slice(1));
     swipe.setValue({ x: 0, y: 0 });
   }, [swipe]);
 
@@ -86,6 +103,9 @@ const CardsScreen = ({ navigation }) => {
         duration: 400,
         useNativeDriver: true,
       }).start(removeTopCard);
+      direction == 1
+        ? giveLikeToPet() && console.log("CARTAS DE LIKE: ", petsCards)
+        : console.log("NO HAY LAIC");
     },
     [removeTopCard, swipe.x]
   );
@@ -93,8 +113,8 @@ const CardsScreen = ({ navigation }) => {
     <View bgColor={"#FFFFFF"} flex={1}>
       <StatusBar style="dark" />
       <PageTitle>Encuentra Mascotas</PageTitle>
-      {petsCards?.length == 0 ? (
-        <PageTitle>no data</PageTitle>
+      {loading ? (
+        <PageTitle>CARGANDO</PageTitle>
       ) : (
         <CardCont>
           {data?.getRandomPet

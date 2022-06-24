@@ -91,3 +91,9 @@ export const DELETE_PET_INFO = gql`
     deletePetInfo(petId: $petId)
   }
 `;
+
+export const GIVE_LIKE_PET = gql`
+  mutation adopterlike($petId: String!, $userId: String!) {
+    likePet(petId: $petId, userId: $userId)
+  }
+`;

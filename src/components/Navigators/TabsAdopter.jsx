@@ -22,6 +22,7 @@ const TabsAdopter = () => {
         },
         headerStyle: {
           backgroundColor: "transparent",
+          elevation: 0,
         },
         headerTintColor: tertiary,
         headerTransparent: "true",

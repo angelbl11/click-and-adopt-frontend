@@ -81,15 +81,14 @@ export const PageTitle = styled(Heading)`
   ${(props) =>
     props.profile &&
     `
-   padding-right: 300px;
    font-size: 35px;
-   padding-top: 10px;
-   margin-left: 13px;
+   padding-top: 15px;
+   left: -15px;
   `}
    ${(props) =>
     props.about &&
     `
-   padding-right: 273px;
+   margin-right: 260px;
    margin-top: 5px;
    font-size: 25px;
    font-weight: bold;

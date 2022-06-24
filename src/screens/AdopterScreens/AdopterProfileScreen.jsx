@@ -124,7 +124,7 @@ const AdopterProfileScreen = ({ navigation }) => {
           showAlert();
         },
         onError: (err) => {
-          console.log(err.networkError.result);
+          console.log(err.graphQLErrors);
         },
       });
       setStatus("Subido");
@@ -139,7 +139,7 @@ const AdopterProfileScreen = ({ navigation }) => {
   return (
     <StyledContainer>
       <StatusBar style="dark" />
-      <ScrollView>
+      <ScrollView flex={1}>
         <InnerContainer>
           <View flexDir={"row"} width={420} marginLeft={2} marginRight={12}>
             <View width={40} marginLeft={6}>
