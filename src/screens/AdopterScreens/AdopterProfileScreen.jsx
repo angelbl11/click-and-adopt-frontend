@@ -28,6 +28,7 @@ import {
   ReasonTextContainer,
   ReasonText,
   UploadButtonText,
+  CarruselButton,
 } from "../../components/Utils/Styles";
 
 //Native Base Components

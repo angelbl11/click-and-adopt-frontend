@@ -1,102 +1,53 @@
-import React, { useCallback } from "react";
-import Choice from "./Choice";
+import React, { useRef } from "react";
+import { StyleSheet, StatusBar, Dimensions } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Animated, StyleSheet } from "react-native";
-
-const styles = StyleSheet.create({
-  container: {
-    position: "absolute",
-    top: 45,
-  },
-  choiceContainer: {
-    position: "absolute",
-    top: 40,
-  },
-  likeContainer: { left: 45, transform: [{ rotate: "-30deg" }] },
-  nopeContainer: { right: 45, transform: [{ rotate: "30deg" }] },
-});
-
 import { CardPicture, CardName, CardGradient } from "../Utils/Styles";
-import { Icon, IconButton } from "native-base";
-import { ACTION_OFFSET } from "./CardConstants";
-const CardComponent = ({
-  name,
-  source,
-  isFirst,
-  swipe,
-  tiltSign,
-  pressed,
-  ...props
-}) => {
-  const renderChoice = useCallback(() => {
-    return (
-      <>
-        <Animated.View
-          style={[
-            styles.choiceContainer,
-            styles.likeContainer,
-            { opacity: likeOpacity },
-          ]}
-        >
-          <Choice type={"like"} />
-        </Animated.View>
-        <Animated.View
-          style={[
-            styles.choiceContainer,
-            styles.nopeContainer,
-            { opacity: nopeOpacity },
-          ]}
-        >
-          <Choice type={"nope"} />
-        </Animated.View>
-      </>
-    );
-  }, []);
+import { View, IconButton, Icon } from "native-base";
+import { Card } from "react-native-card-stack-swiper";
 
-  const rotate = Animated.multiply(swipe.x, tiltSign).interpolate({
-    inputRange: [-ACTION_OFFSET, 0, ACTION_OFFSET],
-    outputRange: ["8deg", "0deg", "-8deg"],
-  });
-
-  const likeOpacity = swipe.x.interpolate({
-    inputRange: [25, ACTION_OFFSET],
-    outputRange: [0, 1],
-    extrapolate: "clamp",
-  });
-  const nopeOpacity = swipe.x.interpolate({
-    inputRange: [-ACTION_OFFSET, -25],
-    outputRange: [1, 0],
-    extrapolate: "clamp",
-  });
-
-  const animatedCardStyle = {
-    transform: [...swipe.getTranslateTransform(), { rotate }],
-  };
-
+const CardComponent = ({ uri, petName, pressed }) => {
   return (
-    <Animated.View
-      style={[styles.container, isFirst && animatedCardStyle]}
-      {...props}
-    >
-      <CardPicture source={{ uri: source }} alt={"ok"} {...props}></CardPicture>
-      <CardGradient colors={["transparent", "rgba(0,0,0,0.9)"]}></CardGradient>
-      <CardName>{name}</CardName>
-      <IconButton
-        icon={<Icon as={MaterialIcons} name="info-outline"></Icon>}
-        _icon={{
-          color: "white",
-          position: "absolute",
-          bottom: "22",
-          right: "5",
-          size: "md",
-        }}
-        _pressed={{
-          bg: "transparent",
-        }}
-        onPress={pressed}
-      ></IconButton>
-      {isFirst && renderChoice()}
-    </Animated.View>
+    <View flex={1}>
+      <StatusBar hidden={true} />
+
+      <Card style={styles.card}>
+        <View position={"absolute"}>
+          <CardPicture source={{ uri: uri }} alt={"petPic"}></CardPicture>
+          <CardGradient colors={["transparent", "rgba(0,0,0,0.9)"]} />
+          <CardName>{petName}</CardName>
+          <IconButton
+            icon={<Icon as={MaterialIcons} name="info-outline"></Icon>}
+            _icon={{
+              color: "white",
+              position: "absolute",
+              bottom: "22",
+              right: "5",
+              size: "md",
+            }}
+            _pressed={{
+              bg: "transparent",
+            }}
+            onPress={pressed}
+          ></IconButton>
+        </View>
+      </Card>
+    </View>
   );
 };
+
 export default CardComponent;
+
+const { height, width } = Dimensions.get("screen");
+
+const styles = StyleSheet.create({
+  content: {
+    flex: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  card: {
+    width: width - 100,
+    height: height - 300,
+    borderRadius: 50,
+  },
+});

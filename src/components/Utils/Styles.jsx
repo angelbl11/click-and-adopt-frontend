@@ -377,11 +377,6 @@ export const AdoptedItemWrapper = styled(View)`
 `;
 
 //Cards
-
-export const CardWrapper = styled(View)`
-  position: absolute;
-`;
-
 export const CardPicture = styled(Image)`
   border-radius: ${CARDBORDER}px;
   width: ${CARDWIDTH}px;
@@ -400,15 +395,11 @@ export const CardName = styled(Text)`
 
 export const CardGradient = styled(LinearGradient)`
   position: absolute;
-  bottom: 0px;
+  bottom: 15px;
   left: 0px;
   right: 0px;
-  height: 110px;
+  height: 120px;
   border-radius: ${CARDBORDER}px;
-`;
-
-export const CardCont = styled(View)`
-  align-items: center;
 `;
 
 //Card choice
@@ -435,7 +426,7 @@ export const CarruselButtonsWrapper = styled(View)`
   flex-direction: row;
   width: 100%;
   position: absolute;
-  bottom: 110px;
+  bottom: 150px;
   justify-content: space-evenly;
   margin-top: 13px;
   z-index: -1;

@@ -1,7 +1,7 @@
 import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { CarruselButton, CarruselButtonsWrapper } from "../Utils/Styles";
-const FooterButtons = ({ handleChoice }) => {
+const FooterButtons = ({ pressLeft, pressRight }) => {
   return (
     <CarruselButtonsWrapper>
       <CarruselButton
@@ -10,7 +10,7 @@ const FooterButtons = ({ handleChoice }) => {
           name: "close",
           color: "#9CA3AF",
         }}
-        onPress={() => handleChoice(-1)}
+        onPress={pressLeft}
       ></CarruselButton>
       <CarruselButton
         _icon={{
@@ -18,7 +18,7 @@ const FooterButtons = ({ handleChoice }) => {
           name: "favorite",
           color: "#BC4749",
         }}
-        onPress={() => handleChoice(1)}
+        onPress={pressRight}
       ></CarruselButton>
     </CarruselButtonsWrapper>
   );
