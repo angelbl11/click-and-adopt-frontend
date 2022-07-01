@@ -97,3 +97,9 @@ export const GIVE_LIKE_PET = gql`
     likePet(petId: $petId, userId: $userId)
   }
 `;
+
+export const GIVE_NOPE_PET = gql`
+  mutation adopternope($petId: String!, $userId: String!) {
+    dislikePet(petId: $petId, userId: $userId)
+  }
+`;

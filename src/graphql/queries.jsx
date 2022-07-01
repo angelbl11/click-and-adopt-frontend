@@ -63,20 +63,21 @@ export const GET_ADOPTER_INFO = gql`
 export const GET_RANDOM_PETS = gql`
   query getRandomPet($userId: String!) {
     getRandomPet(userId: $userId) {
-      id
-      adoptedPetDescription
-      adoptedPetName
-      adoptedPetProtocol
-      ageOfAdoptedPet
-      coexistenceWithOtherPets
-      genderOfAdoptedPet
-      isHealthyWithKids
-      isHealthyWithOtherPets
-      typeOfAdoptedPet
-      adoptedPetName
-      petPicture {
-        filename
+      pets {
+        adoptedPetDescription
+        adoptedPetName
+        adoptedPetProtocol
+        coexistenceWithOtherPets
+        genderOfAdoptedPet
+        id
+        isHealthyWithKids
+        isHealthyWithOtherPets
+        petPicture {
+          filename
+        }
+        typeOfAdoptedPet
       }
+      numOfLikes
     }
   }
 `;
@@ -111,6 +112,33 @@ export const GET_RANDOM_ADOPTERS = gql`
         id
         profilePicture {
           filename
+        }
+      }
+    }
+  }
+`;
+
+export const GET_ADOPTER_LIKES = gql`
+  query getPetsLikes($userId: String!) {
+    getPetsLikes(userId: $userId) {
+      numOfLikes
+      likes {
+        date
+        petId {
+          id
+          adoptedPetDescription
+          adoptedPetName
+          adoptedPetProtocol
+          ageOfAdoptedPet
+          coexistenceWithOtherPets
+          genderOfAdoptedPet
+          id
+          isHealthyWithKids
+          isHealthyWithOtherPets
+          petPicture {
+            filename
+          }
+          typeOfAdoptedPet
         }
       }
     }
