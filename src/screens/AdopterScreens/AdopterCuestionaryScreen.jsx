@@ -346,7 +346,7 @@ const AdopterCuestionary = ({ navigation }) => {
                           secondRadioLabel="Gato"
                           secondValue="Gato"
                         />
-                        <ThreeOptionsRadioInput
+                        <RadioInput
                           label="¿Hace cuánto tiempo fue esto?"
                           groupValue={
                             hadPetsDate == "Días"
@@ -364,6 +364,7 @@ const AdopterCuestionary = ({ navigation }) => {
                           secondValue="Meses"
                           thirdRadioLabel="Años"
                           thirdValue="Años"
+                          isThird={true}
                           keyboardType="number-pad"
                         />
                         {hadPetsDate == "Días" ? (

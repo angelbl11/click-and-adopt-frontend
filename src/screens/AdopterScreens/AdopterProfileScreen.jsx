@@ -65,6 +65,7 @@ const AdopterProfileScreen = ({ navigation }) => {
     },
     onError: (err) => {
       console.log("Network Error in User");
+      console.log(err.graphQLErrors);
     },
     onCompleted: (data) => {
       if (data?.getAdopterInfo?.userInfo?.profilePicture?.filename) {

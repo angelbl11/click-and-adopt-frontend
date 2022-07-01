@@ -386,7 +386,7 @@ export const CardPicture = styled(Image)`
 export const CardName = styled(Text)`
   position: absolute;
   bottom: 22px;
-  left: 26px;
+  left: 12px;
   font-size: 28px;
   padding-top: 12px;
   font-weight: bold;

@@ -21,7 +21,7 @@ const CardComponent = ({ uri, petName, pressed }) => {
               color: "white",
               position: "absolute",
               bottom: "22",
-              right: "5",
+              right: "2",
               size: "md",
             }}
             _pressed={{

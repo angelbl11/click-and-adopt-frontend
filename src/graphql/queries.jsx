@@ -85,33 +85,36 @@ export const GET_RANDOM_PETS = gql`
 export const GET_RANDOM_ADOPTERS = gql`
   query getRandomAdopter($userId: String!) {
     getRandomAdopter(userId: $userId) {
-      petPreferences
-      id
-      petAgePreferences
-      petGenderPreferences
-      hadPets
-      hadPetsDate
-      hadPetsValue
-      haveCat
-      haveDog
-      havePets
-      isAgreeWithProtocol
-      isChildren
-      numberOfCats
-      numberOfDays
-      numberOfDogs
-      numberOfMonths
-      numberOfYears
-      petSizePreferences
-      reasonToAdopt
-      userId {
-        account
-        age
-        fullName
-        email
+      numOfLikes
+      users {
+        petPreferences
         id
-        profilePicture {
-          filename
+        petAgePreferences
+        petGenderPreferences
+        hadPets
+        hadPetsDate
+        hadPetsValue
+        haveCat
+        haveDog
+        havePets
+        isAgreeWithProtocol
+        isChildren
+        numberOfCats
+        numberOfDays
+        numberOfDogs
+        numberOfMonths
+        numberOfYears
+        petSizePreferences
+        reasonToAdopt
+        userId {
+          account
+          age
+          email
+          fullName
+          profilePicture {
+            filename
+          }
+          id
         }
       }
     }
