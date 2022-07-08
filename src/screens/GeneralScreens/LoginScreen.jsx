@@ -88,7 +88,7 @@ const Login = ({ navigation }) => {
                   },
                 },
                 onError: (err) => {
-                  console.log("Error", err.networkError);
+                  handleMessage(err.message, "Error");
                 },
 
                 onCompleted: () => {

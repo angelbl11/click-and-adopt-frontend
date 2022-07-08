@@ -200,7 +200,7 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                 rounded
                 source={{
                   uri: newPetImage
-                    ? newPetImage
+                    ? newPetImage || newPetImage === undefined
                     : "https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg",
                 }}
               >

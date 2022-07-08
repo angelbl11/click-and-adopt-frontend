@@ -115,3 +115,27 @@ export const GIVE_NOPE_USER = gql`
     dislikeUser(userId: $userId, likedUserId: $likedUserId)
   }
 `;
+
+export const DELETE_PET_LIKE = gql`
+  mutation deletePetLike($petId: String!, $userId: String!) {
+    deleteLike(petId: $petId, userId: $userId)
+  }
+`;
+
+export const TRASH_PET_LIKE = gql`
+  mutation moveToTrashPetLike($petId: String!, $userId: String!) {
+    trashLike(petId: $petId, userId: $userId)
+  }
+`;
+
+export const DELETE_ADOPTER_LIKE = gql`
+  mutation deleteUserLike($userId: String!, $likedUserId: String!) {
+    deleteLikeUser(userId: $userId, likedUserId: $likedUserId)
+  }
+`;
+
+export const TRASH_ADOPTER_LIKE = gql`
+  mutation moveToTrashUserLike($userId: String!, $likedUserId: String!) {
+    trashLikeUser(userId: $userId, likedUserId: $likedUserId)
+  }
+`;

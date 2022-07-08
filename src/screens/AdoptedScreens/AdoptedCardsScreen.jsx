@@ -19,12 +19,14 @@ const AdoptedCardsScreen = ({ navigation }) => {
   const url = "https://calm-forest-47055.herokuapp.com/ProfilePictures/";
   const [giveLikeToUser] = useMutation(GIVE_LIKE_USER, {
     variables: {
-      likedUserId: adopterCards[0]?.userId?.id,
+      likedUserId: adopterCards[0]?.id,
       userId: user.id,
     },
     onCompleted: (data) => {
       console.log("LIKE");
       console.log(data);
+      console.log(user.id);
+      console.log(adopterCards[0]?.id);
       setLikeNumber(likeNumber - 1);
     },
     onError: (err) => {
@@ -33,7 +35,7 @@ const AdoptedCardsScreen = ({ navigation }) => {
   });
   const [giveNopeToUser] = useMutation(GIVE_NOPE_USER, {
     variables: {
-      likedUserId: adopterCards[0]?.userId?.id,
+      likedUserId: adopterCards[0]?.id,
       userId: user.id,
     },
     onCompleted: (data) => {
@@ -56,6 +58,7 @@ const AdoptedCardsScreen = ({ navigation }) => {
     onCompleted: (data) => {
       setAdopterCards(data?.getRandomAdopter?.users);
       setLikeNumber(10 - data?.getRandomAdopter?.numOfLikes);
+      console.log("IDDDDD");
     },
   });
 
@@ -107,8 +110,7 @@ const AdoptedCardsScreen = ({ navigation }) => {
             index
           ) => {
             console.log(
-              "Id del usuario: " +
-                adopterCards[index].userId?.profilePicture?.filename
+              "Id del usuario: " + adopterCards[index].userId?.fullName
             );
             return (
               <CardComponent
@@ -140,7 +142,7 @@ const AdoptedCardsScreen = ({ navigation }) => {
                       adopterCards[index].userId?.profilePicture?.filename,
                     fullName: adopterCards[index].userId?.fullName,
                     account: adopterCards[index].userId?.account,
-                    age: adopterCards[index].userId?.fullName,
+                    age: adopterCards[index].userId?.age,
                     email: adopterCards[index].userId?.email,
                   })
                 }

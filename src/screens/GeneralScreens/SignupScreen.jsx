@@ -108,14 +108,7 @@ const SignUp = ({ navigation }) => {
                 },
 
                 onError: (err) => {
-                  try {
-                    handleMessage(
-                      err?.graphQLErrors[0].extensions.errors,
-                      "Error"
-                    );
-                  } catch (error) {
-                    return;
-                  }
+                  handleMessage(err.message, "Error");
                 },
                 update(cache, { data }) {
                   auth.login(data?.register);

@@ -473,8 +473,8 @@ export const UserInfoText = styled(Text)`
 export const LikeComponentWrapper = styled(View)`
   flex-direction: row;
   display: flex;
-  align-content: flex-start;
-  margin: 22px 65px 0 30px;
+  align-content: center;
+  margin: 22px 30px 0 30px;
 `;
 
 export const LikeComponentInfoWrapper = styled(View)`

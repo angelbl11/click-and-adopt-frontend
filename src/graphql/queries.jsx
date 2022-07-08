@@ -147,3 +147,45 @@ export const GET_ADOPTER_LIKES = gql`
     }
   }
 `;
+
+export const GET_ADOPTED_LIKES = gql`
+  query getUserLikes($userId: String!) {
+    getUserLikes(userId: $userId) {
+      likes {
+        likedUserId {
+          hadPets
+          hadPetsDate
+          hadPetsValue
+          haveCat
+          haveDog
+          havePets
+          id
+          isAgreeWithProtocol
+          isChildren
+          numberOfCats
+          numberOfDays
+          numberOfDogs
+          numberOfMonths
+          numberOfYears
+          petAgePreferences
+          petGenderPreferences
+          petPreferences
+          petSizePreferences
+          reasonToAdopt
+          userId {
+            account
+            age
+            email
+            fullName
+            password
+            profilePicture {
+              filename
+            }
+            id
+          }
+        }
+        date
+      }
+    }
+  }
+`;

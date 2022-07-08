@@ -180,7 +180,7 @@ const AdopterProfileScreen = ({ navigation }) => {
                 rounded
                 source={{
                   uri: image
-                    ? image
+                    ? image || image === undefined
                     : "https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg",
                 }}
               >
