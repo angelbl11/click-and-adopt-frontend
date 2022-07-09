@@ -1,6 +1,5 @@
 import React from "react";
-import { Checkbox, View } from "native-base";
-import { SubTitle } from "../Utils/Styles";
+import { Checkbox, View, Text } from "native-base";
 
 const CheckBoxInput = ({
   label,
@@ -22,7 +21,9 @@ const CheckBoxInput = ({
 }) => {
   return (
     <View>
-      <SubTitle cuestionary={true}>{label}</SubTitle>
+      <Text fontSize={"22px"} fontWeight={"semibold"} color={"#1F2937"}>
+        {label}
+      </Text>
       <Checkbox.Group value={groupValue && convert} {...props}>
         <Checkbox
           colorScheme="green"

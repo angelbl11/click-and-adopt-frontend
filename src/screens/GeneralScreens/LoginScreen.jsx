@@ -149,6 +149,7 @@ const Login = ({ navigation }) => {
                     placeholder="Contraseña"
                     placeholderTextColor={"#9CA3AF"}
                     onChangeText={handleChange("password")}
+                    secureTextEntry={hidePassword}
                     onBlur={handleBlur("password")}
                     value={values.password}
                     fontSize={"16px"}
