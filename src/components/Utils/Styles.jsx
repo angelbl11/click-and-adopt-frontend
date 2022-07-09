@@ -231,14 +231,14 @@ export const StyledInputLabel = styled(Text)`
 
 export const LeftIcon = styled(View)`
   left: 15px;
-  top: 38px;
+  top: 20px;
   position: absolute;
   z-index: 1;
 `;
 
 export const RightIcon = styled(Pressable)`
   right: 15px;
-  top: 38px;
+  top: 15px;
   position: absolute;
   z-index: 1;
 `;

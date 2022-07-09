@@ -2,7 +2,7 @@ import React from "react";
 
 import { FormControl } from "native-base";
 
-import { Octicons, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 import {
   LeftIcon,
@@ -26,11 +26,10 @@ const TextInputWithPassword = ({
 }) => {
   return (
     <FormControl isInvalid={isInvalid}>
-      <LeftIcon>
-        <Octicons name={icon} size={30} color={brand}></Octicons>
-      </LeftIcon>
-      <StyledInputLabel>{label}</StyledInputLabel>
       <StyledTextInput {...props}></StyledTextInput>
+      <LeftIcon>
+        <Ionicons name={icon} size={25} color={brand}></Ionicons>
+      </LeftIcon>
       {isPassword && (
         <RightIcon onPress={() => setHidePassword(!hidePassword)}>
           <Ionicons
