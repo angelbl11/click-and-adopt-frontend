@@ -21,8 +21,6 @@ const getData = async () => {
           localStorage.removeItem("@storage_Key");
         } else {
           principalUser = value;
-
-          console.log(principalUser);
         }
       } catch (error) {
         await AsyncStorage.removeItem("@storage_Key");
@@ -44,10 +42,8 @@ const AuthProvider = (props) => {
   const [user, setUser] = useState(principalUser);
 
   const login = async (loginData) => {
-    console.log(loginData);
     await AsyncStorage.setItem("@storage_Key", loginData.token);
     const data = jwtDecode(loginData.token);
-
     setUser({
       email: data.email,
       id: data.id,
@@ -55,9 +51,6 @@ const AuthProvider = (props) => {
       age: loginData.age,
       fullName: loginData.fullName,
     });
-
-    console.log("usuario----------------------");
-    console.log(user);
   };
 
   const logout = async () => {

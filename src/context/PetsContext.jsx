@@ -1,5 +1,4 @@
 import React, { createContext, useState } from "react";
-import { ip } from "../graphql/client";
 const PetsContext = createContext({
   pets: [],
   setPets: () => {},

@@ -109,7 +109,7 @@ const SignUp = ({ navigation }) => {
                 },
 
                 onError: (err) => {
-                  handleMessage(err.message, "Error");
+                  handleMessage(err.message);
                 },
                 update(cache, { data }) {
                   auth.login(data?.register);
