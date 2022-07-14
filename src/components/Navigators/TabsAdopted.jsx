@@ -1,29 +1,36 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+const Tab = createBottomTabNavigator();
+//Screens
 import AdoptedProfile from "../../screens/AdoptedScreens/AdoptedProfileScreen";
 import AdoptedCardsScreen from "../../screens/AdoptedScreens/AdoptedCardsScreen";
 import ChatScreen from "../../screens/GeneralScreens/ChatScreen";
 import AdoptedLikesScreen from "../../screens/AdoptedScreens/AdoptedLikesScreen";
-const Tab = createBottomTabNavigator();
 
-import { NativeBaseProvider, View, Image } from "native-base";
-import { Colors } from "../Utils/Styles";
-const { primary, tertiary, brand, darkLight } = Colors;
+//Components & Libraries
+import { Ionicons } from "@expo/vector-icons";
+import { Icon } from "native-base";
 
 const Tabs = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarShowLabel: false,
+        tabBarLabelStyle: {
+          fontSize: 12,
+          marginTop: 2,
+        },
+        tabBarActiveTintColor: "#6A994E",
+        tabBarShowLabel: true,
         tabBarStyle: {
           position: "absolute",
           bottom: 0,
           elevation: 0,
-          backgroundColor: primary,
+          backgroundColor: "#FFFFFF",
         },
         headerStyle: {
           backgroundColor: "transparent",
+          elevation: 0,
         },
-        headerTintColor: tertiary,
+        headerTintColor: "#1F2937",
         headerTransparent: "true",
         headerTitle: "",
         headerLeftContainerStyle: {
@@ -37,20 +44,14 @@ const Tabs = () => {
         component={AdoptedCardsScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <NativeBaseProvider>
-              <View>
-                <Image
-                  source={require("../../assets/home.png")}
-                  resizeMode="contain"
-                  alt="home-logo"
-                  style={{
-                    width: 45,
-                    height: 55,
-                    tintColor: focused ? brand : darkLight,
-                  }}
-                ></Image>
-              </View>
-            </NativeBaseProvider>
+            <>
+              <Icon
+                mt={2}
+                as={<Ionicons name="paw" />}
+                size={"md"}
+                color={focused ? "#6A994E" : "#9CA3AF"}
+              ></Icon>
+            </>
           ),
         }}
       ></Tab.Screen>
@@ -59,20 +60,14 @@ const Tabs = () => {
         component={AdoptedLikesScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <NativeBaseProvider>
-              <View>
-                <Image
-                  source={require("../../assets/like.png")}
-                  resizeMode="contain"
-                  alt="like-logo"
-                  style={{
-                    width: 35,
-                    height: 55,
-                    tintColor: focused ? brand : darkLight,
-                  }}
-                ></Image>
-              </View>
-            </NativeBaseProvider>
+            <>
+              <Icon
+                mt={2}
+                as={<Ionicons name="heart" />}
+                size={"md"}
+                color={focused ? "#6A994E" : "#9CA3AF"}
+              ></Icon>
+            </>
           ),
         }}
       ></Tab.Screen>
@@ -81,20 +76,14 @@ const Tabs = () => {
         component={ChatScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <NativeBaseProvider>
-              <View>
-                <Image
-                  source={require("../../assets/chat.png")}
-                  resizeMode="contain"
-                  alt="chat-logo"
-                  style={{
-                    width: 35,
-                    height: 55,
-                    tintColor: focused ? brand : darkLight,
-                  }}
-                ></Image>
-              </View>
-            </NativeBaseProvider>
+            <>
+              <Icon
+                mt={2}
+                as={<Ionicons name="chatbubbles" />}
+                size={"md"}
+                color={focused ? "#6A994E" : "#9CA3AF"}
+              ></Icon>
+            </>
           ),
         }}
       ></Tab.Screen>
@@ -103,20 +92,14 @@ const Tabs = () => {
         component={AdoptedProfile}
         options={{
           tabBarIcon: ({ focused }) => (
-            <NativeBaseProvider>
-              <View>
-                <Image
-                  source={require("../../assets/profile.png")}
-                  resizeMode="contain"
-                  alt="profile-logo"
-                  style={{
-                    width: 35,
-                    height: 55,
-                    tintColor: focused ? brand : darkLight,
-                  }}
-                ></Image>
-              </View>
-            </NativeBaseProvider>
+            <>
+              <Icon
+                mt={2}
+                as={<Ionicons name="person-circle" />}
+                size={"md"}
+                color={focused ? "#6A994E" : "#9CA3AF"}
+              ></Icon>
+            </>
           ),
         }}
       ></Tab.Screen>

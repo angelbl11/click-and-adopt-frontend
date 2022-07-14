@@ -1,49 +1,36 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+const Tab = createBottomTabNavigator();
+
+//Screens
 import AdopterProfileScreen from "../../screens/AdopterScreens/AdopterProfileScreen";
 import CardsScreen from "../../screens/AdopterScreens/CardsScreen";
 import ChatScreen from "../../screens/GeneralScreens/ChatScreen";
 import AdopterLikeScreen from "../../screens/AdopterScreens/AdopterLikeScreen";
-const Tab = createBottomTabNavigator();
-import { AuthContext } from "../../context/Auth";
-import { View, Image, Pressable } from "native-base";
-import { Colors } from "../Utils/Styles";
-import { useLazyQuery } from "@apollo/client";
-import { GET_ADOPTER_LIKES } from "../../graphql/queries";
-import { useContext } from "react";
-const { primary, tertiary, brand, darkLight } = Colors;
 
+//Components & Libraries
+import { Icon } from "native-base";
+import { Ionicons } from "@expo/vector-icons";
 const TabsAdopter = () => {
-  const { user } = useContext(AuthContext);
-  const [getAdopterLikes, { data, loading }] = useLazyQuery(GET_ADOPTER_LIKES, {
-    variables: {
-      userId: user.id,
-    },
-    onError: (err) => {
-      console.log("Network error:");
-      console.log(err.graphQLErrors);
-    },
-
-    onCompleted: (data) => {
-      setAdopterLikes(data?.getPetsLikes?.likes);
-      console.log("HECHO");
-    },
-  });
-
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarShowLabel: false,
+        tabBarLabelStyle: {
+          fontSize: 12,
+          marginTop: 2,
+        },
+        tabBarActiveTintColor: "#6A994E",
+        tabBarShowLabel: true,
         tabBarStyle: {
           position: "absolute",
-          bottom: 7,
+          bottom: 0,
           elevation: 0,
-          backgroundColor: primary,
+          backgroundColor: "#FFFFFF",
         },
         headerStyle: {
           backgroundColor: "transparent",
           elevation: 0,
         },
-        headerTintColor: tertiary,
+        headerTintColor: "#1F2937",
         headerTransparent: "true",
         headerTitle: "",
         headerLeftContainerStyle: {
@@ -57,18 +44,14 @@ const TabsAdopter = () => {
         component={CardsScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View>
-              <Image
-                source={require("../../assets/home.png")}
-                resizeMode="contain"
-                alt="home-logo"
-                style={{
-                  width: 45,
-                  height: 55,
-                  tintColor: focused ? brand : darkLight,
-                }}
-              ></Image>
-            </View>
+            <>
+              <Icon
+                mt={2}
+                as={<Ionicons name="paw" />}
+                size={"md"}
+                color={focused ? "#6A994E" : "#9CA3AF"}
+              ></Icon>
+            </>
           ),
         }}
       ></Tab.Screen>
@@ -77,18 +60,14 @@ const TabsAdopter = () => {
         component={AdopterLikeScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View>
-              <Image
-                source={require("../../assets/like.png")}
-                resizeMode="contain"
-                alt="like-logo"
-                style={{
-                  width: 35,
-                  height: 55,
-                  tintColor: focused ? brand : darkLight,
-                }}
-              ></Image>
-            </View>
+            <>
+              <Icon
+                mt={2}
+                as={<Ionicons name="heart" />}
+                size={"md"}
+                color={focused ? "#6A994E" : "#9CA3AF"}
+              ></Icon>
+            </>
           ),
         }}
       ></Tab.Screen>
@@ -97,18 +76,14 @@ const TabsAdopter = () => {
         component={ChatScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View>
-              <Image
-                source={require("../../assets/chat.png")}
-                resizeMode="contain"
-                alt="chat-logo"
-                style={{
-                  width: 35,
-                  height: 55,
-                  tintColor: focused ? brand : darkLight,
-                }}
-              ></Image>
-            </View>
+            <>
+              <Icon
+                mt={2}
+                as={<Ionicons name="chatbubbles" />}
+                size={"md"}
+                color={focused ? "#6A994E" : "#9CA3AF"}
+              ></Icon>
+            </>
           ),
         }}
       ></Tab.Screen>
@@ -117,18 +92,14 @@ const TabsAdopter = () => {
         component={AdopterProfileScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View>
-              <Image
-                source={require("../../assets/profile.png")}
-                resizeMode="contain"
-                alt="profile-logo"
-                style={{
-                  width: 35,
-                  height: 55,
-                  tintColor: focused ? brand : darkLight,
-                }}
-              ></Image>
-            </View>
+            <>
+              <Icon
+                mt={2}
+                as={<Ionicons name="person-circle" />}
+                size={"md"}
+                color={focused ? "#6A994E" : "#9CA3AF"}
+              ></Icon>
+            </>
           ),
         }}
       ></Tab.Screen>

@@ -1,21 +1,30 @@
 import React, { useRef, useState, useContext, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+
+//Libraries
 import { StatusBar } from "expo-status-bar";
-import FooterButtons from "../../components/Card/FooterButtons";
-import { PageTitle, SubTitle } from "../../components/Utils/Styles";
-import { View, Text } from "native-base";
-import { AuthContext } from "../../context/Auth";
+import { View, Text, HStack, Heading } from "native-base";
 import CardStack from "react-native-card-stack-swiper";
+
+//Components
+import FooterButtons from "../../components/Card/FooterButtons";
 import CardComponent from "../../components/Card/CardComponent";
+
 //Graphql
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_RANDOM_PETS } from "../../graphql/queries";
 import { GIVE_LIKE_PET, GIVE_NOPE_PET } from "../../graphql/mutations";
 
+//Auth
+import { AuthContext } from "../../context/Auth";
+
 const CardsScreen = ({ navigation }) => {
   const cardRef = useRef(null);
   const [petsCards, setPetsCards] = useState([]);
   const [likeNumber, setLikeNumber] = useState();
+  //Variables for screensize
+  const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
   const { user } = useContext(AuthContext);
   const url = "https://calm-forest-47055.herokuapp.com/ProfilePictures/";
   const [giveLikeToPet] = useMutation(GIVE_LIKE_PET, {
@@ -24,12 +33,7 @@ const CardsScreen = ({ navigation }) => {
       userId: user.id,
     },
     onCompleted: (data) => {
-      console.log("LIKE");
-      console.log(data);
       setLikeNumber(likeNumber - 1);
-    },
-    onError: (err) => {
-      console.log("ERROR ", err.graphQLErrors);
     },
   });
   const [giveNopeToPet] = useMutation(GIVE_NOPE_PET, {
@@ -37,25 +41,12 @@ const CardsScreen = ({ navigation }) => {
       petId: petsCards[0]?.id,
       userId: user.id,
     },
-    onCompleted: (data) => {
-      console.log("NOPE");
-      console.log(data);
-    },
-    onError: (err) => {
-      console.log("ERROR ", err.clientErrors);
-    },
   });
   const [getPets, { data, loading }] = useLazyQuery(GET_RANDOM_PETS, {
     variables: {
       userId: user.id,
     },
-    onError: (err) => {
-      console.log("Network error:");
-      console.log(err.graphQLErrors);
-    },
-
     onCompleted: (data) => {
-      console.log(data?.getRandomPet);
       setPetsCards(data?.getRandomPet?.pets);
       setLikeNumber(10 - data?.getRandomPet?.numOfLikes);
     },
@@ -65,12 +56,26 @@ const CardsScreen = ({ navigation }) => {
     getPets();
   }, []);
   return (
-    <View flex={1} bgColor={"#FFFFFF"}>
+    <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
       <StatusBar style="dark" />
-      <PageTitle>Encuentra Mascotas</PageTitle>
-      <SubTitle textAlign={"center"} marginTop={"6px"}>
+      <Heading
+        fontSize={"28px"}
+        textAlign={"center"}
+        fontWeight="bold"
+        color="#6A994E"
+        marginBottom={"15px"}
+      >
+        Encuentra Mascotas
+      </Heading>
+      <Text
+        fontSize={"18px"}
+        fontWeight={"semibold"}
+        color={"#1F2937"}
+        textAlign="center"
+      >
         Likes disponibles: {likeNumber}
-      </SubTitle>
+      </Text>
+
       <CardStack
         style={styles.content}
         ref={cardRef}
@@ -101,7 +106,6 @@ const CardsScreen = ({ navigation }) => {
             },
             index
           ) => {
-            console.log("Id de la mascota: " + petsCards[index].adoptedPetName);
             return (
               <CardComponent
                 key={index}
@@ -129,7 +133,7 @@ const CardsScreen = ({ navigation }) => {
         )}
       </CardStack>
 
-      <View>
+      <HStack>
         <FooterButtons
           pressLeft={() => {
             cardRef.current.swipeLeft();
@@ -138,7 +142,7 @@ const CardsScreen = ({ navigation }) => {
             cardRef.current.swipeRight();
           }}
         ></FooterButtons>
-      </View>
+      </HStack>
     </View>
   );
 };

@@ -1,16 +1,15 @@
 import React from "react";
+
+//Libraries & Components
 import { Avatar } from "react-native-elements";
 import { IconButton } from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
-import {
-  LikeComponentWrapper,
-  SubTitle,
-  LikeComponentInfoWrapper,
-  LikeComponentDate,
-} from "../Utils/Styles";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { HStack, VStack, Text } from "native-base";
+
 const LikedUserComponent = ({ pressed, url, name, date }) => {
   return (
-    <LikeComponentWrapper>
+    <HStack alignContent={"center"} alignItems="center" mb={3} mt={2}>
       <Avatar
         size={60}
         source={{
@@ -19,27 +18,27 @@ const LikedUserComponent = ({ pressed, url, name, date }) => {
         rounded
         onPress={pressed}
       ></Avatar>
-      <LikeComponentInfoWrapper>
-        <SubTitle likeComponent={true}>{name}</SubTitle>
-        <LikeComponentDate>{date}</LikeComponentDate>
-      </LikeComponentInfoWrapper>
+      <VStack ml={3} width="1/3">
+        <Text fontSize={18} fontWeight="semibold">
+          {name}
+        </Text>
+        <Text fontSize={16} color="#9CA3AF">
+          {date}
+        </Text>
+      </VStack>
       <IconButton
         _icon={{
-          as: MaterialIcons,
-          name: "favorite",
-          color: "#1F2937",
+          as: MaterialCommunityIcons,
+          name: "heart-minus",
         }}
-        marginLeft={"10"}
-      ></IconButton>
+      />
       <IconButton
         _icon={{
-          as: MaterialIcons,
-          name: "delete",
-          color: "#1F2937",
+          as: Ionicons,
+          name: "trash",
         }}
-        marginLeft={"2"}
-      ></IconButton>
-    </LikeComponentWrapper>
+      />
+    </HStack>
   );
 };
 

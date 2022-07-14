@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Dimensions, SafeAreaView } from "react-native";
+import { Dimensions } from "react-native";
 //Formik
 import { Formik } from "formik";
 
@@ -137,7 +137,7 @@ const AdopterPreferencesCuestionary = ({ navigation, route }) => {
                 secondValue="Adolescente"
                 secondCheckBoxLabel="Adolescente (6 a 12 meses)"
                 thirdValue="Adulto"
-                thirdCheckBoxLabel="Adulto (De 1 año a 7 años)"
+                thirdCheckBoxLabel="Adulto (1 año a 7 años)"
                 fourthValue="Senior"
                 fourthCheckBoxLabel="Senior (7 o más años)"
               />
