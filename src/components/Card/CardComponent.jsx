@@ -1,20 +1,46 @@
-import React, { useRef } from "react";
+import React from "react";
 import { StyleSheet, StatusBar, Dimensions } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import { CardPicture, CardName, CardGradient } from "../Utils/Styles";
-import { View, IconButton, Icon } from "native-base";
-import { Card } from "react-native-card-stack-swiper";
 
+//Libraries & Components
+import { View, IconButton, Icon, Image, Text } from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import { Card } from "react-native-card-stack-swiper";
+//Card Constants
+import { CARD } from "./CardConstants";
 const CardComponent = ({ uri, petName, pressed }) => {
   return (
     <View flex={1}>
       <StatusBar hidden={true} />
-
       <Card style={styles.card}>
         <View position={"absolute"}>
-          <CardPicture source={{ uri: uri }} alt={"petPic"}></CardPicture>
-          <CardGradient colors={["transparent", "rgba(0,0,0,0.9)"]} />
-          <CardName>{petName}</CardName>
+          <Image
+            source={{ uri: uri }}
+            alt={"petpic"}
+            borderRadius={CARD.BORDER_RADIUS}
+            width={CARD.WIDTH}
+            height={CARD.HEIGHT}
+          />
+          <LinearGradient
+            position={"absolute"}
+            bottom="15px"
+            left="0px"
+            right="0px"
+            height="120px"
+            borderRadius={CARD.BORDER_RADIUS}
+            colors={["transparent", "rgba(0,0,0,0.9)"]}
+          />
+          <Text
+            position={"absolute"}
+            bottom="22px"
+            left="12px"
+            fontSize={"18px"}
+            pt={"18px"}
+            fontWeight="semibold"
+            color={"#FFFFFF"}
+          >
+            {petName}
+          </Text>
           <IconButton
             icon={<Icon as={MaterialIcons} name="info-outline"></Icon>}
             _icon={{

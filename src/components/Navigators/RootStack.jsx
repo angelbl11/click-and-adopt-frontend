@@ -3,10 +3,9 @@ import React, { useContext } from "react";
 //React navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+const Stack = createNativeStackNavigator();
 
-import { Colors } from "../Utils/Styles";
-const { tertiary } = Colors;
-//screens
+//Screens
 import Login from "../../screens/GeneralScreens/LoginScreen";
 import SignUp from "../../screens/GeneralScreens/SignupScreen";
 import AdopterContract from "../../screens/AdopterScreens/AdopterContractScreen";
@@ -22,7 +21,6 @@ import TabsAdopter from "./TabsAdopter";
 import TabsAdopted from "./TabsAdopted";
 import { AuthContext } from "../../context/Auth";
 import CarrouselAdopterProfile from "../../screens/AdopterScreens/CarrouselAdopterProfile";
-const Stack = createNativeStackNavigator();
 
 const RootStack = () => {
   const { user } = useContext(AuthContext);
@@ -35,7 +33,7 @@ const RootStack = () => {
             backgroundColor: "transparent",
           },
           headerShadowVisible: false,
-          headerTintColor: tertiary,
+          headerTintColor: "#1F2937",
           headerTransparent: "true",
           headerTitle: "",
           headerLeftContainerStyle: {

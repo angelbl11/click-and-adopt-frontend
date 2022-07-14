@@ -1,26 +1,31 @@
 import React from "react";
-import { MaterialIcons } from "@expo/vector-icons";
-import { CarruselButton, CarruselButtonsWrapper } from "../Utils/Styles";
+
+//Libraries & Components
+import { Ionicons } from "@expo/vector-icons";
+import { HStack, Center } from "native-base";
+import { CarruselButton } from "../Utils/Styles";
 const FooterButtons = ({ pressLeft, pressRight }) => {
   return (
-    <CarruselButtonsWrapper>
-      <CarruselButton
-        _icon={{
-          as: MaterialIcons,
-          name: "close",
-          color: "#9CA3AF",
-        }}
-        onPress={pressLeft}
-      ></CarruselButton>
-      <CarruselButton
-        _icon={{
-          as: MaterialIcons,
-          name: "favorite",
-          color: "#BC4749",
-        }}
-        onPress={pressRight}
-      ></CarruselButton>
-    </CarruselButtonsWrapper>
+    <Center>
+      <HStack bottom="150px" space={120}>
+        <CarruselButton
+          _icon={{
+            as: Ionicons,
+            name: "close",
+            color: "#9CA3AF",
+          }}
+          onPress={pressLeft}
+        ></CarruselButton>
+        <CarruselButton
+          _icon={{
+            as: Ionicons,
+            name: "heart-sharp",
+            color: "#BC4749",
+          }}
+          onPress={pressRight}
+        ></CarruselButton>
+      </HStack>
+    </Center>
   );
 };
 

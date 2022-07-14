@@ -133,16 +133,14 @@ const CardsScreen = ({ navigation }) => {
         )}
       </CardStack>
 
-      <HStack>
-        <FooterButtons
-          pressLeft={() => {
-            cardRef.current.swipeLeft();
-          }}
-          pressRight={() => {
-            cardRef.current.swipeRight();
-          }}
-        ></FooterButtons>
-      </HStack>
+      <FooterButtons
+        pressLeft={() => {
+          cardRef.current.swipeLeft();
+        }}
+        pressRight={() => {
+          cardRef.current.swipeRight();
+        }}
+      ></FooterButtons>
     </View>
   );
 };
