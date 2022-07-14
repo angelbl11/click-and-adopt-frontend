@@ -21,7 +21,13 @@ const CheckBoxInput = ({
 }) => {
   return (
     <View>
-      <Text fontSize={"22px"} fontWeight={"semibold"} color={"#1F2937"}>
+      <Text
+        fontSize={"16px"}
+        fontWeight={"semibold"}
+        color={"#1F2937"}
+        textAlign={"left"}
+        mb={2}
+      >
         {label}
       </Text>
       <Checkbox.Group value={groupValue && convert} {...props}>

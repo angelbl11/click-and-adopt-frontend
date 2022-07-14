@@ -1,7 +1,5 @@
 import React from "react";
-import { Radio, View } from "native-base";
-import { SubTitle } from "../Utils/Styles";
-
+import { Radio, View, Text } from "native-base";
 const RadioInput = ({
   label,
   groupValue,
@@ -19,8 +17,16 @@ const RadioInput = ({
   ...Props
 }) => {
   return (
-    <View>
-      <SubTitle cuestionary={true}>{label}</SubTitle>
+    <View mt={4}>
+      <Text
+        fontSize={"16px"}
+        fontWeight={"semibold"}
+        color={"#1F2937"}
+        textAlign={"left"}
+        mb={2}
+      >
+        {label}
+      </Text>
       <Radio.Group value={groupValue} {...Props}>
         <Radio colorScheme="green" value={firstValue} isBooleanDate={isDate}>
           {firstRadioLabel}
