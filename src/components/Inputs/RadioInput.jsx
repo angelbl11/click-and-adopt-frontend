@@ -1,7 +1,9 @@
 import React from "react";
-import { Radio, View, Text } from "native-base";
+import { Radio, View, Text, Link, useToast, HStack } from "native-base";
 const RadioInput = ({
   label,
+  linkLabel,
+  toastDescription,
   groupValue,
   firstValue,
   secondValue,
@@ -16,17 +18,38 @@ const RadioInput = ({
   isDate,
   ...Props
 }) => {
+  const toast = useToast();
   return (
     <View mt={4}>
-      <Text
-        fontSize={"16px"}
-        fontWeight={"semibold"}
-        color={"#1F2937"}
-        textAlign={"left"}
-        mb={2}
-      >
-        {label}
-      </Text>
+      <HStack>
+        <Text
+          fontSize={"16px"}
+          fontWeight={"semibold"}
+          color={"#1F2937"}
+          textAlign={"left"}
+          mb={2}
+        >
+          {label}
+        </Text>
+        <Link
+          mt={6}
+          ml={-270}
+          _text={{
+            fontSize: 16,
+            color: "#6A994E",
+            fontWeight: "semibold",
+            mb: 2,
+          }}
+          onPress={() =>
+            toast.show({
+              description:
+                "Un protocolo es si cuenta con vacunas, desparasitación,esterilización y otro tipo de tratamientos.",
+            })
+          }
+        >
+          {linkLabel}
+        </Link>
+      </HStack>
       <Radio.Group value={groupValue} {...Props}>
         <Radio colorScheme="green" value={firstValue} isBooleanDate={isDate}>
           {firstRadioLabel}

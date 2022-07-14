@@ -141,7 +141,6 @@ const AdopterCuestionary = ({ navigation }) => {
               onSubmit={async (values, { resetForm }) => {
                 await values.petPreferences;
                 values.petPreferences = [...groupValues];
-                console.log(values);
                 navigation.navigate("AdopterPreferencesCuestionary", {
                   reasonsToAdopt: values.reasonsToAdopt,
                   petPreferences: values.petPreferences,
