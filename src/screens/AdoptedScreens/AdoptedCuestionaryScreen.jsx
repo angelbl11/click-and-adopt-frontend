@@ -5,34 +5,24 @@ import { StatusBar } from "expo-status-bar";
 import { Formik } from "formik";
 
 //Native Base Components
-import { View } from "native-base";
-import { FontAwesome5 } from "@expo/vector-icons";
-
+import {
+  View,
+  VStack,
+  Text,
+  Pressable,
+  Heading,
+  KeyboardAvoidingView,
+  Icon,
+} from "native-base";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 //Components
 import RadioInput from "../../components/Inputs/RadioInput";
-
-//keyboard avoiding view
-import KeyboardAvoidingWrapper from "../../components/Utils/KeyboardAvoidingWrapper";
+import CustomTextInput from "../../components/Inputs/CustomTextInput";
 
 //Yup
 import * as Yup from "yup";
 
-//Colors
-const { brand } = Colors;
-
-//Styles
-import {
-  StyledContainer,
-  InnerContainer,
-  PageTitle,
-  StyledFormArea,
-  StyledTextInput,
-  StyledInputLabel,
-  LeftIcon,
-  StyledButton,
-  ButtonText,
-  Colors,
-} from "../../components/Utils/Styles";
+import { Dimensions, Platform } from "react-native";
 
 const AdoptedCuestionarySchema = Yup.object().shape({
   typeOfAdoptedPet: Yup.string().required("Debes seleccionar una opción"),
@@ -51,41 +41,56 @@ const AdoptedCuestionary = ({ navigation }) => {
   const [typeOfAdoptedPet, setTypeOfAdoptedPet] = useState("Perro");
   const [genderOfAdoptedPet, setGenderOfAdoptedPet] = useState("Macho");
   const [ageOfAdoptedPet, setAgeOfAdoptedPet] = useState("Cachorro");
-
+  //Variables for screensize
+  const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
   return (
-    <KeyboardAvoidingWrapper>
-      <StyledContainer>
-        <StatusBar style="dark" />
-        <InnerContainer>
-          <PageTitle>Cuestionario sobre mascota</PageTitle>
-          <Formik
-            initialValues={{
-              typeOfAdoptedPet: "",
-              genderOfAdoptedPet: "",
-              adoptedPetName: "",
-              ageOfAdoptedPet: "",
-            }}
-            validationSchema={AdoptedCuestionarySchema}
-            onSubmit={(values, { resetForm }) => {
-              console.log(values);
-              navigation.navigate("AdoptedPetInfo", {
-                petName: values.adoptedPetName,
-                typeOfAdoptedPet: values.typeOfAdoptedPet,
-                genderOfAdoptedPet: values.genderOfAdoptedPet,
-                ageOfAdoptedPet: values.ageOfAdoptedPet,
-              });
-              resetForm();
-            }}
-          >
-            {({
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              values,
-              errors,
-              touched,
-            }) => (
-              <StyledFormArea>
+    <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
+      <StatusBar style="dark" />
+      <VStack alignItems={"center"} bgColor="#FFFFFF">
+        <Heading
+          fontSize={"26px"}
+          textAlign={"center"}
+          fontWeight="bold"
+          color="#6A994E"
+          marginBottom={"15px"}
+        >
+          Cuestionario sobre mascota
+        </Heading>
+        <Formik
+          initialValues={{
+            typeOfAdoptedPet: "",
+            genderOfAdoptedPet: "",
+            adoptedPetName: "",
+            ageOfAdoptedPet: "",
+          }}
+          validationSchema={AdoptedCuestionarySchema}
+          onSubmit={(values, { resetForm }) => {
+            navigation.navigate("AdoptedPetInfo", {
+              petName: values.adoptedPetName,
+              typeOfAdoptedPet: values.typeOfAdoptedPet,
+              genderOfAdoptedPet: values.genderOfAdoptedPet,
+              ageOfAdoptedPet: values.ageOfAdoptedPet,
+            });
+            resetForm();
+          }}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+          }) => (
+            <VStack width={screenWidth - 30} space={"8px"} marginTop={2}>
+              <KeyboardAvoidingView
+                h={{
+                  base: "400px",
+                  lg: "auto",
+                }}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+              >
                 <RadioInput
                   label="¿Qué tipo de mascota es la que darás en adopción?"
                   groupValue={
@@ -102,9 +107,9 @@ const AdoptedCuestionary = ({ navigation }) => {
                   secondValue="Gato"
                 />
                 {errors.typeOfAdoptedPet && touched.typeOfAdoptedPet ? (
-                  <StyledInputLabel validation={true}>
+                  <Text fontSize={"13px"} color={"#BC4749"}>
                     {errors.typeOfAdoptedPet}
-                  </StyledInputLabel>
+                  </Text>
                 ) : undefined}
                 <RadioInput
                   label="¿Cuál es el sexo de tu mascota?"
@@ -122,21 +127,45 @@ const AdoptedCuestionary = ({ navigation }) => {
                   secondValue="Hembra"
                 />
                 {errors.genderOfAdoptedPet && touched.genderOfAdoptedPet ? (
-                  <StyledInputLabel validation={true}>
+                  <Text fontSize={"13px"} color={"#BC4749"}>
                     {errors.genderOfAdoptedPet}
-                  </StyledInputLabel>
+                  </Text>
                 ) : undefined}
-                <TextInput
-                  label="¿Cuál es el nombre de tu mascota?"
-                  isDog={typeOfAdoptedPet == "Perro" ? true : false}
+                <Text
+                  fontSize={"16px"}
+                  fontWeight={"semibold"}
+                  color={"#1F2937"}
+                  textAlign={"left"}
+                  mb={2}
+                  mt={4}
+                >
+                  ¿Cuál es el nombre de tu mascota?
+                </Text>
+                <CustomTextInput
+                  placeholder="Introduce el nombre de tu mascota"
                   onChangeText={handleChange("adoptedPetName")}
                   onBlur={handleBlur("adoptedPetName")}
                   value={values.adoptedPetName}
+                  isInvalid={errors.adoptedPetName}
+                  _focus={{ borderColor: "#6A994E" }}
+                  InputLeftElement={
+                    <Icon
+                      as={
+                        <MaterialCommunityIcons
+                          name={typeOfAdoptedPet == "Perro" ? "dog" : "cat"}
+                        />
+                      }
+                      size="25px"
+                      color="#6A994E"
+                      ml={"17px"}
+                      mr={"3px"}
+                    />
+                  }
                 />
                 {errors.adoptedPetName && touched.adoptedPetName ? (
-                  <StyledInputLabel validation={true}>
+                  <Text fontSize={"13px"} color={"#BC4749"}>
                     {errors.adoptedPetName}
-                  </StyledInputLabel>
+                  </Text>
                 ) : undefined}
                 <RadioInput
                   label={`¿En qué rango de edad se encuentra ${values.adoptedPetName}?`}
@@ -164,34 +193,30 @@ const AdoptedCuestionary = ({ navigation }) => {
                   isFourth={true}
                 />
                 {errors.ageOfAdoptedPet && touched.ageOfAdoptedPet ? (
-                  <StyledInputLabel validation={true}>
+                  <Text fontSize={"13px"} color={"#BC4749"}>
                     {errors.ageOfAdoptedPet}
-                  </StyledInputLabel>
+                  </Text>
                 ) : undefined}
-                <StyledButton onPress={handleSubmit}>
-                  <ButtonText>Siguiente</ButtonText>
-                </StyledButton>
-              </StyledFormArea>
-            )}
-          </Formik>
-        </InnerContainer>
-      </StyledContainer>
-    </KeyboardAvoidingWrapper>
-  );
-};
-
-const TextInput = ({ label, icon, isInvalid, isDog, ...props }) => {
-  return (
-    <View>
-      <LeftIcon>
-        <FontAwesome5
-          name={isDog == true ? "dog" : "cat"}
-          size={30}
-          color={brand}
-        ></FontAwesome5>
-      </LeftIcon>
-      <StyledInputLabel>{label}</StyledInputLabel>
-      <StyledTextInput {...props} isInvalid={isInvalid}></StyledTextInput>
+                <Pressable
+                  onPress={handleSubmit}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                  borderRadius={"5px"}
+                  height={"60px"}
+                  width={screenWidth - 30}
+                  mt={8}
+                  mb={"12px"}
+                  backgroundColor={"#6A994E"}
+                >
+                  <Text fontSize={"18px"} color="white" fontWeight={"medium"}>
+                    Siguiente
+                  </Text>
+                </Pressable>
+              </KeyboardAvoidingView>
+            </VStack>
+          )}
+        </Formik>
+      </VStack>
     </View>
   );
 };

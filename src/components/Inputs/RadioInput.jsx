@@ -16,6 +16,7 @@ const RadioInput = ({
   isThird,
   isFourth,
   isDate,
+  marginLeftLink,
   ...Props
 }) => {
   const toast = useToast();
@@ -33,7 +34,7 @@ const RadioInput = ({
         </Text>
         <Link
           mt={6}
-          ml={-270}
+          ml={marginLeftLink}
           _text={{
             fontSize: 16,
             color: "#6A994E",

@@ -167,6 +167,7 @@ const AdopterPreferencesCuestionary = ({ navigation, route }) => {
               <RadioInput
                 label="¿Tienes inconvenientes con el protocolo de la mascota?"
                 linkLabel={"Protocolo"}
+                marginLeftLink={"-270"}
                 toastDescription={
                   "Un protocolo es si cuenta con vacunas, desparasitación,esterilización y otro tipo de tratamientos"
                 }
