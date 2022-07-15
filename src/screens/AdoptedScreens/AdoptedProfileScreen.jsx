@@ -33,7 +33,6 @@ const AdoptedProfile = ({ navigation }) => {
   const screenHeight = Dimensions.get("window").height;
   const { logout, user } = useContext(AuthContext);
   const { pets, setPets, petImage, setPetImage, num } = useContext(PetsContext);
-
   let images = [];
 
   const [getInfo] = useLazyQuery(GET_ADOPTED_INFO, {
@@ -62,12 +61,17 @@ const AdoptedProfile = ({ navigation }) => {
         <StatusBar style="dark" />
         <ScrollView>
           <VStack alignItems={"center"} width={screenWidth - 10}>
-            <HStack textAlign={"left"} mt={3} space={12} mb={4}>
-              <Heading fontSize={"38px"} fontWeight="bold" color="#6A994E">
+            <HStack textAlign={"left"} mt={3} mb={4}>
+              <Heading
+                fontSize={"38px"}
+                fontWeight="bold"
+                color="#6A994E"
+                right={70}
+              >
                 Perfil
               </Heading>
               <IconButton
-                left={110}
+                left={60}
                 _icon={{
                   as: MaterialIcons,
                   name: "edit",
@@ -81,7 +85,7 @@ const AdoptedProfile = ({ navigation }) => {
                 }}
               />
               <IconButton
-                left={65}
+                left={70}
                 _icon={{
                   as: MaterialIcons,
                   name: "add",
@@ -93,7 +97,7 @@ const AdoptedProfile = ({ navigation }) => {
                 }}
               />
               <IconButton
-                left={3}
+                left={20}
                 _icon={{
                   as: MaterialIcons,
                   name: "logout",
@@ -180,7 +184,7 @@ const AdoptedProfile = ({ navigation }) => {
                 <Text
                   fontSize={"16px"}
                   color={"#9CA3AF"}
-                  mb={3}
+                  mb={1.5}
                   fontWeight="medium"
                 >
                   {user.account === "Adoptado" ? "Responsable" : null}
@@ -190,7 +194,6 @@ const AdoptedProfile = ({ navigation }) => {
                 fontSize={"20px"}
                 fontWeight="semibold"
                 color={"#1F2937"}
-                mt={3}
                 left={"-105"}
               >
                 Información

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Alert } from "react-native";
+import { Alert, Dimensions } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import * as ImagePicker from "expo-image-picker";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -17,19 +17,6 @@ import {
 import { useMutation } from "@apollo/client";
 import { ReactNativeFile } from "apollo-upload-client/public";
 
-//Styles
-import {
-  StyledContainer,
-  InnerContainer,
-  PageTitle,
-  SubTitle,
-  ReasonText,
-  ReasonTextContainer,
-  UploadButtonText,
-  ChildWrapper,
-  AdoptedItemWrapper,
-} from "../../components/Utils/Styles";
-
 //Components
 import ProtocolFileObject from "../../components/RenderObjects/ProtocolFileObject";
 import { Avatar } from "react-native-elements";
@@ -39,7 +26,18 @@ import * as mime from "react-native-mime-types";
 import { PetsContext } from "../../context/PetsContext";
 
 //Native Base Components
-import { ScrollView, View, Button, IconButton } from "native-base";
+import {
+  ScrollView,
+  View,
+  Button,
+  IconButton,
+  Text,
+  Heading,
+  VStack,
+  HStack,
+  Link,
+  useToast,
+} from "native-base";
 
 const AdoptedPetProfileScreen = ({ route, navigation }) => {
   const {
@@ -57,6 +55,11 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
     count,
     isVisible,
   } = route.params;
+  //Variables for screensize
+  const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
+  //Toast
+  const toast = useToast();
   const [uploadPetImage, { loading }] = useMutation(UPLOAD_PET_PROFILE_PICTURE);
   const [showButton, setShowButton] = useState(false);
   const [deletePet] = useMutation(DELETE_PET_INFO);
@@ -84,14 +87,10 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
       let images = petImage;
 
       images[count] = result.uri;
-
-      console.log("hola, es menor" + count);
-      console.log(images);
       setPetImage(images);
 
       setNewPetImage(result.uri);
       setNum(num + 1);
-      console.log("num: " + num);
     }
     if (result.cancelled) {
       setShowButton(false);
@@ -108,9 +107,6 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
           showUploadAlert();
           setNum(num + 1);
           navigation.navigate("AdoptedProfile");
-        },
-        onError: (err) => {
-          console.log(err.networkError.result);
         },
       });
     } catch (e) {
@@ -147,7 +143,6 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
               petId: petId,
             },
             onCompleted: (data) => {
-              console.log("Eliminado: ", data);
               let newPets = [];
               let newPetsImage = [];
               for (let i = 0; i < petImage.length; i++) {
@@ -161,9 +156,6 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
               setPetImage(newPetsImage);
               navigation.navigate("AdoptedProfile");
             },
-            onError: (err) => {
-              console.log("Error: ", err.networkError);
-            },
           });
         },
       },
@@ -171,14 +163,19 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
   };
 
   return (
-    <StyledContainer>
+    <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
       <StatusBar style="dark" />
       <ScrollView>
-        <InnerContainer>
-          <View flexDir={"row"} width={420} marginLeft={2} marginRight={12}>
-            <View width={40} marginLeft={6}>
-              <PageTitle profile={true}>Perfil</PageTitle>
-            </View>
+        <VStack alignItems={"center"} width={screenWidth - 10}>
+          <HStack textAlign={"left"} mt={3}>
+            <Heading
+              fontSize={"38px"}
+              fontWeight="bold"
+              color="#6A994E"
+              right={115}
+            >
+              Perfil
+            </Heading>
             {isVisible ? (
               <IconButton
                 _icon={{
@@ -186,14 +183,14 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                   name: "trash",
                   color: "#1F2937",
                 }}
-                marginLeft={180}
+                left={115}
                 onPress={() => {
                   deletePetInfoAlert();
                 }}
               ></IconButton>
             ) : undefined}
-          </View>
-          <View marginTop={5}>
+          </HStack>
+          <VStack mt={6} alignItems="center">
             {petProfPic && (
               <Avatar
                 size={140}
@@ -227,78 +224,144 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                   <MaterialIcons name="file-upload" size={24} color="#1F2937" />
                 }
               >
-                <UploadButtonText marginRight={2}>
+                <Text fontSize={17} fontWeight={"bold"} color={"#1F2937"}>
                   {loading ? "Subiendo..." : "Subir"}
-                </UploadButtonText>
+                </Text>
               </Button>
             ) : undefined}
-          </View>
-          <SubTitle profile={true}>{name}</SubTitle>
-          <SubTitle typeOfUserLabel={true}>{typeOf}</SubTitle>
-          <PageTitle about={true} marginLeft={"15px"}>
-            Acerca De
-          </PageTitle>
-          <ReasonTextContainer otherInfo={true} marginBottom={3}>
-            <ReasonText>Descripción:</ReasonText>
-            <ReasonText>{des}</ReasonText>
-          </ReasonTextContainer>
-          <ReasonTextContainer otherInfo={true} marginBottom={3}>
-            <ReasonText>Edad:</ReasonText>
-            <ReasonText>{age}</ReasonText>
-          </ReasonTextContainer>
-          <ReasonTextContainer otherInfo={true} marginBottom={3}>
-            <ReasonText>Sexo:</ReasonText>
-            <ReasonText>{gender}</ReasonText>
-          </ReasonTextContainer>
-          <ReasonTextContainer otherInfo={true} marginBottom={3}>
-            <ReasonText>Convive con niños:</ReasonText>
-            <ReasonText>{isHealthyK === true ? "Si" : "No"}</ReasonText>
-          </ReasonTextContainer>
-          <ReasonTextContainer otherInfo={true} marginBottom={3}>
-            <ReasonText>Convive con otras mascotas:</ReasonText>
-            <ReasonText>{isHealthyP === true ? "Si" : "No"}</ReasonText>
-          </ReasonTextContainer>
-          {isHealthyP === true ? (
-            <ReasonTextContainer otherInfo={true} marginBottom={3}>
-              <ReasonText>Convive con:</ReasonText>
-              {coexistence.map((pet) => (
-                <ReasonText key={pet}>{pet}</ReasonText>
-              ))}
-            </ReasonTextContainer>
-          ) : undefined}
-          <View flexDir={"row"} width={420} marginLeft={2} marginRight={12}>
-            <View width={50} marginLeft={6}>
-              <PageTitle about={true} marginLeft={"15px"}>
+            <Text
+              fontSize={"22px"}
+              fontWeight={"semibold"}
+              color={"#1F2937"}
+              mt={3}
+              mb={2}
+            >
+              {name}
+            </Text>
+            <Text
+              fontSize={"16px"}
+              color={"#9CA3AF"}
+              mb={3}
+              fontWeight="medium"
+            >
+              {typeOf}
+            </Text>
+          </VStack>
+          <VStack mt={6} space={2.3} mb={3} left={3}>
+            <Heading
+              fontSize={"28px"}
+              textAlign={"left"}
+              fontWeight="bold"
+              color="#6A994E"
+            >
+              Acerca de
+            </Heading>
+            <Text fontSize={"18px"} fontWeight="semibold" color={"#1F2937"}>
+              Descripción:
+            </Text>
+            <Text fontSize={"18px"} color={"#1F2937"}>
+              {des}
+            </Text>
+
+            <Text fontSize={"18px"} fontWeight="semibold" color={"#1F2937"}>
+              Edad:
+            </Text>
+            <Text fontSize={"18px"} color={"#1F2937"}>
+              {age}
+            </Text>
+            <Text fontSize={"18px"} fontWeight="semibold" color={"#1F2937"}>
+              Sexo:
+            </Text>
+            <Text fontSize={"18px"} color={"#1F2937"}>
+              {gender}
+            </Text>
+            <Text fontSize={"18px"} fontWeight="semibold" color={"#1F2937"}>
+              Convive con niños:
+            </Text>
+            <Text fontSize={"18px"} color={"#1F2937"}>
+              {isHealthyK === true ? "Si" : "No"}
+            </Text>
+            <Text fontSize={"18px"} fontWeight="semibold" color={"#1F2937"}>
+              Convive con otras mascotas:
+            </Text>
+            <Text fontSize={"18px"} color={"#1F2937"}>
+              {isHealthyP === true ? "Si" : "No"}
+            </Text>
+            {isHealthyP === true ? (
+              <>
+                <Text fontSize={"18px"} fontWeight="semibold" color={"#1F2937"}>
+                  Convive con:
+                </Text>
+                {coexistence.map((pet) => (
+                  <Text fontSize={"18px"} color={"#1F2937"} key={pet}>
+                    {pet}
+                  </Text>
+                ))}
+              </>
+            ) : undefined}
+            <HStack space={3.5} mt={1.5}>
+              <Heading
+                fontSize={"28px"}
+                textAlign={"left"}
+                fontWeight="bold"
+                color="#6A994E"
+              >
                 Protocolo
-              </PageTitle>
-            </View>
-            {protocol != "No tiene" && isVisible ? (
-              <IconButton
-                _icon={{
-                  as: AntDesign,
-                  name: "addfile",
-                  color: "#1F2937",
-                }}
-                onPress={pickDocument}
-                marginLeft={82}
-              ></IconButton>
-            ) : undefined}
-          </View>
-          <ReasonTextContainer otherInfo={true} marginBottom={3}>
-            <ReasonText>{protocol}</ReasonText>
+              </Heading>
+              {protocol != "No tiene" && isVisible ? (
+                <>
+                  <Link
+                    right={3.2}
+                    onPress={() =>
+                      toast.show({
+                        description:
+                          "Especifica en el nombre del archivo el proceso que estás verificando. Ej: esterilizacion.pdf",
+                      })
+                    }
+                    _text={{
+                      fontSize: 14,
+                      color: "#6A994E",
+                      fontWeight: "semibold",
+                      mt: 2.5,
+                    }}
+                  >
+                    Archivos de protocolo
+                  </Link>
+                  <IconButton
+                    mt={-2}
+                    left={4}
+                    _icon={{
+                      as: AntDesign,
+                      name: "addfile",
+                      size: "md",
+                    }}
+                    onPress={pickDocument}
+                  />
+                </>
+              ) : undefined}
+            </HStack>
+            <Text fontSize={"18px"} color={"#1F2937"}>
+              {protocol}
+            </Text>
             {protocol != "No tiene" ? (
-              <ChildWrapper>
-                <AdoptedItemWrapper>
-                  <ProtocolFileObject
-                    fileName={"Si mande"}
-                  ></ProtocolFileObject>
-                </AdoptedItemWrapper>
-              </ChildWrapper>
+              <View
+                flex={0.5}
+                flexWrap="wrap"
+                flexDir={"row"}
+                height="auto"
+                justifyContent={"flex-start"}
+                mb={"10px"}
+                mt={"12px"}
+              >
+                <ProtocolFileObject fileName={"esterilización"} />
+                <ProtocolFileObject fileName={"vacunas"} />
+                <ProtocolFileObject fileName={"desparacitación"} />
+              </View>
             ) : undefined}
-          </ReasonTextContainer>
-        </InnerContainer>
+          </VStack>
+        </VStack>
       </ScrollView>
-    </StyledContainer>
+    </View>
   );
 };
 

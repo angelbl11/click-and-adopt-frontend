@@ -50,17 +50,17 @@ const AdoptedLikesScreen = ({ navigation }) => {
       <StatusBar style="dark" />
       <ScrollView>
         <VStack alignItems={"center"} bgColor="#FFFFFF">
-          <HStack space={3.5} mt={3}>
+          <HStack mt={3}>
             <Heading
               fontSize={"38px"}
               fontWeight="bold"
               color="#6A994E"
-              right={10}
+              right={50}
             >
               Likes
             </Heading>
             <Link
-              right={3.3}
+              left={-15}
               onPress={() =>
                 toast.show({
                   description:
@@ -77,7 +77,7 @@ const AdoptedLikesScreen = ({ navigation }) => {
               ¿No ves tus likes?
             </Link>
             <IconButton
-              left={8}
+              left={12}
               _icon={{
                 as: MaterialCommunityIcons,
                 name: "account-heart",

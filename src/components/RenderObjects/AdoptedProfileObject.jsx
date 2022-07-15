@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-//Styles
-import { StyledInputLabel, SwitchWrapper, LabelWrapper } from "../Utils/Styles";
-//Native Base Components
-import { Switch, View } from "native-base";
+
+//Components
+import { Switch, VStack, Text } from "native-base";
 import { Avatar } from "react-native-elements";
+
+//GraphQL
 import { useMutation } from "@apollo/client";
 import { UPDATE_PET_STATUS } from "../../graphql/mutations";
 
@@ -19,18 +20,10 @@ const AdoptedProfileObject = ({ pressed, url, id, status }) => {
         updateAdoptedStatusId: id,
         petStatus: !showMessage,
       },
-      onCompleted: (data) => {
-        console.log(data);
-        console.log(!showMessage + "");
-      },
-      onError: (err) => {
-        console.log("Network error");
-        console.log(err);
-      },
     });
   };
   return (
-    <View>
+    <VStack alignItems="center">
       <Avatar
         size={100}
         source={{
@@ -38,24 +31,21 @@ const AdoptedProfileObject = ({ pressed, url, id, status }) => {
         }}
         rounded
         onPress={pressed}
-      ></Avatar>
-      <SwitchWrapper>
-        <Switch
-          onTrackColor="green"
-          onValueChange={() => {
-            handleMessage();
-            updateStatus();
-          }}
-          value={showMessage}
-          isChecked={showMessage}
-        />
-      </SwitchWrapper>
-      <LabelWrapper>
-        <StyledInputLabel userStatus={true}>
-          {showMessage == true ? "Disponible" : "No disponible"}
-        </StyledInputLabel>
-      </LabelWrapper>
-    </View>
+      />
+      <Switch
+        mt={3}
+        onTrackColor="green"
+        onValueChange={() => {
+          handleMessage();
+          updateStatus();
+        }}
+        value={showMessage}
+        isChecked={showMessage}
+      />
+      <Text color={"#9CA3AF"} fontSize={"13px"} mt={2} fontWeight={"medium"}>
+        {showMessage == true ? "Disponible" : "No disponible"}
+      </Text>
+    </VStack>
   );
 };
 
