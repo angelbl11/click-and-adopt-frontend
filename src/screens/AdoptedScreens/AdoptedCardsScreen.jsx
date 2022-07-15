@@ -1,17 +1,26 @@
 import React, { useRef, useState, useContext, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import FooterButtons from "../../components/Card/FooterButtons";
-import { PageTitle, SubTitle } from "../../components/Utils/Styles";
-import { View, Text } from "native-base";
-import { AuthContext } from "../../context/Auth";
+
+//Libraries
+import { View, Text, Heading } from "native-base";
 import CardStack from "react-native-card-stack-swiper";
+
+//Custom Components
 import CardComponent from "../../components/Card/CardComponent";
+import FooterButtons from "../../components/Card/FooterButtons";
+
 //Graphql
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { GIVE_LIKE_USER, GIVE_NOPE_USER } from "../../graphql/mutations";
 import { GET_RANDOM_ADOPTERS } from "../../graphql/queries";
+
+//Auth
+import { AuthContext } from "../../context/Auth";
+
 const AdoptedCardsScreen = ({ navigation }) => {
+  //Variables for screensize
+  const screenHeight = Dimensions.get("window").height;
   const cardRef = useRef(null);
   const [adopterCards, setAdopterCards] = useState([]);
   const [likeNumber, setLikeNumber] = useState();
@@ -23,14 +32,7 @@ const AdoptedCardsScreen = ({ navigation }) => {
       userId: user.id,
     },
     onCompleted: (data) => {
-      console.log("LIKE");
-      console.log(data);
-      console.log(user.id);
-      console.log(adopterCards[0]?.id);
       setLikeNumber(likeNumber - 1);
-    },
-    onError: (err) => {
-      console.log("ERROR ", err.graphQLErrors);
     },
   });
   const [giveNopeToUser] = useMutation(GIVE_NOPE_USER, {
@@ -38,27 +40,14 @@ const AdoptedCardsScreen = ({ navigation }) => {
       likedUserId: adopterCards[0]?.id,
       userId: user.id,
     },
-    onCompleted: (data) => {
-      console.log("NOPE");
-      console.log(data);
-    },
-    onError: (err) => {
-      console.log("ERROR ", err.clientErrors);
-    },
   });
   const [getAdopters, { data, loading }] = useLazyQuery(GET_RANDOM_ADOPTERS, {
     variables: {
       userId: user.id,
     },
-    onError: (err) => {
-      console.log("Network error:");
-      console.log(err.graphQLErrors);
-    },
-
     onCompleted: (data) => {
       setAdopterCards(data?.getRandomAdopter?.users);
       setLikeNumber(10 - data?.getRandomAdopter?.numOfLikes);
-      console.log("IDDDDD");
     },
   });
 
@@ -66,12 +55,26 @@ const AdoptedCardsScreen = ({ navigation }) => {
     getAdopters();
   }, []);
   return (
-    <View flex={1} bgColor={"#FFFFFF"}>
+    <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
       <StatusBar style="dark" />
-      <PageTitle>Encuentra Adoptantes</PageTitle>
-      <SubTitle textAlign={"center"} marginTop={"6px"}>
+      <Heading
+        fontSize={"28px"}
+        textAlign={"center"}
+        fontWeight="bold"
+        color="#6A994E"
+        marginBottom={"15px"}
+      >
+        Encuentra Adoptantes
+      </Heading>
+      <Text
+        fontSize={"18px"}
+        fontWeight={"semibold"}
+        color={"#1F2937"}
+        textAlign="center"
+      >
         Likes disponibles: {likeNumber}
-      </SubTitle>
+      </Text>
+
       <CardStack
         style={styles.content}
         ref={cardRef}
@@ -109,9 +112,6 @@ const AdoptedCardsScreen = ({ navigation }) => {
             },
             index
           ) => {
-            console.log(
-              "Id del usuario: " + adopterCards[index].userId?.fullName
-            );
             return (
               <CardComponent
                 key={index}
@@ -152,16 +152,14 @@ const AdoptedCardsScreen = ({ navigation }) => {
         )}
       </CardStack>
 
-      <View>
-        <FooterButtons
-          pressLeft={() => {
-            cardRef.current.swipeLeft();
-          }}
-          pressRight={() => {
-            cardRef.current.swipeRight();
-          }}
-        ></FooterButtons>
-      </View>
+      <FooterButtons
+        pressLeft={() => {
+          cardRef.current.swipeLeft();
+        }}
+        pressRight={() => {
+          cardRef.current.swipeRight();
+        }}
+      ></FooterButtons>
     </View>
   );
 };

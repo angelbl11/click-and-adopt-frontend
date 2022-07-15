@@ -107,7 +107,6 @@ const AdopterProfileScreen = ({ navigation }) => {
   };
 
   async function onUploadPress() {
-    status && setStatus(null);
     const file = generateRNFile(image, `picture-${Date.now()}`);
     try {
       await uploadPicture({

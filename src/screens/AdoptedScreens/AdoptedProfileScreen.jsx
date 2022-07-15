@@ -1,23 +1,22 @@
 import React, { useContext, useEffect } from "react";
+
+//Libraries
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-//Styles
 import {
-  StyledContainer,
-  InnerContainer,
-  PageTitle,
-  ChildWrapper,
-  AdoptedItemWrapper,
-  SubTitle,
-  ReasonText,
-  ReasonTextContainer,
-} from "../../components/Utils/Styles";
+  ScrollView,
+  View,
+  IconButton,
+  Text,
+  VStack,
+  HStack,
+  Heading,
+  Center,
+} from "native-base";
 
+//Custom Components
 import AdoptedProfileObject from "../../components/RenderObjects/AdoptedProfileObject";
-
-//Native Base Components
-import { ScrollView, View, IconButton } from "native-base";
 
 //Auth
 import { AuthContext } from "../../context/Auth";
@@ -26,8 +25,12 @@ import { PetsContext } from "../../context/PetsContext";
 //Graphql
 import { GET_ADOPTED_INFO } from "../../graphql/queries";
 import { useLazyQuery } from "@apollo/client";
+import { Dimensions, SafeAreaView } from "react-native";
 
 const AdoptedProfile = ({ navigation }) => {
+  //Variables for screensize
+  const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
   const { logout, user } = useContext(AuthContext);
   const { pets, setPets, petImage, setPetImage, num } = useContext(PetsContext);
 
@@ -54,105 +57,171 @@ const AdoptedProfile = ({ navigation }) => {
   }, [num]);
 
   return (
-    <StyledContainer>
-      <StatusBar style="dark" />
-      <ScrollView>
-        <InnerContainer>
-          <View flexDir={"row"} width={420} marginLeft={2} marginRight={12}>
-            <View width={40} marginLeft={6}>
-              <PageTitle profile={true}>Perfil</PageTitle>
-            </View>
-            <IconButton
-              _icon={{
-                as: MaterialIcons,
-                name: "edit",
-                color: "#1F2937",
-              }}
-              marginLeft={100}
-              onPress={() => {
-                navigation.navigate("EditScreen", {
-                  account: user.account,
-                });
-              }}
-            ></IconButton>
-            <IconButton
-              _icon={{
-                as: Entypo,
-                name: "plus",
-                color: "#1F2937",
-              }}
-              onPress={() => {
-                navigation.navigate("AdoptedCuestionary");
-              }}
-            ></IconButton>
-            <IconButton
-              _icon={{
-                as: MaterialIcons,
-                name: "logout",
-                color: "#1F2937",
-              }}
-              onPress={() => {
-                logout();
-                navigation.navigate("Login");
-              }}
-            ></IconButton>
-          </View>
-          <ChildWrapper>
-            {petImage?.map((item, count) => {
-              return (
-                <AdoptedItemWrapper key={count}>
-                  <AdoptedProfileObject
+    <SafeAreaView flex={1}>
+      <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
+        <StatusBar style="dark" />
+        <ScrollView>
+          <VStack alignItems={"center"} width={screenWidth - 10}>
+            <HStack textAlign={"left"} mt={3} space={12} mb={4}>
+              <Heading fontSize={"38px"} fontWeight="bold" color="#6A994E">
+                Perfil
+              </Heading>
+              <IconButton
+                left={110}
+                _icon={{
+                  as: MaterialIcons,
+                  name: "edit",
+                  color: "#1F2937",
+                  size: "md",
+                }}
+                onPress={() => {
+                  navigation.navigate("EditScreen", {
+                    account: user.account,
+                  });
+                }}
+              />
+              <IconButton
+                left={65}
+                _icon={{
+                  as: MaterialIcons,
+                  name: "add",
+                  color: "#1F2937",
+                  size: "md",
+                }}
+                onPress={() => {
+                  navigation.navigate("AdoptedCuestionary");
+                }}
+              />
+              <IconButton
+                left={3}
+                _icon={{
+                  as: MaterialIcons,
+                  name: "logout",
+                  color: "#1F2937",
+                  size: "md",
+                }}
+                onPress={() => {
+                  logout();
+                  navigation.navigate("Login");
+                }}
+              />
+            </HStack>
+            <View
+              flex={0.5}
+              flexWrap="wrap"
+              flexDir={"row"}
+              height="auto"
+              justifyContent={"center"}
+              mb={"10px"}
+              mt={"12px"}
+            >
+              {petImage?.map((item, count) => {
+                return (
+                  <View
                     key={count}
-                    id={pets[count]?.id}
-                    status={pets[count]?.isAvailableToBeAdopted}
-                    pressed={() => {
-                      navigation.navigate("PetProfile", {
-                        name: pets[count].adoptedPetName,
-                        des: pets[count].adoptedPetDescription,
-                        protocol: pets[count].adoptedPetProtocol,
-                        age: pets[count].ageOfAdoptedPet,
-                        coexistence: pets[count].coexistenceWithOtherPets,
-                        gender: pets[count].genderOfAdoptedPet,
-                        isHealthyK: pets[count].isHealthyWithKids,
-                        isHealthyP: pets[count].isHealthyWithOtherPets,
-                        typeOf: pets[count].typeOfAdoptedPet,
-                        petProfdata: pets[count].petPicture?.filename,
-                        petId: pets[count].id,
-                        petProfPic: item,
-                        count: count,
-                        imageArray: images,
-                        isVisible: true,
-                      });
-                    }}
-                    url={
-                      item
-                        ? item
-                        : `https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg`
-                    }
-                  />
-                </AdoptedItemWrapper>
-              );
-            })}
-          </ChildWrapper>
-          <PageTitle about={true}>Acerca De</PageTitle>
-          <SubTitle profile={true}>{user.fullName}</SubTitle>
-
-          <SubTitle typeOfUserLabel={true}>
-            {user.account === "Adoptado" ? "Responsable" : null}
-          </SubTitle>
-
-          <SubTitle atributes={true}>Información</SubTitle>
-          <ReasonTextContainer otherInfo={true} marginBottom={3}>
-            <ReasonText>Edad:</ReasonText>
-            <ReasonText>{user.age} años</ReasonText>
-          </ReasonTextContainer>
-          <ReasonTextContainer otherInfo={true} marginBottom={3}>
-            <ReasonText>Email:</ReasonText>
-            <ReasonText>{user.email}</ReasonText>
-          </ReasonTextContainer>
-        </InnerContainer>
-      </ScrollView>
-    </StyledContainer>
+                    width={"auto"}
+                    mr="20px"
+                    ml="20px"
+                    mb={"10px"}
+                  >
+                    <AdoptedProfileObject
+                      key={count}
+                      id={pets[count]?.id}
+                      status={pets[count]?.isAvailableToBeAdopted}
+                      pressed={() => {
+                        navigation.navigate("PetProfile", {
+                          name: pets[count].adoptedPetName,
+                          des: pets[count].adoptedPetDescription,
+                          protocol: pets[count].adoptedPetProtocol,
+                          age: pets[count].ageOfAdoptedPet,
+                          coexistence: pets[count].coexistenceWithOtherPets,
+                          gender: pets[count].genderOfAdoptedPet,
+                          isHealthyK: pets[count].isHealthyWithKids,
+                          isHealthyP: pets[count].isHealthyWithOtherPets,
+                          typeOf: pets[count].typeOfAdoptedPet,
+                          petProfdata: pets[count].petPicture?.filename,
+                          petId: pets[count].id,
+                          petProfPic: item,
+                          count: count,
+                          imageArray: images,
+                          isVisible: true,
+                        });
+                      }}
+                      url={
+                        item
+                          ? item
+                          : `https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg`
+                      }
+                    />
+                  </View>
+                );
+              })}
+            </View>
+            <VStack mt={3} space={2.3} mb={3}>
+              <Heading
+                fontSize={"28px"}
+                textAlign={"left"}
+                fontWeight="bold"
+                color="#6A994E"
+                left={"-105"}
+              >
+                Acerca de
+              </Heading>
+              <Center>
+                <Text
+                  fontSize={"22px"}
+                  fontWeight={"semibold"}
+                  color={"#1F2937"}
+                  mt={3}
+                  mb={2}
+                >
+                  {user.fullName}
+                </Text>
+                <Text
+                  fontSize={"16px"}
+                  color={"#9CA3AF"}
+                  mb={3}
+                  fontWeight="medium"
+                >
+                  {user.account === "Adoptado" ? "Responsable" : null}
+                </Text>
+              </Center>
+              <Text
+                fontSize={"20px"}
+                fontWeight="semibold"
+                color={"#1F2937"}
+                mt={3}
+                left={"-105"}
+              >
+                Información
+              </Text>
+              <Text
+                fontSize={"18px"}
+                fontWeight="semibold"
+                color={"#1F2937"}
+                left={"-105"}
+              >
+                Edad:
+              </Text>
+              <Text fontSize={"18px"} color={"#1F2937"} left={"-105"}>
+                {user.age} años
+              </Text>
+              <Text
+                fontSize={"18px"}
+                fontWeight="semibold"
+                color={"#1F2937"}
+                left={"-105"}
+              >
+                Correo electrónico:
+              </Text>
+              <Text fontSize={"18px"} color={"#1F2937"} left={"-105"}>
+                {user.email}
+              </Text>
+            </VStack>
+          </VStack>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 };
 

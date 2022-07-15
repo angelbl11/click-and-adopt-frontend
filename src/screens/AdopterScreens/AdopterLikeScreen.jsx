@@ -32,7 +32,6 @@ const AdopterLikeScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   const [adopterLikes, setAdopterLikes] = useState([]);
   //Variables for screensize
-  const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
   //Toast
   const toast = useToast();

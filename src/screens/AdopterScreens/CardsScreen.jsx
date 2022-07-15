@@ -23,7 +23,6 @@ const CardsScreen = ({ navigation }) => {
   const [petsCards, setPetsCards] = useState([]);
   const [likeNumber, setLikeNumber] = useState();
   //Variables for screensize
-  const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
   const { user } = useContext(AuthContext);
   const url = "https://calm-forest-47055.herokuapp.com/ProfilePictures/";
