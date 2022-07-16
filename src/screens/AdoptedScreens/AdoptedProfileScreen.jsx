@@ -78,6 +78,10 @@ const AdoptedProfile = ({ navigation }) => {
                   color: "#1F2937",
                   size: "md",
                 }}
+                _pressed={{
+                  bg: "#7db85c",
+                  borderRadius: 100,
+                }}
                 onPress={() => {
                   navigation.navigate("EditScreen", {
                     account: user.account,
@@ -92,6 +96,10 @@ const AdoptedProfile = ({ navigation }) => {
                   color: "#1F2937",
                   size: "md",
                 }}
+                _pressed={{
+                  bg: "#7db85c",
+                  borderRadius: 100,
+                }}
                 onPress={() => {
                   navigation.navigate("AdoptedCuestionary");
                 }}
@@ -103,6 +111,10 @@ const AdoptedProfile = ({ navigation }) => {
                   name: "logout",
                   color: "#1F2937",
                   size: "md",
+                }}
+                _pressed={{
+                  bg: "#7db85c",
+                  borderRadius: 100,
                 }}
                 onPress={() => {
                   logout();

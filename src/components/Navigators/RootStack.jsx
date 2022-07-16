@@ -16,6 +16,7 @@ import AdoptedCuestionary from "../../screens/AdoptedScreens/AdoptedCuestionaryS
 import AdoptedPetInfo from "../../screens/AdoptedScreens/AdoptedPetInfoScreen";
 import AdoptedPetProfileScreen from "../../screens/AdoptedScreens/AdoptedPetProfileScreen";
 import AdoptedCardsScreen from "../../screens/AdoptedScreens/AdoptedCardsScreen";
+import CardsScreen from "../../screens/AdopterScreens/CardsScreen";
 import EditDataScreen from "../../screens/GeneralScreens/EditDataScreen";
 import TabsAdopter from "./TabsAdopter";
 import TabsAdopted from "./TabsAdopted";
@@ -89,6 +90,10 @@ const RootStack = () => {
         <Stack.Screen
           name="AdoptedProfile"
           component={TabsAdopted}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="AdopterCarrousel"
+          component={CardsScreen}
         ></Stack.Screen>
         <Stack.Screen
           name="AdoptedCarrousel"

@@ -135,7 +135,6 @@ export const GET_ADOPTER_LIKES = gql`
           ageOfAdoptedPet
           coexistenceWithOtherPets
           genderOfAdoptedPet
-          id
           isHealthyWithKids
           isHealthyWithOtherPets
           petPicture {

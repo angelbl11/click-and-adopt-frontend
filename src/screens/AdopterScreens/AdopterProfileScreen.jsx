@@ -141,6 +141,10 @@ const AdopterProfileScreen = ({ navigation }) => {
                   color: "#1F2937",
                   size: "md",
                 }}
+                _pressed={{
+                  bg: "#7db85c",
+                  borderRadius: 100,
+                }}
                 onPress={() => {
                   navigation.navigate("EditScreen", {
                     account: user.account,
@@ -154,6 +158,10 @@ const AdopterProfileScreen = ({ navigation }) => {
                   name: "logout",
                   color: "#1F2937",
                   size: "md",
+                }}
+                _pressed={{
+                  bg: "#7db85c",
+                  borderRadius: 100,
                 }}
                 onPress={() => {
                   logout();

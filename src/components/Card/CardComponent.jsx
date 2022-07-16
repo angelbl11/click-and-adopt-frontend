@@ -10,7 +10,7 @@ import { Card } from "react-native-card-stack-swiper";
 import { CARD } from "./CardConstants";
 const CardComponent = ({ uri, petName, pressed }) => {
   return (
-    <View flex={1}>
+    <View flex={1} mt={12}>
       <StatusBar hidden={true} />
       <Card style={styles.card}>
         <View position={"absolute"}>
@@ -37,14 +37,12 @@ const CardComponent = ({ uri, petName, pressed }) => {
             fontSize={"18px"}
             pt={"18px"}
             fontWeight="semibold"
-            color={"#FFFFFF"}
           >
             {petName}
           </Text>
           <IconButton
             icon={<Icon as={MaterialIcons} name="info-outline"></Icon>}
             _icon={{
-              color: "white",
               position: "absolute",
               bottom: "22",
               right: "2",

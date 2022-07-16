@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Dimensions } from "react-native";
+import React, { useContext, useEffect, useState, useCallback } from "react";
+import { Dimensions, Alert, RefreshControl } from "react-native";
 
 //Libraries
 import { StatusBar } from "expo-status-bar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as Updates from "expo-updates";
 import {
   View,
   Spinner,
@@ -26,14 +27,26 @@ import { useMutation, useLazyQuery } from "@apollo/client";
 
 //Auth
 import { AuthContext } from "../../context/Auth";
+import {
+  DELETE_ADOPTER_LIKE,
+  TRASH_ADOPTER_LIKE,
+} from "../../graphql/mutations";
 const AdoptedLikesScreen = ({ navigation }) => {
   const url = "https://calm-forest-47055.herokuapp.com/ProfilePictures/";
   const { user } = useContext(AuthContext);
   const [adoptedLikes, setAdoptedLikes] = useState([]);
+  //Refresh control
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    Updates.reloadAsync();
+  }, []);
   //Variables for screensize
   const screenHeight = Dimensions.get("window").height;
   //Toast
   const toast = useToast();
+  const [deleteUserLike] = useMutation(DELETE_ADOPTER_LIKE);
+  const [trashUserLike] = useMutation(TRASH_ADOPTER_LIKE);
   const [getAdoptedLikes, { data, loading }] = useLazyQuery(GET_ADOPTED_LIKES, {
     variables: {
       userId: user.id,
@@ -42,29 +55,90 @@ const AdoptedLikesScreen = ({ navigation }) => {
       setAdoptedLikes(data?.getUserLikes?.likes);
     },
   });
+
+  const deleteLikeAlert = (likedUserId) => {
+    Alert.alert(
+      "¿Estás seguro que quieres eliminar este like?",
+      "Se reasignará a tus likes disponibles",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Eliminar",
+          onPress: () => {
+            deleteUserLike({
+              variables: {
+                likedUserId: likedUserId,
+                userId: user.id,
+              },
+              onError: (err) => {
+                console.log(err.graphQLErrors);
+                console.log(user.id);
+              },
+            });
+          },
+        },
+      ]
+    );
+  };
+
+  const trashLikeAlert = (likedUserId) => {
+    Alert.alert(
+      "¿Estás seguro que quieres enviar este like a la papelera?",
+      "Se reasignará a tus likes disponibles y se almacenará este like en tu papelera",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Enviar",
+          onPress: () => {
+            trashUserLike({
+              variables: {
+                likedUserId: likedUserId,
+                userId: user.id,
+              },
+              onError: (err) => {
+                console.log(err.graphQLErrors);
+                console.log(user.id);
+              },
+            });
+          },
+        },
+      ]
+    );
+  };
+
   useEffect(() => {
     getAdoptedLikes();
   }, []);
   return (
     <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
       <StatusBar style="dark" />
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <VStack alignItems={"center"} bgColor="#FFFFFF">
           <HStack mt={3}>
             <Heading
               fontSize={"38px"}
               fontWeight="bold"
               color="#6A994E"
-              right={50}
+              right={10}
             >
               Likes
             </Heading>
             <Link
-              left={-15}
+              left={-12}
               onPress={() =>
                 toast.show({
                   description:
-                    "Si no ves tus likes otorgados recientemente, recarga la aplicación.",
+                    "Si no ves tus likes otorgados o reasignados recientemente, recarga la aplicación.",
                 })
               }
               _text={{
@@ -74,7 +148,7 @@ const AdoptedLikesScreen = ({ navigation }) => {
                 mt: 4,
               }}
             >
-              ¿No ves tus likes?
+              ¿No ves los cambios?
             </Link>
             <IconButton
               left={12}
@@ -82,6 +156,10 @@ const AdoptedLikesScreen = ({ navigation }) => {
                 as: MaterialCommunityIcons,
                 name: "account-heart",
                 size: "md",
+              }}
+              _pressed={{
+                bg: "#7db85c",
+                borderRadius: 100,
               }}
             />
           </HStack>
@@ -105,6 +183,12 @@ const AdoptedLikesScreen = ({ navigation }) => {
                         ?.filename
                     }
                     date={date}
+                    pressReasign={() =>
+                      deleteLikeAlert(adoptedLikes[index].likedUserId?.id)
+                    }
+                    pressTrash={() =>
+                      trashLikeAlert(adoptedLikes[index].likedUserId?.id)
+                    }
                     pressed={() => {
                       navigation.navigate("CarrouselAdopter", {
                         petGenderPreferences:

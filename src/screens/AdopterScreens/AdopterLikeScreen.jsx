@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Dimensions } from "react-native";
+import React, { useContext, useEffect, useState, useCallback } from "react";
+import { Dimensions, Alert, RefreshControl } from "react-native";
 
 //Libraries
 import {
@@ -16,7 +16,7 @@ import {
 } from "native-base";
 import { StatusBar } from "expo-status-bar";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
+import * as Updates from "expo-updates";
 //Custom Components
 import LikedUserComponent from "../../components/RenderObjects/LikedUserComponent";
 
@@ -26,6 +26,7 @@ import { AuthContext } from "../../context/Auth";
 //GraphQL
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_ADOPTER_LIKES } from "../../graphql/queries";
+import { DELETE_PET_LIKE, TRASH_PET_LIKE } from "../../graphql/mutations";
 
 const AdopterLikeScreen = ({ navigation }) => {
   const url = "https://calm-forest-47055.herokuapp.com/ProfilePictures/";
@@ -33,8 +34,16 @@ const AdopterLikeScreen = ({ navigation }) => {
   const [adopterLikes, setAdopterLikes] = useState([]);
   //Variables for screensize
   const screenHeight = Dimensions.get("window").height;
+  //Refresh control
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    Updates.reloadAsync();
+  }, []);
   //Toast
   const toast = useToast();
+  const [reasignPetLike] = useMutation(DELETE_PET_LIKE);
+  const [trashPetLike] = useMutation(TRASH_PET_LIKE);
   const [getAdopterLikes, { data, loading }] = useLazyQuery(GET_ADOPTER_LIKES, {
     variables: {
       userId: user.id,
@@ -45,20 +54,80 @@ const AdopterLikeScreen = ({ navigation }) => {
     },
   });
 
+  const deleteLikeAlert = (petId) => {
+    Alert.alert(
+      "¿Estás seguro que quieres eliminar este like?",
+      "Se reasignará a tus likes disponibles",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Eliminar",
+          onPress: () => {
+            reasignPetLike({
+              variables: {
+                petId: petId,
+                userId: user.id,
+              },
+              onError: (err) => {
+                console.log(err.graphQLErrors);
+                console.log(user.id);
+              },
+            });
+          },
+        },
+      ]
+    );
+  };
+
+  const trashLikeAlert = (petId) => {
+    Alert.alert(
+      "¿Estás seguro que quieres enviar este like a la papelera?",
+      "Se reasignará a tus likes disponibles y se almacenará este like en tu papelera",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Enviar",
+          onPress: () => {
+            trashPetLike({
+              variables: {
+                petId: petId,
+                userId: user.id,
+              },
+              onError: (err) => {
+                console.log(err.graphQLErrors);
+                console.log(user.id);
+              },
+            });
+          },
+        },
+      ]
+    );
+  };
+
   useEffect(() => {
     getAdopterLikes();
   }, []);
   return (
     <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
       <StatusBar style="dark" />
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <VStack alignItems={"center"} bgColor="#FFFFFF">
           <HStack space={3.5} mt={3}>
             <Heading
               fontSize={"38px"}
               fontWeight="bold"
               color="#6A994E"
-              right={10}
+              right={6}
             >
               Likes
             </Heading>
@@ -67,7 +136,7 @@ const AdopterLikeScreen = ({ navigation }) => {
               onPress={() =>
                 toast.show({
                   description:
-                    "Si no ves tus likes otorgados recientemente, recarga la aplicación.",
+                    "Si no ves tus likes otorgados o reasignados recientemente, recarga la aplicación.",
                 })
               }
               _text={{
@@ -77,7 +146,7 @@ const AdopterLikeScreen = ({ navigation }) => {
                 mt: 4,
               }}
             >
-              ¿No ves tus likes?
+              ¿No ves los cambios?
             </Link>
             <IconButton
               left={8}
@@ -85,6 +154,10 @@ const AdopterLikeScreen = ({ navigation }) => {
                 as: MaterialCommunityIcons,
                 name: "account-heart",
                 size: "md",
+              }}
+              _pressed={{
+                bg: "#7db85c",
+                borderRadius: 100,
               }}
             />
           </HStack>
@@ -103,6 +176,12 @@ const AdopterLikeScreen = ({ navigation }) => {
                     key={index}
                     name={adopterLikes[index].petId?.adoptedPetName}
                     date={date}
+                    pressReasign={() =>
+                      deleteLikeAlert(adopterLikes[index].petId?.id)
+                    }
+                    pressTrash={() =>
+                      trashLikeAlert(adopterLikes[index].petId?.id)
+                    }
                     url={url + adopterLikes[index].petId?.petPicture?.filename}
                     pressed={() =>
                       navigation.navigate("PetProfile", {

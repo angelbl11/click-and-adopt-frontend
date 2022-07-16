@@ -7,7 +7,14 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { HStack, VStack, Text } from "native-base";
 
-const LikedUserComponent = ({ pressed, url, name, date }) => {
+const LikedUserComponent = ({
+  pressed,
+  url,
+  name,
+  date,
+  pressReasign,
+  pressTrash,
+}) => {
   return (
     <HStack alignContent={"center"} alignItems="center" mb={3} mt={2}>
       <Avatar
@@ -18,24 +25,36 @@ const LikedUserComponent = ({ pressed, url, name, date }) => {
         rounded
         onPress={pressed}
       ></Avatar>
-      <VStack ml={3} width="1/3">
-        <Text fontSize={18} fontWeight="semibold">
-          {name}
-        </Text>
+      <VStack ml={3} width="200">
+        <HStack width={"200"}>
+          <Text fontSize={18} fontWeight="semibold">
+            {name}
+          </Text>
+        </HStack>
         <Text fontSize={16} color="#9CA3AF">
           {date}
         </Text>
       </VStack>
       <IconButton
+        onPress={pressReasign}
         _icon={{
           as: MaterialCommunityIcons,
           name: "heart-minus",
         }}
+        _pressed={{
+          bg: "#7db85c",
+          borderRadius: 100,
+        }}
       />
       <IconButton
+        onPress={pressTrash}
         _icon={{
           as: Ionicons,
           name: "trash",
+        }}
+        _pressed={{
+          bg: "#7db85c",
+          borderRadius: 100,
         }}
       />
     </HStack>

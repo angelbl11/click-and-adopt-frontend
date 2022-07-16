@@ -183,6 +183,10 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                   name: "trash",
                   color: "#1F2937",
                 }}
+                _pressed={{
+                  bg: "#7db85c",
+                  borderRadius: 100,
+                }}
                 left={115}
                 onPress={() => {
                   deletePetInfoAlert();
@@ -190,7 +194,7 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
               ></IconButton>
             ) : undefined}
           </HStack>
-          <VStack mt={6} alignItems="center">
+          <VStack mt={6} alignItems="center" alignContent={"center"}>
             {petProfPic && (
               <Avatar
                 size={140}
@@ -218,8 +222,6 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                 onPress={onUploadPress}
                 isDisabled={loading}
                 marginTop={2}
-                width={100}
-                marginLeft={6}
                 leftIcon={
                   <MaterialIcons name="file-upload" size={24} color="#1F2937" />
                 }
@@ -334,6 +336,10 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                       as: AntDesign,
                       name: "addfile",
                       size: "md",
+                    }}
+                    _pressed={{
+                      bg: "#7db85c",
+                      borderRadius: 100,
                     }}
                     onPress={pickDocument}
                   />
