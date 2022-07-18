@@ -14,6 +14,7 @@ const LikedUserComponent = ({
   date,
   pressReasign,
   pressTrash,
+  isPaperBin,
 }) => {
   return (
     <HStack alignContent={"center"} alignItems="center" mb={3} mt={2}>
@@ -39,7 +40,7 @@ const LikedUserComponent = ({
         onPress={pressReasign}
         _icon={{
           as: MaterialCommunityIcons,
-          name: "heart-minus",
+          name: isPaperBin ? "heart-plus" : "heart-minus",
         }}
         _pressed={{
           bg: "#7db85c",
@@ -49,8 +50,8 @@ const LikedUserComponent = ({
       <IconButton
         onPress={pressTrash}
         _icon={{
-          as: Ionicons,
-          name: "trash",
+          as: isPaperBin ? MaterialCommunityIcons : Ionicons,
+          name: isPaperBin ? "heart-broken" : "trash",
         }}
         _pressed={{
           bg: "#7db85c",

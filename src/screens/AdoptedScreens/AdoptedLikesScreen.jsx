@@ -59,7 +59,7 @@ const AdoptedLikesScreen = ({ navigation }) => {
   const deleteLikeAlert = (likedUserId) => {
     Alert.alert(
       "¿Estás seguro que quieres eliminar este like?",
-      "Se reasignará a tus likes disponibles",
+      "Se reasignará a tus likes disponibles y no será guardado en la papelera",
       [
         {
           text: "Cancelar",
@@ -72,10 +72,6 @@ const AdoptedLikesScreen = ({ navigation }) => {
               variables: {
                 likedUserId: likedUserId,
                 userId: user.id,
-              },
-              onError: (err) => {
-                console.log(err.graphQLErrors);
-                console.log(user.id);
               },
             });
           },
@@ -101,9 +97,8 @@ const AdoptedLikesScreen = ({ navigation }) => {
                 likedUserId: likedUserId,
                 userId: user.id,
               },
-              onError: (err) => {
-                console.log(err.graphQLErrors);
-                console.log(user.id);
+              onCompleted: () => {
+                navigation.navigate("PaperbinAdopted", { userId: user.id });
               },
             });
           },
@@ -151,6 +146,9 @@ const AdoptedLikesScreen = ({ navigation }) => {
               ¿No ves los cambios?
             </Link>
             <IconButton
+              onPress={() =>
+                navigation.navigate("PaperbinAdopted", { userId: user.id })
+              }
               left={12}
               _icon={{
                 as: MaterialCommunityIcons,
@@ -169,6 +167,12 @@ const AdoptedLikesScreen = ({ navigation }) => {
                 <Spinner color={"#6A994E"} />
                 <Heading color="#6A994E" fontSize="xl">
                   Cargando
+                </Heading>
+              </Center>
+            ) : adoptedLikes.length === 0 ? (
+              <Center mt={200}>
+                <Heading color="#6A994E" fontSize="xl">
+                  No has asignado likes
                 </Heading>
               </Center>
             ) : (

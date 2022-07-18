@@ -139,3 +139,15 @@ export const TRASH_ADOPTER_LIKE = gql`
     trashLikeUser(userId: $userId, likedUserId: $likedUserId)
   }
 `;
+
+export const MOVE_ADOPTED_LIKE = gql`
+  mutation moveLikeAdopted($userId: String!, $likedUserId: String!) {
+    reverseTrashLikeUser(userId: $userId, likedUserId: $likedUserId)
+  }
+`;
+
+export const MOVE_ADOPTER_LIKE = gql`
+  mutation moveLikeAdopter($petId: String!, $userId: String!) {
+    reverseTrashLike(petId: $petId, userId: $userId)
+  }
+`;

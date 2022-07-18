@@ -18,10 +18,16 @@ import AdoptedPetProfileScreen from "../../screens/AdoptedScreens/AdoptedPetProf
 import AdoptedCardsScreen from "../../screens/AdoptedScreens/AdoptedCardsScreen";
 import CardsScreen from "../../screens/AdopterScreens/CardsScreen";
 import EditDataScreen from "../../screens/GeneralScreens/EditDataScreen";
+import CarrouselAdopterProfile from "../../screens/AdopterScreens/CarrouselAdopterProfile";
+import PaperbinAdopted from "../../screens/AdoptedScreens/PaperbinAdopted";
+import PaperbinAdopter from "../../screens/AdopterScreens/PaperbinAdopter";
+
+//Tabs
 import TabsAdopter from "./TabsAdopter";
 import TabsAdopted from "./TabsAdopted";
+
+//Auth
 import { AuthContext } from "../../context/Auth";
-import CarrouselAdopterProfile from "../../screens/AdopterScreens/CarrouselAdopterProfile";
 
 const RootStack = () => {
   const { user } = useContext(AuthContext);
@@ -52,61 +58,36 @@ const RootStack = () => {
                 : TabsAdopted
               : Login
           }
-        ></Stack.Screen>
-        <Stack.Screen name="SignUp" component={SignUp}></Stack.Screen>
+        />
+        <Stack.Screen name="SignUp" component={SignUp} />
 
-        <Stack.Screen
-          name="AdopterContract"
-          component={AdopterContract}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="AdoptedContract"
-          component={AdoptedContract}
-        ></Stack.Screen>
+        <Stack.Screen name="AdopterContract" component={AdopterContract} />
+        <Stack.Screen name="AdoptedContract" component={AdoptedContract} />
         <Stack.Screen
           name="AdopterCuestionary"
           component={AdopterCuestionary}
-        ></Stack.Screen>
+        />
         <Stack.Screen
           name="AdoptedCuestionary"
           component={AdoptedCuestionary}
-        ></Stack.Screen>
+        />
         <Stack.Screen
           name="AdopterPreferencesCuestionary"
           component={AdopterPreferencesCuestionary}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="AdoptedPetInfo"
-          component={AdoptedPetInfo}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="PetProfile"
-          component={AdoptedPetProfileScreen}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="AdopterProfile"
-          component={TabsAdopter}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="AdoptedProfile"
-          component={TabsAdopted}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="AdopterCarrousel"
-          component={CardsScreen}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="AdoptedCarrousel"
-          component={AdoptedCardsScreen}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="EditScreen"
-          component={EditDataScreen}
-        ></Stack.Screen>
+        />
+        <Stack.Screen name="AdoptedPetInfo" component={AdoptedPetInfo} />
+        <Stack.Screen name="PetProfile" component={AdoptedPetProfileScreen} />
+        <Stack.Screen name="AdopterProfile" component={TabsAdopter} />
+        <Stack.Screen name="AdoptedProfile" component={TabsAdopted} />
+        <Stack.Screen name="AdopterCarrousel" component={CardsScreen} />
+        <Stack.Screen name="AdoptedCarrousel" component={AdoptedCardsScreen} />
+        <Stack.Screen name="EditScreen" component={EditDataScreen} />
         <Stack.Screen
           name="CarrouselAdopter"
           component={CarrouselAdopterProfile}
-        ></Stack.Screen>
+        />
+        <Stack.Screen name="PaperbinAdopter" component={PaperbinAdopter} />
+        <Stack.Screen name="PaperbinAdopted" component={PaperbinAdopted} />
       </Stack.Navigator>
     </NavigationContainer>
   );

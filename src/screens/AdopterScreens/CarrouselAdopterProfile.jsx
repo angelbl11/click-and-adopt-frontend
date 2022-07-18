@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 //Libraries
-import { ScrollView, View, HStack, VStack, Heading, Text } from "native-base";
+import { ScrollView, View, VStack, Heading, Text } from "native-base";
 import { StatusBar } from "expo-status-bar";
 import { Avatar } from "@rneui/themed";
-import { Dimensions } from "react-native";
+import { Dimensions, SafeAreaView } from "react-native";
 
 const CarrouselAdopterProfile = ({ route }) => {
   const {
@@ -35,17 +35,23 @@ const CarrouselAdopterProfile = ({ route }) => {
   //Variables for screensize
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
+  const [image, setImage] = useState(
+    `https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg`
+  );
   return (
     <SafeAreaView flex={1}>
       <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
         <StatusBar style="dark" />
         <ScrollView>
           <VStack alignItems={"center"} width={screenWidth - 10}>
-            <HStack textAlign={"left"} ml={12} mt={3}>
-              <Heading fontSize={"38px"} fontWeight="bold" color="#6A994E">
-                Perfil
-              </Heading>
-            </HStack>
+            <Heading
+              fontSize={"38px"}
+              fontWeight="bold"
+              color="#6A994E"
+              right={140}
+            >
+              Perfil
+            </Heading>
             <VStack mt={6} alignItems="center">
               {image && (
                 <Avatar

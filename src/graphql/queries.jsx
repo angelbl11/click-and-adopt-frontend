@@ -188,3 +188,69 @@ export const GET_ADOPTED_LIKES = gql`
     }
   }
 `;
+
+export const GET_TRASH_LIKES_ADOPTED = gql`
+  query getUsersTrashLikes($userId: String!) {
+    getUsersTrashLikes(userId: $userId) {
+      likes {
+        date
+        likedUserId {
+          id
+          hadPets
+          hadPetsDate
+          hadPetsValue
+          haveCat
+          haveDog
+          havePets
+          isAgreeWithProtocol
+          isChildren
+          numberOfCats
+          numberOfDays
+          numberOfDogs
+          numberOfMonths
+          numberOfYears
+          petAgePreferences
+          petGenderPreferences
+          petPreferences
+          petSizePreferences
+          reasonToAdopt
+          userId {
+            fullName
+            email
+            account
+            age
+            profilePicture {
+              filename
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_TRASH_LIKES_ADOPTER = gql`
+  query getPetsTrashLikes($userId: String!) {
+    getPetsTrashLikes(userId: $userId) {
+      likes {
+        date
+        petId {
+          adoptedPetDescription
+          adoptedPetName
+          adoptedPetProtocol
+          ageOfAdoptedPet
+          coexistenceWithOtherPets
+          genderOfAdoptedPet
+          id
+          isAvailableToBeAdopted
+          isHealthyWithKids
+          isHealthyWithOtherPets
+          petPicture {
+            filename
+          }
+          typeOfAdoptedPet
+        }
+      }
+    }
+  }
+`;

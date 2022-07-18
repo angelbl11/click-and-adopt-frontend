@@ -57,7 +57,7 @@ const AdopterLikeScreen = ({ navigation }) => {
   const deleteLikeAlert = (petId) => {
     Alert.alert(
       "¿Estás seguro que quieres eliminar este like?",
-      "Se reasignará a tus likes disponibles",
+      "Se reasignará a tus likes disponibles y no será guardado en la papelera",
       [
         {
           text: "Cancelar",
@@ -70,10 +70,6 @@ const AdopterLikeScreen = ({ navigation }) => {
               variables: {
                 petId: petId,
                 userId: user.id,
-              },
-              onError: (err) => {
-                console.log(err.graphQLErrors);
-                console.log(user.id);
               },
             });
           },
@@ -99,9 +95,8 @@ const AdopterLikeScreen = ({ navigation }) => {
                 petId: petId,
                 userId: user.id,
               },
-              onError: (err) => {
-                console.log(err.graphQLErrors);
-                console.log(user.id);
+              onCompleted: () => {
+                navigation.navigate("PaperbinAdopter", { userId: user.id });
               },
             });
           },
@@ -149,6 +144,9 @@ const AdopterLikeScreen = ({ navigation }) => {
               ¿No ves los cambios?
             </Link>
             <IconButton
+              onPress={() =>
+                navigation.navigate("PaperbinAdopter", { userId: user.id })
+              }
               left={8}
               _icon={{
                 as: MaterialCommunityIcons,
