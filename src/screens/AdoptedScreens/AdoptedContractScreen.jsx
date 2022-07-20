@@ -51,7 +51,6 @@ const AdoptedContract = ({ navigation }) => {
             validationSchema={AdoptedContractSchema}
             onSubmit={(values) => {
               values.isAccepted == check;
-              console.log(values);
               navigation.navigate("AdoptedCuestionary");
             }}
           >

@@ -173,35 +173,34 @@ const AdoptedProfile = ({ navigation }) => {
                 );
               })}
             </View>
-            <VStack mt={3} space={2.3} mb={3}>
-              <Heading
-                fontSize={"28px"}
-                textAlign={"left"}
-                fontWeight="bold"
-                color="#6A994E"
-                left={"-105"}
+            <Heading
+              fontSize={"28px"}
+              fontWeight="bold"
+              color="#6A994E"
+              right="125"
+            >
+              Acerca de
+            </Heading>
+            <Center>
+              <Text
+                fontSize={"22px"}
+                fontWeight={"semibold"}
+                color={"#1F2937"}
+                mt={3}
+                mb={2}
               >
-                Acerca de
-              </Heading>
-              <Center>
-                <Text
-                  fontSize={"22px"}
-                  fontWeight={"semibold"}
-                  color={"#1F2937"}
-                  mt={3}
-                  mb={2}
-                >
-                  {user.fullName}
-                </Text>
-                <Text
-                  fontSize={"16px"}
-                  color={"#9CA3AF"}
-                  mb={1.5}
-                  fontWeight="medium"
-                >
-                  {user.account === "Adoptado" ? "Responsable" : null}
-                </Text>
-              </Center>
+                {user.fullName}
+              </Text>
+              <Text
+                fontSize={"16px"}
+                color={"#9CA3AF"}
+                mb={1.5}
+                fontWeight="medium"
+              >
+                {user.account === "Adoptado" ? "Responsable" : null}
+              </Text>
+            </Center>
+            <VStack space={2.3}>
               <Text
                 fontSize={"20px"}
                 fontWeight="semibold"

@@ -16,6 +16,7 @@ import {
   VStack,
   HStack,
   Heading,
+  Center,
 } from "native-base";
 
 //Graphql
@@ -129,7 +130,12 @@ const AdopterProfileScreen = ({ navigation }) => {
         <ScrollView>
           <VStack alignItems={"center"} width={screenWidth - 10}>
             <HStack textAlign={"left"} ml={12} mt={3}>
-              <Heading fontSize={"38px"} fontWeight="bold" color="#6A994E">
+              <Heading
+                fontSize={"38px"}
+                fontWeight="bold"
+                color="#6A994E"
+                left={5}
+              >
                 Perfil
               </Heading>
               <IconButton
@@ -170,7 +176,7 @@ const AdopterProfileScreen = ({ navigation }) => {
               />
             </HStack>
 
-            <VStack mt={6} alignItems="center">
+            <Center mt={6} alignItems="center">
               {image && (
                 <Avatar
                   size={140}
@@ -243,8 +249,8 @@ const AdopterProfileScreen = ({ navigation }) => {
               >
                 {showMessage === true ? "Adoptando" : "No disponible"}
               </Text>
-            </VStack>
-            <VStack mt={6} space={2.3} mb={3} left={3}>
+            </Center>
+            <VStack mt={6} space={2.3} left={0}>
               <Heading
                 fontSize={"28px"}
                 textAlign={"left"}

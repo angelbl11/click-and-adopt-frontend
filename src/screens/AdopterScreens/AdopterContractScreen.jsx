@@ -50,7 +50,6 @@ const AdopterContract = ({ navigation }) => {
             validationSchema={AdopterContractSchema}
             onSubmit={(values) => {
               values.isAccepted == check;
-              console.log(values);
               navigation.navigate("AdopterCuestionary");
             }}
           >

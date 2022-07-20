@@ -96,7 +96,7 @@ const EditDataScreen = ({ navigation, route }) => {
                             : user.fullName,
                         },
                       },
-                      update: (proxy, { data }) => {
+                      onCompleted: () => {
                         resetForm();
                         setUser({
                           age: values.age,
@@ -110,9 +110,6 @@ const EditDataScreen = ({ navigation, route }) => {
                             ? "AdopterProfile"
                             : "AdoptedProfile"
                         );
-                      },
-                      onError: (err) => {
-                        console.log("Error:", err.networkError);
                       },
                     });
                   },
@@ -148,9 +145,9 @@ const EditDataScreen = ({ navigation, route }) => {
                 mb={errors.fullName ? "8px" : "30px"}
               />
               {errors.fullName && touched.fullName ? (
-                <StyledInputLabel validation={true}>
+                <Text fontSize={"13px"} color={"#BC4749"}>
                   {errors.fullName}
-                </StyledInputLabel>
+                </Text>
               ) : undefined}
 
               <CustomTextInput

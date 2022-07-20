@@ -35,6 +35,22 @@ const AdopterPreferencesCuestionary = ({ navigation, route }) => {
   //Variables for screensize
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
+  const {
+    reasonsToAdopt,
+    petPreferences,
+    havePets,
+    hadPets,
+    hadPetsValue,
+    hadPetsDate,
+    numberOfDogs,
+    numberOfCats,
+    haveChildren,
+    numberOfDays,
+    numberOfMonths,
+    numberOfYears,
+    haveDog,
+    haveCat,
+  } = route.params;
 
   return (
     <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
@@ -86,16 +102,7 @@ const AdopterPreferencesCuestionary = ({ navigation, route }) => {
                   userId: user.id,
                 },
               },
-              onError: (err) => {
-                console.log("Network Error");
-              },
-
-              onCompleted: () => {
-                console.log("OK");
-                console.log(variables);
-              },
             });
-
             navigation.navigate("AdopterProfile");
           }}
         >

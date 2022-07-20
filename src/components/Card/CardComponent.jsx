@@ -41,7 +41,7 @@ const CardComponent = ({ uri, petName, pressed }) => {
             {petName}
           </Text>
           <IconButton
-            icon={<Icon as={MaterialIcons} name="info-outline"></Icon>}
+            icon={<Icon as={MaterialIcons} name="info-outline" />}
             _icon={{
               position: "absolute",
               bottom: "22",

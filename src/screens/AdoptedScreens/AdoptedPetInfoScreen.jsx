@@ -13,7 +13,6 @@ import {
   VStack,
   Text,
   TextArea,
-  KeyboardAvoidingView,
   ScrollView,
 } from "native-base";
 
