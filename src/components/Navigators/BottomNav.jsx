@@ -1,17 +1,17 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
+
 //Screens
-import AdoptedProfile from "../../screens/AdoptedScreens/AdoptedProfileScreen";
-import AdoptedCardsScreen from "../../screens/AdoptedScreens/AdoptedCardsScreen";
+import AdopterProfileScreen from "../../screens/AdopterScreens/AdopterProfileScreen";
+import CardsScreen from "../../screens/AdopterScreens/CardsScreen";
 import ChatScreen from "../../screens/GeneralScreens/ChatScreen";
-import AdoptedLikesScreen from "../../screens/AdoptedScreens/AdoptedLikesScreen";
+import AdopterLikeScreen from "../../screens/AdopterScreens/AdopterLikeScreen";
 
 //Components & Libraries
-import { Ionicons } from "@expo/vector-icons";
 import { Icon } from "native-base";
-import CardsScreen from "../../screens/GeneralScreens/CardsScreen";
-
-const Tabs = () => {
+import { Ionicons } from "@expo/vector-icons";
+import CardsScreens from "../../screens/GeneralScreens/CardsScreen";
+const TabsAdopter = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -42,7 +42,7 @@ const Tabs = () => {
     >
       <Tab.Screen
         name="Inicio"
-        component={CardsScreen}
+        component={CardsScreens}
         options={{
           tabBarIcon: ({ focused }) => (
             <>
@@ -58,7 +58,7 @@ const Tabs = () => {
       ></Tab.Screen>
       <Tab.Screen
         name="Likes"
-        component={AdoptedLikesScreen}
+        component={AdopterLikeScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <>
@@ -90,7 +90,7 @@ const Tabs = () => {
       ></Tab.Screen>
       <Tab.Screen
         name="Perfil"
-        component={AdoptedProfile}
+        component={AdopterProfileScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <>
@@ -108,4 +108,4 @@ const Tabs = () => {
   );
 };
 
-export default Tabs;
+export default TabsAdopter;

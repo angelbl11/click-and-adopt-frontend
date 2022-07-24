@@ -3,9 +3,9 @@ const Tab = createBottomTabNavigator();
 
 //Screens
 import AdopterProfileScreen from "../../screens/AdopterScreens/AdopterProfileScreen";
-import CardsScreen from "../../screens/AdopterScreens/CardsScreen";
 import ChatScreen from "../../screens/GeneralScreens/ChatScreen";
 import AdopterLikeScreen from "../../screens/AdopterScreens/AdopterLikeScreen";
+import CardsScreen from "../../screens/GeneralScreens/CardsScreen";
 
 //Components & Libraries
 import { Icon } from "native-base";
