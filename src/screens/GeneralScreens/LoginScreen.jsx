@@ -90,11 +90,9 @@ const Login = ({ navigation }) => {
                 onError: (err) => {
                   handleMessage(err.message);
                 },
-                update(proxy, { data }) {
+                onCompleted: (data) => {
                   auth.login(data.login);
-                  if (data.login.account === "Adoptante")
-                    navigation.navigate("AdopterProfile");
-                  else navigation.navigate("AdoptedProfile");
+                  navigation.navigate("Profiles");
                 },
               });
             }}

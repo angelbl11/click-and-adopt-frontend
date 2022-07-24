@@ -2,9 +2,6 @@ import React, { useContext, useEffect, useState, useCallback } from "react";
 import { Dimensions, Alert, RefreshControl } from "react-native";
 
 //Libraries
-import { StatusBar } from "expo-status-bar";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import * as Updates from "expo-updates";
 import {
   View,
   Spinner,
@@ -17,45 +14,62 @@ import {
   useToast,
   IconButton,
 } from "native-base";
-
+import { StatusBar } from "expo-status-bar";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as Updates from "expo-updates";
 //Custom Components
 import LikedUserComponent from "../../components/RenderObjects/LikedUserComponent";
 
-//GraphQL
-import { GET_ADOPTED_LIKES } from "../../graphql/queries";
-import { useMutation, useLazyQuery } from "@apollo/client";
-
 //Auth
 import { AuthContext } from "../../context/Auth";
+
+//GraphQL
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { GET_ADOPTER_LIKES, GET_ADOPTED_LIKES } from "../../graphql/queries";
 import {
+  DELETE_PET_LIKE,
+  TRASH_PET_LIKE,
   DELETE_ADOPTER_LIKE,
   TRASH_ADOPTER_LIKE,
 } from "../../graphql/mutations";
-const AdoptedLikesScreen = ({ navigation }) => {
+
+const LikeScreen = ({ navigation }) => {
   const url = "https://calm-forest-47055.herokuapp.com/ProfilePictures/";
   const { user } = useContext(AuthContext);
+  const [adopterLikes, setAdopterLikes] = useState([]);
   const [adoptedLikes, setAdoptedLikes] = useState([]);
+  //Variables for screensize
+  const screenHeight = Dimensions.get("window").height;
   //Refresh control
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     Updates.reloadAsync();
   }, []);
-  //Variables for screensize
-  const screenHeight = Dimensions.get("window").height;
   //Toast
   const toast = useToast();
-  const [deleteUserLike] = useMutation(DELETE_ADOPTER_LIKE);
-  const [trashUserLike] = useMutation(TRASH_ADOPTER_LIKE);
-  const [getAdoptedLikes, { data, loading }] = useLazyQuery(GET_ADOPTED_LIKES, {
+  const [reasignPetLike] = useMutation(DELETE_PET_LIKE);
+  const [trashPetLike] = useMutation(TRASH_PET_LIKE);
+  const [getAdopterLikes, { data, loading }] = useLazyQuery(GET_ADOPTER_LIKES, {
     variables: {
       userId: user.id,
     },
+
     onCompleted: (data) => {
-      setAdoptedLikes(data?.getUserLikes?.likes);
+      setAdopterLikes(data?.getPetsLikes?.likes);
     },
   });
-
+  const [reasignUserLike] = useMutation(DELETE_ADOPTER_LIKE);
+  const [trashUserLike] = useMutation(TRASH_ADOPTER_LIKE);
+  const [getAdoptedLikes, { data: adoptedData, loading: adoptedLoading }] =
+    useLazyQuery(GET_ADOPTED_LIKES, {
+      variables: {
+        userId: user.id,
+      },
+      onCompleted: (data) => {
+        setAdoptedLikes(adoptedData?.getUserLikes?.likes);
+      },
+    });
   const deleteLikeAlert = (likedUserId) => {
     Alert.alert(
       "¿Estás seguro que quieres eliminar este like?",
@@ -68,12 +82,19 @@ const AdoptedLikesScreen = ({ navigation }) => {
         {
           text: "Eliminar",
           onPress: () => {
-            deleteUserLike({
-              variables: {
-                likedUserId: likedUserId,
-                userId: user.id,
-              },
-            });
+            user.account === "Adoptante"
+              ? reasignPetLike({
+                  variables: {
+                    petId: likedUserId,
+                    userId: user.id,
+                  },
+                })
+              : reasignUserLike({
+                  variables: {
+                    likedUserId: likedUserId,
+                    userId: user.id,
+                  },
+                });
           },
         },
       ]
@@ -92,15 +113,31 @@ const AdoptedLikesScreen = ({ navigation }) => {
         {
           text: "Enviar",
           onPress: () => {
-            trashUserLike({
-              variables: {
-                likedUserId: likedUserId,
-                userId: user.id,
-              },
-              onCompleted: () => {
-                navigation.navigate("PaperbinAdopted", { userId: user.id });
-              },
-            });
+            user.account === "Adoptante"
+              ? trashPetLike({
+                  variables: {
+                    petId: likedUserId,
+                    userId: user.id,
+                  },
+                  onCompleted: () => {
+                    navigation.navigate("Paperbin", {
+                      userId: user.id,
+                      userAccount: user.account,
+                    });
+                  },
+                })
+              : trashUserLike({
+                  variables: {
+                    likedUserId: likedUserId,
+                    userId: user.id,
+                  },
+                  onCompleted: () => {
+                    navigation.navigate("Paperbin", {
+                      userId: user.id,
+                      userAccount: user.account,
+                    });
+                  },
+                });
           },
         },
       ]
@@ -108,7 +145,7 @@ const AdoptedLikesScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    getAdoptedLikes();
+    user.account === "Adoptante" ? getAdopterLikes() : getAdoptedLikes();
   }, []);
   return (
     <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
@@ -119,17 +156,17 @@ const AdoptedLikesScreen = ({ navigation }) => {
         }
       >
         <VStack alignItems={"center"} bgColor="#FFFFFF">
-          <HStack mt={3}>
+          <HStack space={3.5} mt={3}>
             <Heading
               fontSize={"38px"}
               fontWeight="bold"
               color="#6A994E"
-              right={10}
+              right={6}
             >
               Likes
             </Heading>
             <Link
-              left={-12}
+              right={3.3}
               onPress={() =>
                 toast.show({
                   description:
@@ -147,9 +184,12 @@ const AdoptedLikesScreen = ({ navigation }) => {
             </Link>
             <IconButton
               onPress={() =>
-                navigation.navigate("PaperbinAdopted", { userId: user.id })
+                navigation.navigate("Paperbin", {
+                  userId: user.id,
+                  userAccount: user.account,
+                })
               }
-              left={12}
+              left={8}
               _icon={{
                 as: MaterialCommunityIcons,
                 name: "account-heart",
@@ -162,19 +202,50 @@ const AdoptedLikesScreen = ({ navigation }) => {
             />
           </HStack>
           <VStack space={2} mt={5}>
-            {loading ? (
+            {loading || adoptedLoading ? (
               <Center mt={150}>
                 <Spinner color={"#6A994E"} />
                 <Heading color="#6A994E" fontSize="xl">
                   Cargando
                 </Heading>
               </Center>
-            ) : adoptedLikes.length === 0 ? (
-              <Center mt={200}>
-                <Heading color="#6A994E" fontSize="xl">
-                  No has asignado likes
-                </Heading>
-              </Center>
+            ) : user.account === "Adoptante" ? (
+              adopterLikes?.map(({ date }, index) => {
+                return (
+                  <LikedUserComponent
+                    key={index}
+                    name={adopterLikes[index].petId?.adoptedPetName}
+                    date={date}
+                    pressReasign={() =>
+                      deleteLikeAlert(adopterLikes[index].petId?.id)
+                    }
+                    pressTrash={() =>
+                      trashLikeAlert(adopterLikes[index].petId?.id)
+                    }
+                    url={url + adopterLikes[index].petId?.petPicture?.filename}
+                    pressed={() =>
+                      navigation.navigate("PetProfile", {
+                        petId: adopterLikes[index].petId?.id,
+                        name: adopterLikes[index].petId?.adoptedPetName,
+                        gender: adopterLikes[index].petId?.genderOfAdoptedPet,
+                        des: adopterLikes[index].petId?.adoptedPetDescription,
+                        age: adopterLikes[index].petId?.ageOfAdoptedPet,
+                        isHealthyP:
+                          adopterLikes[index].petId?.isHealthyWithOtherPets,
+                        isHealthyK:
+                          adopterLikes[index].petId?.isHealthyWithKids,
+                        typeOf: adopterLikes[index].petId?.typeOfAdoptedPet,
+                        coexistence:
+                          adopterLikes[index].petId?.coexistenceWithOtherPets,
+                        protocol: adopterLikes[index].petId?.adoptedPetProtocol,
+                        petProfPic:
+                          url + adopterLikes[index].petId?.petPicture?.filename,
+                        isVisible: false,
+                      })
+                    }
+                  />
+                );
+              })
             ) : (
               adoptedLikes?.map(({ date }, index) => {
                 return (
@@ -250,4 +321,4 @@ const AdoptedLikesScreen = ({ navigation }) => {
   );
 };
 
-export default AdoptedLikesScreen;
+export default LikeScreen;

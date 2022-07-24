@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { Dimensions, Alert } from "react-native";
 //Libraries
-import { View, Spinner, Heading, VStack, Center, Text } from "native-base";
+import { View, Spinner, Heading, VStack, Center } from "native-base";
 import { StatusBar } from "expo-status-bar";
 
 //GraphQL
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { GET_TRASH_LIKES_ADOPTED } from "../../graphql/queries";
+import {
+  GET_TRASH_LIKES_ADOPTED,
+  GET_TRASH_LIKES_ADOPTER,
+} from "../../graphql/queries";
 import LikedUserComponent from "../../components/RenderObjects/LikedUserComponent";
 import {
   DELETE_ADOPTER_LIKE,
   DELETE_PET_LIKE,
   MOVE_ADOPTED_LIKE,
+  MOVE_ADOPTER_LIKE,
 } from "../../graphql/mutations";
 
-const PaperbinAdopted = ({ route, navigation }) => {
+const PaperbinScreen = ({ route, navigation }) => {
   const url = "https://calm-forest-47055.herokuapp.com/ProfilePictures/";
-  const { userId } = route.params;
+  const { userId, userAccount } = route.params;
   const [adoptedTrashLikes, setAdoptedTrashLikes] = useState([]);
+  const [adopterTrashLikes, setAdopterTrashLikes] = useState([]);
   //Graphql Hooks
   const [moveLikeAdopted] = useMutation(MOVE_ADOPTED_LIKE);
   const [deletePetLike] = useMutation(DELETE_PET_LIKE);
@@ -34,6 +39,17 @@ const PaperbinAdopted = ({ route, navigation }) => {
       },
     }
   );
+  const [moveLikeAdopter] = useMutation(MOVE_ADOPTER_LIKE);
+  const [getTrashLikesAdopter, { loading: adopterLoading, data: adopterData }] =
+    useLazyQuery(GET_TRASH_LIKES_ADOPTER, {
+      variables: {
+        userId: userId,
+      },
+
+      onCompleted: (data) => {
+        setAdopterTrashLikes(adopterData?.getPetsTrashLikes?.likes);
+      },
+    });
 
   //Alerts
   const movetoLikeScreenAlert = (likedUserId) => {
@@ -48,18 +64,31 @@ const PaperbinAdopted = ({ route, navigation }) => {
         {
           text: "Aceptar",
           onPress: () => {
-            moveLikeAdopted({
-              variables: {
-                likedUserId: likedUserId,
-                userId: userId,
-              },
-              onCompleted: () => {
-                navigation.navigate("AdoptedProfile", { screen: "Likes" });
-              },
-              onError: (err) => {
-                showErrorAlert(err.message);
-              },
-            });
+            userAccount === "Adoptado"
+              ? moveLikeAdopted({
+                  variables: {
+                    likedUserId: likedUserId,
+                    userId: userId,
+                  },
+                  onCompleted: () => {
+                    navigation.navigate("AdoptedProfile", { screen: "Likes" });
+                  },
+                  onError: (err) => {
+                    showErrorAlert(err.message);
+                  },
+                })
+              : moveLikeAdopter({
+                  variables: {
+                    petId: likedUserId,
+                    userId: userId,
+                  },
+                  onCompleted: () => {
+                    navigation.navigate("AdopterProfile", { screen: "Likes" });
+                  },
+                  onError: (err) => {
+                    showErrorAlert(err.message);
+                  },
+                });
           },
         },
       ]
@@ -86,22 +115,34 @@ const PaperbinAdopted = ({ route, navigation }) => {
         {
           text: "Eliminar",
           onPress: () => {
-            deletePetLike({
-              variables: {
-                likedUserId: likedUserId,
-                userId: userId,
-              },
-              onCompleted: () => {
-                navigation.navigate("AdoptedProfile", { screen: "Likes" });
-              },
-            });
+            userAccount === "Adoptado"
+              ? deletePetLike({
+                  variables: {
+                    likedUserId: likedUserId,
+                    userId: userId,
+                  },
+                  onCompleted: () => {
+                    navigation.navigate("AdoptedProfile", { screen: "Likes" });
+                  },
+                })
+              : deleteUserLike({
+                  variables: {
+                    petId: petId,
+                    userId: userId,
+                  },
+                  onCompleted: () => {
+                    navigation.navigate("AdopterProfile", { screen: "Likes" });
+                  },
+                });
           },
         },
       ]
     );
   };
   useEffect(() => {
-    getTrashLikesAdopted();
+    userAccount === "Adoptado"
+      ? getTrashLikesAdopted()
+      : getTrashLikesAdopter();
   }, []);
 
   //Variables for screensize
@@ -119,20 +160,21 @@ const PaperbinAdopted = ({ route, navigation }) => {
           Papelera
         </Heading>
         <VStack space={2} mt={5}>
-          {loading ? (
+          {loading || adopterLoading ? (
             <Center mt={150}>
               <Spinner color={"#6A994E"} />
               <Heading color="#6A994E" fontSize="xl">
                 Cargando
               </Heading>
             </Center>
-          ) : adoptedTrashLikes.length === 0 ? (
+          ) : adoptedTrashLikes.length === 0 ||
+            adopterTrashLikes.length === 0 ? (
             <Center mt={200}>
               <Heading color="#6A994E" fontSize="xl">
                 Aún no hay likes en la papelera
               </Heading>
             </Center>
-          ) : (
+          ) : userAccount === "Adoptado" ? (
             adoptedTrashLikes?.map(({ date }, index) => {
               return (
                 <LikedUserComponent
@@ -206,6 +248,51 @@ const PaperbinAdopted = ({ route, navigation }) => {
                 />
               );
             })
+          ) : (
+            adopterTrashLikes?.map(({ date }, index) => {
+              return (
+                <LikedUserComponent
+                  isPaperBin={true}
+                  key={index}
+                  name={adopterTrashLikes[index].petId?.adoptedPetName}
+                  date={date}
+                  pressReasign={() =>
+                    movetoLikeScreenAlert(adopterTrashLikes[index].petId?.id)
+                  }
+                  pressTrash={() =>
+                    deleteLikeAlert(adopterTrashLikes[index].petId?.id)
+                  }
+                  url={
+                    url + adopterTrashLikes[index].petId?.petPicture?.filename
+                  }
+                  pressed={() =>
+                    navigation.navigate("PetProfile", {
+                      petId: adopterTrashLikes[index].petId?.id,
+                      name: adopterTrashLikes[index].petId?.adoptedPetName,
+                      gender:
+                        adopterTrashLikes[index].petId?.genderOfAdoptedPet,
+                      des: adopterTrashLikes[index].petId
+                        ?.adoptedPetDescription,
+                      age: adopterTrashLikes[index].petId?.ageOfAdoptedPet,
+                      isHealthyP:
+                        adopterTrashLikes[index].petId?.isHealthyWithOtherPets,
+                      isHealthyK:
+                        adopterTrashLikes[index].petId?.isHealthyWithKids,
+                      typeOf: adopterTrashLikes[index].petId?.typeOfAdoptedPet,
+                      coexistence:
+                        adopterTrashLikes[index].petId
+                          ?.coexistenceWithOtherPets,
+                      protocol:
+                        adopterTrashLikes[index].petId?.adoptedPetProtocol,
+                      petProfPic:
+                        url +
+                        adopterTrashLikes[index].petId?.petPicture?.filename,
+                      isVisible: false,
+                    })
+                  }
+                />
+              );
+            })
           )}
         </VStack>
       </VStack>
@@ -213,4 +300,4 @@ const PaperbinAdopted = ({ route, navigation }) => {
   );
 };
 
-export default PaperbinAdopted;
+export default PaperbinScreen;

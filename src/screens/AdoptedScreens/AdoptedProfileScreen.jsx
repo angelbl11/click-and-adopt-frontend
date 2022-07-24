@@ -27,7 +27,7 @@ import { GET_ADOPTED_INFO } from "../../graphql/queries";
 import { useLazyQuery } from "@apollo/client";
 import { Dimensions, SafeAreaView } from "react-native";
 
-const AdoptedProfile = ({ navigation }) => {
+const AdoptedProfileScreen = ({ navigation }) => {
   //Variables for screensize
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
@@ -239,4 +239,4 @@ const AdoptedProfile = ({ navigation }) => {
   );
 };
 
-export default AdoptedProfile;
+export default AdoptedProfileScreen;

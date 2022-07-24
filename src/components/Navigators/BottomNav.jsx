@@ -1,17 +1,23 @@
+import { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
 
 //Screens
 import AdopterProfileScreen from "../../screens/AdopterScreens/AdopterProfileScreen";
-import CardsScreen from "../../screens/AdopterScreens/CardsScreen";
+import AdoptedProfileScreen from "../../screens/AdoptedScreens/AdoptedProfileScreen";
 import ChatScreen from "../../screens/GeneralScreens/ChatScreen";
-import AdopterLikeScreen from "../../screens/AdopterScreens/AdopterLikeScreen";
+import CardsScreen from "../../screens/GeneralScreens/CardsScreen";
+import LikeScreen from "../../screens/GeneralScreens/LikeScreen";
+
+//Auth
+import { AuthContext } from "../../context/Auth";
 
 //Components & Libraries
 import { Icon } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
-import CardsScreens from "../../screens/GeneralScreens/CardsScreen";
-const TabsAdopter = () => {
+
+const BottomNav = () => {
+  const { user } = useContext(AuthContext);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -42,7 +48,7 @@ const TabsAdopter = () => {
     >
       <Tab.Screen
         name="Inicio"
-        component={CardsScreens}
+        component={CardsScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <>
@@ -58,7 +64,7 @@ const TabsAdopter = () => {
       ></Tab.Screen>
       <Tab.Screen
         name="Likes"
-        component={AdopterLikeScreen}
+        component={LikeScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <>
@@ -90,7 +96,11 @@ const TabsAdopter = () => {
       ></Tab.Screen>
       <Tab.Screen
         name="Perfil"
-        component={AdopterProfileScreen}
+        component={
+          user.account === "Adoptante"
+            ? AdopterProfileScreen
+            : AdoptedProfileScreen
+        }
         options={{
           tabBarIcon: ({ focused }) => (
             <>
@@ -108,4 +118,4 @@ const TabsAdopter = () => {
   );
 };
 
-export default TabsAdopter;
+export default BottomNav;
