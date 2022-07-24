@@ -16,14 +16,18 @@ import { StatusBar } from "expo-status-bar";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
+//Contracts
+import { contracts } from "../../components/Utils/contracts";
+
 //Validation inputs
-const AdoptedContractSchema = Yup.object().shape({
+const ContractSchema = Yup.object().shape({
   isAccepted: Yup.boolean()
     .required("Debes aceptar los términos para continuar")
     .oneOf([true], "Debes aceptar los términos y condiciones"),
 });
 
-const AdoptedContract = ({ navigation }) => {
+const ContractScreen = ({ navigation, route }) => {
+  const { account } = route.params;
   const [check, setCheck] = useState(false);
   //Variables for screensize
   const screenWidth = Dimensions.get("window").width;
@@ -48,10 +52,12 @@ const AdoptedContract = ({ navigation }) => {
           </Heading>
           <Formik
             initialValues={{ isAccepted: false }}
-            validationSchema={AdoptedContractSchema}
+            validationSchema={ContractSchema}
             onSubmit={(values) => {
               values.isAccepted == check;
-              navigation.navigate("AdoptedCuestionary");
+              account === "Adoptado"
+                ? navigation.navigate("AdoptedCuestionary")
+                : navigation.navigate("AdopterCuestionary");
             }}
           >
             {({ handleSubmit, values, errors, touched }) => (
@@ -69,35 +75,9 @@ const AdoptedContract = ({ navigation }) => {
                     width={screenWidth - 50}
                   >
                     <Text fontSize={14} flexShrink={1}>
-                      Click&Adopt pretende brindar una herramienta eficaz a
-                      todas aquellas organizaciones y/o personas interesadas en
-                      llevar un proceso de adopción animal confiable, seguro y
-                      sobre todo intuitivo. El objetivo principal de Click&Adopt
-                      es el de facilitar el proceso de difusión de un animal o
-                      de búsqueda de este, permitiendo así seleccionar
-                      características de la mascota para su fácil identificación
-                      ante los interesados y la conexión con las necesidades o
-                      requisitos del adoptante. Al aceptar los siguientes
-                      términos y condiciones, el usuario que adopta se
-                      compromete a cumplir con una sana convivencia con todos
-                      los usuarios de la aplicación además de brindar un uso
-                      responsable y consciente de la misma. Así pues, un proceso
-                      de adopción es una responsabilidad para toda la vida del
-                      animal en cuestión por lo que al aceptar estos términos el
-                      usuario acredita que es una persona mayor de edad y que
-                      los datos proporcionados a Click&Adopt son fidedignos. A
-                      su vez, el usuario interesado en adoptar acredita que
-                      entiende lo que es un proceso de adopción, valora, cuida y
-                      ama la vida animal y es partidario de los derechos
-                      animales. Por lo que, al aceptar este documento el usuario
-                      afirma ser completamente capaz de solventar gastos para la
-                      o las mascotas que se adopten dentro de la plataforma,
-                      siendo alguna de ellas consultas veterinarias,
-                      tratamientos veterinarios (tales como la esterilización,
-                      desparasitación, intervenciones quirúrgicas, etc),
-                      alimento de calidad, un espacio digno para que habite la
-                      mascota con el interesado o el próximo responsable de la
-                      mascota entre otras.
+                      {account === "Adoptado"
+                        ? contracts.AdoptedContract
+                        : contracts.AdopterContract}
                     </Text>
                   </Center>
                 </ScrollView>
@@ -146,4 +126,4 @@ const AdoptedContract = ({ navigation }) => {
   );
 };
 
-export default AdoptedContract;
+export default ContractScreen;

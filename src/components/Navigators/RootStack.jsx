@@ -8,10 +8,9 @@ const Stack = createNativeStackNavigator();
 //Screens
 import Login from "../../screens/GeneralScreens/LoginScreen";
 import SignUp from "../../screens/GeneralScreens/SignupScreen";
-import AdopterContract from "../../screens/AdopterScreens/AdopterContractScreen";
+import ContractScreen from "../../screens/GeneralScreens/ContractScreen";
 import AdopterCuestionary from "../../screens/AdopterScreens/AdopterCuestionaryScreen";
 import AdopterPreferencesCuestionary from "../../screens/AdopterScreens/AdopterPreferencesCuestionaryScreen";
-import AdoptedContract from "../../screens/AdoptedScreens/AdoptedContractScreen";
 import AdoptedCuestionary from "../../screens/AdoptedScreens/AdoptedCuestionaryScreen";
 import AdoptedPetInfo from "../../screens/AdoptedScreens/AdoptedPetInfoScreen";
 import AdoptedPetProfileScreen from "../../screens/AdoptedScreens/AdoptedPetProfileScreen";
@@ -61,8 +60,7 @@ const RootStack = () => {
         />
         <Stack.Screen name="SignUp" component={SignUp} />
 
-        <Stack.Screen name="AdopterContract" component={AdopterContract} />
-        <Stack.Screen name="AdoptedContract" component={AdoptedContract} />
+        <Stack.Screen name="Contract" component={ContractScreen} />
         <Stack.Screen
           name="AdopterCuestionary"
           component={AdopterCuestionary}

@@ -111,11 +111,10 @@ const SignUp = ({ navigation }) => {
                 onError: (err) => {
                   handleMessage(err.message);
                 },
-                update(cache, { data }) {
-                  auth.login(data?.register);
-                  if (data?.register?.account === "Adoptante")
-                    navigation.navigate("AdopterContract");
-                  else navigation.navigate("AdoptedContract");
+                onCompleted(data) {
+                  navigation.navigate("Contract", {
+                    account: data?.register?.account,
+                  });
                   resetForm();
                 },
               });

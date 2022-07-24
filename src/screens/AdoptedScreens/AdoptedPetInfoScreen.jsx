@@ -238,7 +238,7 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                   <RadioInput
                     label={`Indica el tipo de protocolo con el que cuenta ${petName}`}
                     linkLabel={"Protocolo"}
-                    marginLeftLink={"-240"}
+                    marginLeftLink={"-380"}
                     groupValue={
                       adoptedPetProtocol == "Completo"
                         ? (values.adoptedPetProtocol = "Completo")
