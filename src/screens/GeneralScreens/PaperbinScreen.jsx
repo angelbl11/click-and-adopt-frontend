@@ -96,7 +96,7 @@ const PaperbinScreen = ({ route, navigation }) => {
   };
 
   const showErrorAlert = (message) =>
-    Alert.alert("Error en la operación, " + message, [
+    Alert.alert("Ha ocurrido un error", message, [
       {
         text: "Cerrar",
         style: "cancel",

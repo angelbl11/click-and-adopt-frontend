@@ -49,6 +49,7 @@ const AdopterProfileScreen = ({ navigation }) => {
   const handleMessage = () => {
     setShowMessage((previousState) => !previousState);
   };
+  //Alerts
   const showAlert = () =>
     Alert.alert("Completado", "Foto de perfil subida con éxito", [
       {
@@ -56,7 +57,13 @@ const AdopterProfileScreen = ({ navigation }) => {
         style: "cancel",
       },
     ]);
-
+  const showErrorAlert = (message) =>
+    Alert.alert("Ha ocurrido un error", message, [
+      {
+        text: "Cerrar",
+        style: "cancel",
+      },
+    ]);
   const [getInfo, { data }] = useLazyQuery(GET_ADOPTER_INFO, {
     variables: {
       getAdopterInfoId: user.id,
@@ -115,6 +122,9 @@ const AdopterProfileScreen = ({ navigation }) => {
         onCompleted: () => {
           setShowButton(false);
           showAlert();
+        },
+        onError: (err) => {
+          showErrorAlert(err.message);
         },
       });
     } catch (e) {}
