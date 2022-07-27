@@ -117,7 +117,10 @@ const AdoptedProfileScreen = ({ navigation }) => {
                 }}
                 onPress={() => {
                   logout();
-                  navigation.navigate("Login");
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: "Login" }],
+                  });
                 }}
               />
             </HStack>
@@ -132,7 +135,7 @@ const AdoptedProfileScreen = ({ navigation }) => {
             >
               {petImage?.map((item, count) => {
                 console.log(
-                  pets[count].petProtocol?.map((file) => {
+                  pets[count]?.petProtocol?.map((file) => {
                     return file?.filename;
                   })
                 );

@@ -112,12 +112,9 @@ const SignUp = ({ navigation }) => {
                   handleMessage(err.message);
                 },
                 onCompleted(data) {
-                  navigation.reset({
-                    index: 0,
-                    routes: [
-                      { name: "Contract" },
-                      { account: data?.register?.account },
-                    ],
+                  auth.login(data?.register);
+                  navigation.navigate("Contract", {
+                    account: data?.register?.account,
                   });
                   resetForm();
                 },

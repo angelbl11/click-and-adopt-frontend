@@ -102,10 +102,14 @@ const AdopterPreferencesCuestionary = ({ navigation, route }) => {
                   userId: user.id,
                 },
               },
-            });
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "Profiles" }],
+              onCompleted: (data) => {
+                navigation.navigate("Profiles");
+                console.log("si");
+              },
+              onError: (err) => {
+                console.log(user.id);
+                console.log(err.message);
+              },
             });
           }}
         >

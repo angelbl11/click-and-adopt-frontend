@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Center, Heading, Spinner, View, VStack } from "native-base";
-import { Dimensions } from "react-native";
-import { useLazyQuery } from "@apollo/client";
+import { Alert, Dimensions } from "react-native";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_USER_MATCHES } from "../../graphql/queries";
+import { DELETE_CHAT } from "../../graphql/mutations";
 import { AuthContext } from "../../context/Auth";
 import { useContext } from "react";
 import { useState } from "react";
@@ -11,6 +12,33 @@ import { useState } from "react";
 //Components
 import ChatUserComponent from "../../components/RenderObjects/ChatUserComponent";
 const ChatScreen = ({ navigation }) => {
+  //Alerts
+  const showErrorAlert = (message) =>
+    Alert.alert("Ha ocurrido un error", message, [
+      {
+        text: "Cerrar",
+        style: "cancel",
+      },
+    ]);
+
+  const deleteChatAlert = () => {
+    Alert.alert(
+      "¿Estás seguro que quieres este chat?",
+      "Se eliminará el match con este usuario",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Eliminar",
+          onPress: () => {
+            deleteChat();
+          },
+        },
+      ]
+    );
+  };
   //Variables for screensize
   const { user } = useContext(AuthContext);
   const screenWidth = Dimensions.get("window").width;
@@ -23,6 +51,18 @@ const ChatScreen = ({ navigation }) => {
     },
     onCompleted: (data) => {
       setUserMatches(data?.getMatches);
+    },
+  });
+  const [deleteChat] = useMutation(DELETE_CHAT, {
+    variables: {
+      matchId: userMatches[0]?.id,
+    },
+    onCompleted: (data) => {
+      console.log("hecho");
+      console.log(data);
+    },
+    onError: (err) => {
+      console.log(err.message);
     },
   });
   useEffect(() => {
@@ -50,6 +90,10 @@ const ChatScreen = ({ navigation }) => {
             return (
               <ChatUserComponent
                 key={index}
+                pressDelete={() => {
+                  deleteChatAlert();
+                  getMatches();
+                }}
                 name={
                   user.account === "Adoptante"
                     ? userMatches[index]?.petInvolved?.adoptedPetName

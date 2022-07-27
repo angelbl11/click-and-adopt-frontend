@@ -66,6 +66,7 @@ const BottomNav = () => {
         name="Likes"
         component={LikeScreen}
         options={{
+          unmountOnBlur: true,
           tabBarIcon: ({ focused }) => (
             <>
               <Icon
@@ -82,6 +83,7 @@ const BottomNav = () => {
         name="Chats"
         component={ChatScreen}
         options={{
+          unmountOnBlur: true,
           tabBarIcon: ({ focused }) => (
             <>
               <Icon

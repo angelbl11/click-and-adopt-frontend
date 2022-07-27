@@ -33,7 +33,7 @@ import * as mime from "react-native-mime-types";
 import { AuthContext } from "../../context/Auth";
 import { PetsContext } from "../../context/PetsContext";
 
-const AdopterProfileScreen = ({ navigation }) => {
+const AdopterProfileScreen = ({ navigation, route }) => {
   const [showMessage, setShowMessage] = useState(
     data?.getAdopterInfo.adopterInfo?.isAvailableToAdopt
   );
@@ -181,7 +181,10 @@ const AdopterProfileScreen = ({ navigation }) => {
                 }}
                 onPress={() => {
                   logout();
-                  navigation.navigate("Login");
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: "Login" }],
+                  });
                 }}
               />
             </HStack>

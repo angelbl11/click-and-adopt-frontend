@@ -261,6 +261,7 @@ export const GET_TRASH_LIKES_ADOPTER = gql`
 export const GET_USER_MATCHES = gql`
   query getMatches($userId: String!) {
     getMatches(userId: $userId) {
+      id
       adopterInfo {
         account
         email

@@ -111,10 +111,7 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
           fileName: fileName,
         },
         onCompleted: () => {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "Profiles" }],
-          });
+          navigation.goBack();
         },
         onError: (err) => {
           showErrorAlert(err.message);
@@ -133,7 +130,7 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
           setShowButton(false);
           showUploadAlert();
           setNum(num + 1);
-          navigation.navigate("Profiles");
+          navigation.goBack();
         },
         onError: (err) => {
           showErrorAlert(err.message);
@@ -207,7 +204,7 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
 
               setPets(newPets);
               setPetImage(newPetsImage);
-              navigation.navigate("AdoptedProfile");
+              navigation.goBack();
             },
           });
         },

@@ -214,6 +214,12 @@ const LikeScreen = ({ navigation }) => {
                   Cargando
                 </Heading>
               </Center>
+            ) : adopterLikes?.length === 0 ? (
+              <Center mt={150}>
+                <Heading color="#6A994E" fontSize="xl">
+                  No has otorgado likes
+                </Heading>
+              </Center>
             ) : user.account === "Adoptante" ? (
               adopterLikes?.map(({ date }, index) => {
                 return (
@@ -251,6 +257,12 @@ const LikeScreen = ({ navigation }) => {
                   />
                 );
               })
+            ) : adoptedLikes?.length === 0 ? (
+              <Center mt={150}>
+                <Heading color="#6A994E" fontSize="xl">
+                  No has otorgado likes
+                </Heading>
+              </Center>
             ) : (
               adoptedLikes?.map(({ date }, index) => {
                 return (

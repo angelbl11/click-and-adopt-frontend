@@ -54,6 +54,7 @@ const AdoptedPetInfo = ({ navigation, route }) => {
   const [adoptedPetProtocol, setAdoptedPetProtocol] = useState("Completo");
   const [createAdoptedUser, { loading }] = useMutation(ADOPTED_CUESTIONARY);
   const { user } = useContext(AuthContext);
+  const auth = useContext(AuthContext);
   //Variables for screensize
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
@@ -118,6 +119,7 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                         genderOfAdoptedPet: genderOfAdoptedPet,
                         adoptedPetName: petName,
                         ageOfAdoptedPet: ageOfAdoptedPet,
+                        isAvailableToBeAdopted: false,
                         userId: user.id,
                         adoptedPetDescription: values.adoptedPetDescription,
                         isHealthyWithKids: values.isHealthyWithKids,
@@ -128,14 +130,11 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                         id: data?.answerAdoptedQuestionnaire,
                       },
                     ]);
-                    navigation.reset({
-                      index: 0,
-                      routes: [{ name: "Profiles" }, { userId: user.id }],
-                    });
+                    navigation.navigate("Profiles");
                     resetForm();
                   },
                   onError: (err) => {
-                    console.log(err);
+                    console.log(err.message);
                   },
                 });
               }}

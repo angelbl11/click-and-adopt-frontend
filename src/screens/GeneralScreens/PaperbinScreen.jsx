@@ -71,7 +71,7 @@ const PaperbinScreen = ({ route, navigation }) => {
                     userId: userId,
                   },
                   onCompleted: () => {
-                    navigation.navigate("Profiles", { screen: "Likes" });
+                    getTrashLikesAdopted();
                   },
                   onError: (err) => {
                     showErrorAlert(err.message);
@@ -83,7 +83,7 @@ const PaperbinScreen = ({ route, navigation }) => {
                     userId: userId,
                   },
                   onCompleted: () => {
-                    navigation.navigate("Profiles", { screen: "Likes" });
+                    getTrashLikesAdopter();
                   },
                   onError: (err) => {
                     showErrorAlert(err.message);
@@ -122,10 +122,7 @@ const PaperbinScreen = ({ route, navigation }) => {
                     userId: userId,
                   },
                   onCompleted: () => {
-                    navigation.reset({
-                      index: 0,
-                      routes: [{ name: "Profiles", screen: "Likes" }],
-                    });
+                    getTrashLikesAdopted();
                   },
                 })
               : deletePetLike({
@@ -134,10 +131,7 @@ const PaperbinScreen = ({ route, navigation }) => {
                     userId: userId,
                   },
                   onCompleted: () => {
-                    navigation.reset({
-                      index: 0,
-                      routes: [{ name: "Profiles", screen: "Likes" }],
-                    });
+                    getTrashLikesAdopter();
                   },
                 });
           },
