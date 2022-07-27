@@ -43,9 +43,9 @@ const AdopterProfileScreen = ({ navigation }) => {
   const [uploadPicture, { loading }] = useMutation(UPLOAD_PROFILE_PICTURE);
   const [updateAdopterStatus] = useMutation(UPDATE_ADOPTER_STATUS);
   const [image, setImage] = useState(
-    `https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg`
+    `https://click-and-adopt.herokuapp.com/ProfilePictures/defaultprof.jpg`
   );
-  const getImgUrl = `https://calm-forest-47055.herokuapp.com/ProfilePictures/`;
+  const getImgUrl = `https://click-and-adopt.herokuapp.com/ProfilePictures/`;
   const handleMessage = () => {
     setShowMessage((previousState) => !previousState);
   };
@@ -194,7 +194,7 @@ const AdopterProfileScreen = ({ navigation }) => {
                   source={{
                     uri: image
                       ? image || image === undefined
-                      : "https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg",
+                      : "https://click-and-adopt.herokuapp.com/ProfilePictures/defaultprof.jpg",
                   }}
                 >
                   <Avatar.Accessory

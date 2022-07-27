@@ -60,7 +60,7 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
   //Variables for screensize
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
-  const url = "http://192.168.100.6:4000/ProtocolFiles/";
+  const url = "https://click-and-adopt.herokuapp.com/ProtocolFiles/";
   //Toast
   const toast = useToast();
   const [uploadPetImage, { loading }] = useMutation(UPLOAD_PET_PROFILE_PICTURE);
@@ -110,12 +110,14 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
           protocolFile: protocol,
           fileName: fileName,
         },
-        onCompleted: (data) => {
-          console.log("Hecho");
-          console.log(data);
+        onCompleted: () => {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "Profiles" }],
+          });
         },
         onError: (err) => {
-          console.log(err);
+          showErrorAlert(err.message);
         },
       });
     } catch (e) {
@@ -170,7 +172,6 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
     Alert.alert("¿Estás seguro que quieres subir este archivo?", "", [
       {
         text: "Cancelar",
-        onPress: () => console.log("cancelado"),
         style: "cancel",
       },
       {
@@ -185,7 +186,6 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
     Alert.alert("¿Estás seguro que quieres eliminar esta mascota?", "", [
       {
         text: "Cancelar",
-        onPress: () => console.log("cancelado"),
         style: "cancel",
       },
       {
@@ -255,7 +255,7 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                 source={{
                   uri: newPetImage
                     ? newPetImage
-                    : "https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg",
+                    : "https://click-and-adopt.herokuapp.com/ProfilePictures/defaultprof.jpg",
                 }}
               >
                 {isVisible ? (

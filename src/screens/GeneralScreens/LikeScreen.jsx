@@ -34,7 +34,7 @@ import {
 } from "../../graphql/mutations";
 
 const LikeScreen = ({ navigation }) => {
-  const url = "https://calm-forest-47055.herokuapp.com/ProfilePictures/";
+  const url = "https://click-and-adopt.herokuapp.com/ProfilePictures/";
   const { user } = useContext(AuthContext);
   const [adopterLikes, setAdopterLikes] = useState([]);
   const [adoptedLikes, setAdoptedLikes] = useState([]);

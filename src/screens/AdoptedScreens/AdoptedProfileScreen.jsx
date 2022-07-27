@@ -42,7 +42,7 @@ const AdoptedProfileScreen = ({ navigation }) => {
       setPets(data?.getAdoptedInfo);
       data.getAdoptedInfo.map((item) => {
         images.push(
-          `https://calm-forest-47055.herokuapp.com/ProfilePictures/` +
+          `https://click-and-adopt.herokuapp.com/ProfilePictures/` +
             item.petPicture.filename
         );
       });
@@ -131,6 +131,11 @@ const AdoptedProfileScreen = ({ navigation }) => {
               mt={"12px"}
             >
               {petImage?.map((item, count) => {
+                console.log(
+                  pets[count].petProtocol?.map((file) => {
+                    return file?.filename;
+                  })
+                );
                 return (
                   <View
                     key={count}
@@ -170,7 +175,7 @@ const AdoptedProfileScreen = ({ navigation }) => {
                       url={
                         item
                           ? item
-                          : `https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg`
+                          : `https://click-and-adopt.herokuapp.com/ProfilePictures/defaultprof.jpg`
                       }
                     />
                   </View>

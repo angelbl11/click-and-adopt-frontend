@@ -108,7 +108,7 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                   onCompleted: (data) => {
                     setPetImage((oldArray) => [
                       ...oldArray,
-                      `https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg`,
+                      `https://click-and-adopt.herokuapp.com/ProfilePictures/defaultprof.jpg`,
                     ]);
 
                     setPets((oldArray) => [

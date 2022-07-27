@@ -19,7 +19,7 @@ import {
 } from "../../graphql/mutations";
 
 const PaperbinScreen = ({ route, navigation }) => {
-  const url = "https://calm-forest-47055.herokuapp.com/ProfilePictures/";
+  const url = "https://click-and-adopt.herokuapp.com/ProfilePictures/";
   const { userId, userAccount } = route.params;
   const [adoptedTrashLikes, setAdoptedTrashLikes] = useState([]);
   const [adopterTrashLikes, setAdopterTrashLikes] = useState([]);

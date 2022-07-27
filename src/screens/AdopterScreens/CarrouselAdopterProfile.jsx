@@ -36,7 +36,7 @@ const CarrouselAdopterProfile = ({ route }) => {
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
   const [image, setImage] = useState(
-    `https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg`
+    `https://click-and-adopt.herokuapp.com/ProfilePictures/defaultprof.jpg`
   );
   return (
     <SafeAreaView flex={1}>
@@ -60,7 +60,7 @@ const CarrouselAdopterProfile = ({ route }) => {
                   source={{
                     uri: profilePic
                       ? profilePic
-                      : "https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg",
+                      : "https://click-and-adopt.herokuapp.com/ProfilePictures/defaultprof.jpg",
                   }}
                 ></Avatar>
               )}

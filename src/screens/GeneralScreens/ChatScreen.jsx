@@ -15,7 +15,7 @@ const ChatScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext);
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
-  const url = "https://calm-forest-47055.herokuapp.com/ProfilePictures/";
+  const url = "https://click-and-adopt.herokuapp.com/ProfilePictures/";
   const [userMatches, setUserMatches] = useState([]);
   const [getUserMatches, { loading }] = useLazyQuery(GET_USER_MATCHES, {
     variables: {

@@ -31,7 +31,7 @@ const CardsScreen = ({ navigation }) => {
   //Variables for screensize
   const screenHeight = Dimensions.get("window").height;
   const { user } = useContext(AuthContext);
-  const url = "https://calm-forest-47055.herokuapp.com/ProfilePictures/";
+  const url = "https://click-and-adopt.herokuapp.com/ProfilePictures/";
   const [giveLikeToPet] = useMutation(GIVE_LIKE_PET, {
     variables: {
       petId: petsCards[0]?.id,
