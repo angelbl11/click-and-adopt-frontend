@@ -39,6 +39,8 @@ const CardsScreen = ({ navigation }) => {
     },
     onCompleted: (data) => {
       setLikeNumber(likeNumber - 1);
+      console.log("Like Mascota");
+      console.log(data);
     },
   });
   const [giveNopeToPet] = useMutation(GIVE_NOPE_PET, {
@@ -47,7 +49,7 @@ const CardsScreen = ({ navigation }) => {
       userId: user.id,
     },
   });
-  const [getPets, { data, loading }] = useLazyQuery(GET_RANDOM_PETS, {
+  const [getPets] = useLazyQuery(GET_RANDOM_PETS, {
     variables: {
       userId: user.id,
     },
@@ -63,6 +65,7 @@ const CardsScreen = ({ navigation }) => {
     },
     onCompleted: (data) => {
       setLikeNumber(likeNumber - 1);
+      console.log(data);
     },
   });
   const [giveNopeToUser] = useMutation(GIVE_NOPE_USER, {
@@ -71,8 +74,9 @@ const CardsScreen = ({ navigation }) => {
       userId: user.id,
     },
   });
-  const [getAdopters, { data: adopterdata, loading: adopterloading }] =
-    useLazyQuery(GET_RANDOM_ADOPTERS, {
+  const [getAdopters, { data: adopterdata }] = useLazyQuery(
+    GET_RANDOM_ADOPTERS,
+    {
       variables: {
         userId: user.id,
       },
@@ -80,7 +84,8 @@ const CardsScreen = ({ navigation }) => {
         setAdopterCards(adopterdata?.getRandomAdopter?.users);
         setLikeNumber(10 - adopterdata?.getRandomAdopter?.numOfLikes);
       },
-    });
+    }
+  );
   useEffect(() => {
     user.account === "Adoptante" ? getPets() : getAdopters();
   }, []);

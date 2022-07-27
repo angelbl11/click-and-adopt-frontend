@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from "react";
 //Libraries
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
 import {
   ScrollView,
   View,
@@ -161,6 +160,11 @@ const AdoptedProfileScreen = ({ navigation }) => {
                           count: count,
                           imageArray: images,
                           isVisible: true,
+                          petProtocolFiles: pets[count].petProtocol?.map(
+                            (file) => {
+                              return file?.filename;
+                            }
+                          ),
                         });
                       }}
                       url={

@@ -157,3 +157,17 @@ export const DELETE_CHAT = gql`
     deleteMatch(matchId: $matchId)
   }
 `;
+
+export const UPLOAD_PROTOCOL_FILE = gql`
+  mutation add(
+    $addProtocolFileId: String!
+    $protocolFile: Upload!
+    $fileName: String!
+  ) {
+    addProtocolFile(
+      id: $addProtocolFileId
+      protocolFile: $protocolFile
+      fileName: $fileName
+    )
+  }
+`;

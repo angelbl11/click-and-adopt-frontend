@@ -128,9 +128,11 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                         id: data?.answerAdoptedQuestionnaire,
                       },
                     ]);
-
-                    navigation.navigate("AdoptedProfile");
+                    navigation.navigate("Profiles", { UserId: user.id });
                     resetForm();
+                  },
+                  onError: (err) => {
+                    console.log(err);
                   },
                 });
               }}

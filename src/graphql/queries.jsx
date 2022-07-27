@@ -17,6 +17,9 @@ export const GET_ADOPTED_INFO = gql`
       petPicture {
         filename
       }
+      petProtocol {
+        filename
+      }
     }
   }
 `;

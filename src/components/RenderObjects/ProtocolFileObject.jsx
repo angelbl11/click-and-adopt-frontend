@@ -3,7 +3,7 @@ import { AntDesign } from "@expo/vector-icons";
 //Native Base Components
 import { Button, Icon, VStack } from "native-base";
 
-const ProtocolFileObject = ({ fileName }) => {
+const ProtocolFileObject = ({ fileName, onPress }) => {
   return (
     <VStack alignItems="center">
       <Button
@@ -12,6 +12,7 @@ const ProtocolFileObject = ({ fileName }) => {
         ml={2}
         mb={2}
         bg={"#6A994E"}
+        onPress={onPress}
       >
         {fileName}
       </Button>

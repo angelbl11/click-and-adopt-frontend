@@ -8,11 +8,12 @@ import { Ionicons } from "@expo/vector-icons";
 
 // Import Document Picker
 import * as DocumentPicker from "expo-document-picker";
-
+import * as OpenAnything from "react-native-openanything";
 //Graphql
 import {
   UPLOAD_PET_PROFILE_PICTURE,
   DELETE_PET_INFO,
+  UPLOAD_PROTOCOL_FILE,
 } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
 import { ReactNativeFile } from "apollo-upload-client/public";
@@ -54,18 +55,22 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
     petId,
     count,
     isVisible,
+    petProtocolFiles,
   } = route.params;
   //Variables for screensize
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
+  const url = "http://192.168.100.6:4000/ProtocolFiles/";
   //Toast
   const toast = useToast();
   const [uploadPetImage, { loading }] = useMutation(UPLOAD_PET_PROFILE_PICTURE);
   const [showButton, setShowButton] = useState(false);
   const [deletePet] = useMutation(DELETE_PET_INFO);
+  const [uploadProtocolFile] = useMutation(UPLOAD_PROTOCOL_FILE);
   const { petImage, setPetImage, num, setNum, pets, setPets } =
     useContext(PetsContext);
-  const [viewFile, setViewFile] = useState(null);
+  const [fileUri, setFileUri] = useState();
+  const [fileName, setFileName] = useState();
   const [newPetImage, setNewPetImage] = useState(petProfPic);
   function generateRNFile(uri, name) {
     return uri
@@ -96,7 +101,27 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
       setShowButton(false);
     }
   };
-
+  async function onUploadFile() {
+    const protocol = generateRNFile(fileUri, fileName);
+    try {
+      await uploadProtocolFile({
+        variables: {
+          addProtocolFileId: petId,
+          protocolFile: protocol,
+          fileName: fileName,
+        },
+        onCompleted: (data) => {
+          console.log("Hecho");
+          console.log(data);
+        },
+        onError: (err) => {
+          console.log(err);
+        },
+      });
+    } catch (e) {
+      return;
+    }
+  }
   async function onUploadPress() {
     const file = generateRNFile(newPetImage, `picture-${Date.now()}`);
     try {
@@ -119,10 +144,12 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
 
   //File manage
   const pickDocument = async () => {
-    let result = await DocumentPicker.getDocumentAsync({});
-    alert(result.uri);
-    console.log(result);
-    setViewFile(result.uri);
+    let result = await DocumentPicker.getDocumentAsync({
+      type: "application/pdf",
+    });
+    setFileUri(result.uri);
+    setFileName(result.name);
+    uploadFileAlert();
   };
   const showUploadAlert = () =>
     Alert.alert("Completado", "Foto de perfil subida con éxito", [
@@ -139,6 +166,21 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
         style: "cancel",
       },
     ]);
+  const uploadFileAlert = () => {
+    Alert.alert("¿Estás seguro que quieres subir este archivo?", "", [
+      {
+        text: "Cancelar",
+        onPress: () => console.log("cancelado"),
+        style: "cancel",
+      },
+      {
+        text: "Subir",
+        onPress: () => {
+          onUploadFile();
+        },
+      },
+    ]);
+  };
   const deletePetInfoAlert = () => {
     Alert.alert("¿Estás seguro que quieres eliminar esta mascota?", "", [
       {
@@ -212,7 +254,7 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                 rounded
                 source={{
                   uri: newPetImage
-                    ? newPetImage || newPetImage === undefined
+                    ? newPetImage
                     : "https://calm-forest-47055.herokuapp.com/ProfilePictures/defaultprof.jpg",
                 }}
               >
@@ -352,7 +394,9 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                       bg: "#7db85c",
                       borderRadius: 100,
                     }}
-                    onPress={pickDocument}
+                    onPress={() => {
+                      pickDocument();
+                    }}
                   />
                 </>
               ) : undefined}
@@ -370,9 +414,17 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
                 mb={"10px"}
                 mt={"12px"}
               >
-                <ProtocolFileObject fileName={"esterilización"} />
-                <ProtocolFileObject fileName={"vacunas"} />
-                <ProtocolFileObject fileName={"desparacitación"} />
+                {petProtocolFiles?.map((index) => {
+                  return (
+                    <ProtocolFileObject
+                      key={index}
+                      fileName={index}
+                      onPress={() => {
+                        OpenAnything.Pdf(url + index);
+                      }}
+                    />
+                  );
+                })}
               </View>
             ) : undefined}
           </VStack>

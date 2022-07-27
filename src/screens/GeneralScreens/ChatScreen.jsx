@@ -45,26 +45,25 @@ const ChatScreen = ({ navigation }) => {
             </Heading>
           </Center>
         ) : userMatches.length != 0 ? (
-          userMatches?.map(
-            ({ adopterFullName, petName, petPic, adopterPic }, index) => {
-              console.log(userMatches[index]?.adopterInfo?.fullName);
-              return (
-                <ChatUserComponent
-                  key={index}
-                  name={
-                    user.account === "Adoptante"
-                      ? userMatches[index]?.petInvolved?.adoptedPetName
-                      : adopterFullName
-                  }
-                  url={
-                    user.account === "Adoptante"
-                      ? url + userMatches[index]?.petInvolved?.adoptedPetName
-                      : url + adopterPic?.filename
-                  }
-                />
-              );
-            }
-          )
+          userMatches?.map(({}, index) => {
+            console.log(userMatches[index]?.adopterInfo?.fullName);
+            return (
+              <ChatUserComponent
+                key={index}
+                name={
+                  user.account === "Adoptante"
+                    ? userMatches[index]?.petInvolved?.adoptedPetName
+                    : userMatches[index]?.adopterInfo?.fullName
+                }
+                url={
+                  user.account === "Adoptante"
+                    ? url + userMatches[index]?.petInvolved?.adoptedPetName
+                    : url +
+                      userMatches[index]?.adopterInfo?.profilePicture?.filename
+                }
+              />
+            );
+          })
         ) : (
           <Center mt={150}>
             <Heading color="#6A994E" fontSize="xl">
