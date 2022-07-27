@@ -26,6 +26,7 @@
     "expo-updates": "~0.11.7",
     "formik": "2.2.9",
     "graphql": "^16.3.0",
+    "graphql-ws": "^5.9.1",
     "jwt-decode": "^3.1.2",
     "native-base": "3.3.2",
     "react": "17.0.1",
@@ -33,6 +34,7 @@
     "react-native": "0.64.3",
     "react-native-card-stack-swiper": "^1.2.5",
     "react-native-elements": "3.4.2",
+    "react-native-gifted-chat": "^1.0.4",
     "react-native-mime-types": "^2.3.0",
     "react-native-openanything": "^0.0.6",
     "react-native-safe-area-context": "3.3.2",
@@ -41,6 +43,7 @@
     "react-native-web": "0.17.1",
     "react-spring": "8.0.27",
     "styled-components": "5.3.3",
+    "subscriptions-transport-ws": "^0.11.0",
     "yup": "0.32.11"
   },
   "devDependencies": {

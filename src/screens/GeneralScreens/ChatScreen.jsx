@@ -90,6 +90,21 @@ const ChatScreen = ({ navigation }) => {
             return (
               <ChatUserComponent
                 key={index}
+                pressed={() => {
+                  navigation.navigate("Conversation", {
+                    topUser:
+                      user.account === "Adoptante"
+                        ? userMatches[index]?.petInvolved?.adoptedPetName
+                        : userMatches[index]?.adopterInfo?.fullName,
+                    userPic:
+                      user.account === "Adoptante"
+                        ? url +
+                          userMatches[index]?.petInvolved?.petPicture?.filename
+                        : url +
+                          userMatches[index]?.adopterInfo?.profilePicture
+                            ?.filename,
+                  });
+                }}
                 pressDelete={() => {
                   deleteChatAlert();
                   getMatches();

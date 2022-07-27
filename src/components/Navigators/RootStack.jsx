@@ -13,6 +13,7 @@ import LikeScreen from "../../screens/GeneralScreens/LikeScreen";
 import PaperbinScreen from "../../screens/GeneralScreens/PaperbinScreen";
 import CardsScreen from "../../screens/GeneralScreens/CardsScreen";
 import EditDataScreen from "../../screens/GeneralScreens/EditDataScreen";
+import ConversationScreen from "../../screens/GeneralScreens/ConversationScreen";
 import BottomNav from "./BottomNav";
 import AdopterCuestionary from "../../screens/AdopterScreens/AdopterCuestionaryScreen";
 import AdopterPreferencesCuestionary from "../../screens/AdopterScreens/AdopterPreferencesCuestionaryScreen";
@@ -50,6 +51,13 @@ const RootStack = () => {
         <Stack.Screen name="Likes" component={LikeScreen} />
         <Stack.Screen name="Paperbin" component={PaperbinScreen} />
         <Stack.Screen name="Cards" component={CardsScreen} />
+        <Stack.Screen
+          name="Conversation"
+          component={ConversationScreen}
+          options={(route) => ({
+            title: route.params.topUser,
+          })}
+        />
         <Stack.Screen name="Contract" component={ContractScreen} />
         <Stack.Screen
           name="AdopterCuestionary"
