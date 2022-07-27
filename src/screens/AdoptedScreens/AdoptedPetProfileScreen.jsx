@@ -106,7 +106,10 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
           setShowButton(false);
           showUploadAlert();
           setNum(num + 1);
-          navigation.navigate("AdoptedProfile");
+          navigation.navigate("Profiles");
+        },
+        onError: (err) => {
+          showErrorAlert(err.message);
         },
       });
     } catch (e) {
@@ -123,6 +126,14 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
   };
   const showUploadAlert = () =>
     Alert.alert("Completado", "Foto de perfil subida con éxito", [
+      {
+        text: "Cerrar",
+        style: "cancel",
+      },
+    ]);
+  //Alerts
+  const showErrorAlert = (message) =>
+    Alert.alert("Ha ocurrido un error", message, [
       {
         text: "Cerrar",
         style: "cancel",

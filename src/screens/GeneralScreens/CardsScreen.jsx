@@ -201,7 +201,7 @@ const CardsScreen = ({ navigation }) => {
                       url + adopterCards[index].userId?.profilePicture?.filename
                     }
                     pressed={() =>
-                      navigation.navigate("CarrouselAdopter", {
+                      navigation.navigate("AdopterProfile", {
                         petGenderPreferences: petGenderPreferences,
                         petPreferences: petPreferences,
                         petAgePreferences: petAgePreferences,

@@ -19,6 +19,7 @@ import AdopterPreferencesCuestionary from "../../screens/AdopterScreens/AdopterP
 import AdoptedCuestionary from "../../screens/AdoptedScreens/AdoptedCuestionaryScreen";
 import AdoptedPetInfo from "../../screens/AdoptedScreens/AdoptedPetInfoScreen";
 import AdoptedPetProfileScreen from "../../screens/AdoptedScreens/AdoptedPetProfileScreen";
+import CarrouselAdopter from "../../screens/AdopterScreens/CarrouselAdopterProfile";
 
 //Auth
 import { AuthContext } from "../../context/Auth";
@@ -58,6 +59,7 @@ const RootStack = () => {
           name="AdopterPreferencesCuestionary"
           component={AdopterPreferencesCuestionary}
         />
+        <Stack.Screen name="AdopterProfile" component={CarrouselAdopter} />
         <Stack.Screen
           name="AdoptedCuestionary"
           component={AdoptedCuestionary}

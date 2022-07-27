@@ -71,7 +71,7 @@ const PaperbinScreen = ({ route, navigation }) => {
                     userId: userId,
                   },
                   onCompleted: () => {
-                    navigation.navigate("AdoptedProfile", { screen: "Likes" });
+                    navigation.navigate("Profiles", { screen: "Likes" });
                   },
                   onError: (err) => {
                     showErrorAlert(err.message);
@@ -83,7 +83,7 @@ const PaperbinScreen = ({ route, navigation }) => {
                     userId: userId,
                   },
                   onCompleted: () => {
-                    navigation.navigate("AdopterProfile", { screen: "Likes" });
+                    navigation.navigate("Profiles", { screen: "Likes" });
                   },
                   onError: (err) => {
                     showErrorAlert(err.message);
@@ -116,22 +116,22 @@ const PaperbinScreen = ({ route, navigation }) => {
           text: "Eliminar",
           onPress: () => {
             userAccount === "Adoptado"
-              ? deletePetLike({
+              ? deleteUserLike({
                   variables: {
                     likedUserId: likedUserId,
                     userId: userId,
                   },
                   onCompleted: () => {
-                    navigation.navigate("AdoptedProfile", { screen: "Likes" });
+                    navigation.navigate("Profiles", { screen: "Likes" });
                   },
                 })
-              : deleteUserLike({
+              : deletePetLike({
                   variables: {
-                    petId: petId,
+                    petId: likedUserId,
                     userId: userId,
                   },
                   onCompleted: () => {
-                    navigation.navigate("AdopterProfile", { screen: "Likes" });
+                    navigation.navigate("Profiles", { screen: "Likes" });
                   },
                 });
           },
@@ -167,8 +167,8 @@ const PaperbinScreen = ({ route, navigation }) => {
                 Cargando
               </Heading>
             </Center>
-          ) : adoptedTrashLikes.length === 0 ||
-            adopterTrashLikes.length === 0 ? (
+          ) : (userAccount === "Adoptado" && adoptedTrashLikes?.length === 0) ||
+            (userAccount === "Adoptante" && adopterTrashLikes?.length === 0) ? (
             <Center mt={200}>
               <Heading color="#6A994E" fontSize="xl">
                 Aún no hay likes en la papelera
@@ -196,7 +196,7 @@ const PaperbinScreen = ({ route, navigation }) => {
                     deleteLikeAlert(adoptedTrashLikes[index].likedUserId?.id)
                   }
                   pressed={() => {
-                    navigation.navigate("CarrouselAdopter", {
+                    navigation.navigate("AdopterProfile", {
                       petGenderPreferences:
                         adoptedTrashLikes[index].likedUserId
                           ?.petGenderPreferences,

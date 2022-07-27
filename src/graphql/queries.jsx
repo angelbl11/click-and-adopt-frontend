@@ -254,3 +254,32 @@ export const GET_TRASH_LIKES_ADOPTER = gql`
     }
   }
 `;
+
+export const GET_USER_MATCHES = gql`
+  query getMatches($userId: String!) {
+    getMatches(userId: $userId) {
+      adopterInfo {
+        account
+        email
+        fullName
+        id
+        profilePicture {
+          filename
+        }
+      }
+      petInvolved {
+        adoptedPetName
+        id
+        petPicture {
+          filename
+        }
+      }
+      petOwnerInfo {
+        account
+        email
+        id
+        fullName
+      }
+    }
+  }
+`;

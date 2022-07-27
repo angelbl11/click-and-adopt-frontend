@@ -151,3 +151,9 @@ export const MOVE_ADOPTER_LIKE = gql`
     reverseTrashLike(petId: $petId, userId: $userId)
   }
 `;
+
+export const DELETE_CHAT = gql`
+  mutation deleteChat($matchId: String!) {
+    deleteMatch(matchId: $matchId)
+  }
+`;

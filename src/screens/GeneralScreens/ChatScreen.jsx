@@ -1,19 +1,79 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import {
-  StyledContainer,
-  InnerContainer,
-  PageTitle,
-} from "../../components/Utils/Styles";
+import { Center, Heading, Spinner, View, VStack } from "native-base";
+import { Dimensions } from "react-native";
+import { useLazyQuery } from "@apollo/client";
+import { GET_USER_MATCHES } from "../../graphql/queries";
+import { AuthContext } from "../../context/Auth";
+import { useContext } from "react";
+import { useState } from "react";
 
-const ChatScreen = () => {
+//Components
+import ChatUserComponent from "../../components/RenderObjects/ChatUserComponent";
+const ChatScreen = ({ navigation }) => {
+  //Variables for screensize
+  const { user } = useContext(AuthContext);
+  const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
+  const url = "https://calm-forest-47055.herokuapp.com/ProfilePictures/";
+  const [userMatches, setUserMatches] = useState([]);
+  const [getUserMatches, { loading }] = useLazyQuery(GET_USER_MATCHES, {
+    variables: {
+      userId: user.id,
+    },
+    onCompleted: (data) => {
+      setUserMatches(data?.getMatches);
+    },
+  });
+  useEffect(() => {
+    getUserMatches();
+  }, []);
+
   return (
-    <StyledContainer>
+    <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
       <StatusBar style="dark" />
-      <InnerContainer>
-        <PageTitle>Chats</PageTitle>
-      </InnerContainer>
-    </StyledContainer>
+      <VStack alignItems={"center"} width={screenWidth - 10}></VStack>
+      <Heading fontSize={"38px"} fontWeight="bold" color="#6A994E" left={5}>
+        Chats
+      </Heading>
+      <VStack space={2} mt={5}>
+        {loading ? (
+          <Center mt={150}>
+            <Spinner color={"#6A994E"} />
+            <Heading color="#6A994E" fontSize="xl">
+              Cargando
+            </Heading>
+          </Center>
+        ) : userMatches.length != 0 ? (
+          userMatches?.map(
+            ({ adopterFullName, petName, petPic, adopterPic }, index) => {
+              console.log(userMatches[index]?.adopterInfo?.fullName);
+              return (
+                <ChatUserComponent
+                  key={index}
+                  name={
+                    user.account === "Adoptante"
+                      ? userMatches[index]?.petInvolved?.adoptedPetName
+                      : adopterFullName
+                  }
+                  url={
+                    user.account === "Adoptante"
+                      ? url + userMatches[index]?.petInvolved?.adoptedPetName
+                      : url + adopterPic?.filename
+                  }
+                />
+              );
+            }
+          )
+        ) : (
+          <Center mt={150}>
+            <Heading color="#6A994E" fontSize="xl">
+              No has dado match con ningún usuario
+            </Heading>
+          </Center>
+        )}
+      </VStack>
+    </View>
   );
 };
 

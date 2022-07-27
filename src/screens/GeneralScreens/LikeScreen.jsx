@@ -88,11 +88,17 @@ const LikeScreen = ({ navigation }) => {
                     petId: likedUserId,
                     userId: user.id,
                   },
+                  onCompleted: () => {
+                    getAdopterLikes();
+                  },
                 })
               : reasignUserLike({
                   variables: {
                     likedUserId: likedUserId,
                     userId: user.id,
+                  },
+                  onCompleted: () => {
+                    getAdoptedLikes();
                   },
                 });
           },
@@ -143,7 +149,6 @@ const LikeScreen = ({ navigation }) => {
       ]
     );
   };
-
   useEffect(() => {
     user.account === "Adoptante" ? getAdopterLikes() : getAdoptedLikes();
   }, []);
