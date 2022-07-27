@@ -122,7 +122,10 @@ const PaperbinScreen = ({ route, navigation }) => {
                     userId: userId,
                   },
                   onCompleted: () => {
-                    navigation.navigate("Profiles", { screen: "Likes" });
+                    navigation.reset({
+                      index: 0,
+                      routes: [{ name: "Profiles", screen: "Likes" }],
+                    });
                   },
                 })
               : deletePetLike({
@@ -131,7 +134,10 @@ const PaperbinScreen = ({ route, navigation }) => {
                     userId: userId,
                   },
                   onCompleted: () => {
-                    navigation.navigate("Profiles", { screen: "Likes" });
+                    navigation.reset({
+                      index: 0,
+                      routes: [{ name: "Profiles", screen: "Likes" }],
+                    });
                   },
                 });
           },

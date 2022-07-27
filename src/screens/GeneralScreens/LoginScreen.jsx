@@ -92,7 +92,10 @@ const Login = ({ navigation }) => {
                 },
                 onCompleted: (data) => {
                   auth.login(data.login);
-                  navigation.navigate("Profiles");
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: "Profiles" }],
+                  });
                 },
               });
             }}

@@ -165,7 +165,7 @@ const AdoptedProfileScreen = ({ navigation }) => {
                           count: count,
                           imageArray: images,
                           isVisible: true,
-                          petProtocolFiles: pets[count].petProtocol?.map(
+                          petProtocolFiles: pets[count]?.petProtocol?.map(
                             (file) => {
                               return file?.filename;
                             }

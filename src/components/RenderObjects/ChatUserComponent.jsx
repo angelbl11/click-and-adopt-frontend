@@ -8,7 +8,14 @@ import { HStack, VStack, Text, Pressable } from "native-base";
 
 const ChatUserComponent = ({ url, name, pressDelete, pressMute, pressed }) => {
   return (
-    <Pressable onPress={pressed}>
+    <Pressable
+      onPress={pressed}
+      ml={3}
+      bg="#E5E7EB"
+      borderRadius={10}
+      width={395}
+      p={2}
+    >
       <HStack alignContent={"center"} alignItems="center" mb={3} mt={2}>
         <Avatar
           size={60}
@@ -17,9 +24,9 @@ const ChatUserComponent = ({ url, name, pressDelete, pressMute, pressed }) => {
           }}
           rounded
         ></Avatar>
-        <VStack ml={3} width="200">
-          <HStack width={"200"}>
-            <Text fontSize={18} fontWeight="semibold">
+        <VStack ml={3} width="230">
+          <HStack width={"250"}>
+            <Text fontSize={16} fontWeight="semibold">
               {name}
             </Text>
           </HStack>
@@ -29,10 +36,11 @@ const ChatUserComponent = ({ url, name, pressDelete, pressMute, pressed }) => {
           _icon={{
             as: Ionicons,
             name: "trash",
+            size: "sm",
           }}
           _pressed={{
             bg: "#7db85c",
-            borderRadius: 100,
+            borderRadius: 50,
           }}
         />
         <IconButton
@@ -40,10 +48,11 @@ const ChatUserComponent = ({ url, name, pressDelete, pressMute, pressed }) => {
           _icon={{
             as: Ionicons,
             name: "notifications-off",
+            size: "sm",
           }}
           _pressed={{
             bg: "#7db85c",
-            borderRadius: 100,
+            borderRadius: 50,
           }}
         />
       </HStack>

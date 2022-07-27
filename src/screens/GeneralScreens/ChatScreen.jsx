@@ -57,7 +57,8 @@ const ChatScreen = ({ navigation }) => {
                 }
                 url={
                   user.account === "Adoptante"
-                    ? url + userMatches[index]?.petInvolved?.adoptedPetName
+                    ? url +
+                      userMatches[index]?.petInvolved?.petPicture?.filename
                     : url +
                       userMatches[index]?.adopterInfo?.profilePicture?.filename
                 }

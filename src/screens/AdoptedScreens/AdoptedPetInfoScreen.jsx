@@ -128,7 +128,10 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                         id: data?.answerAdoptedQuestionnaire,
                       },
                     ]);
-                    navigation.navigate("Profiles", { UserId: user.id });
+                    navigation.reset({
+                      index: 0,
+                      routes: [{ name: "Profiles" }, { userId: user.id }],
+                    });
                     resetForm();
                   },
                   onError: (err) => {

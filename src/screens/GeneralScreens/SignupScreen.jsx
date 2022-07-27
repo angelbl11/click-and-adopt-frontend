@@ -112,8 +112,12 @@ const SignUp = ({ navigation }) => {
                   handleMessage(err.message);
                 },
                 onCompleted(data) {
-                  navigation.navigate("Contract", {
-                    account: data?.register?.account,
+                  navigation.reset({
+                    index: 0,
+                    routes: [
+                      { name: "Contract" },
+                      { account: data?.register?.account },
+                    ],
                   });
                   resetForm();
                 },
@@ -340,7 +344,12 @@ const SignUp = ({ navigation }) => {
                       ¿Ya tienes una cuenta?
                     </Text>
                     <Link
-                      onPress={() => navigation.navigate("Login")}
+                      onPress={() =>
+                        navigation.reset({
+                          index: 0,
+                          routes: [{ name: "Login" }],
+                        })
+                      }
                       isUnderlined={false}
                       _text={{
                         fontSize: 16,

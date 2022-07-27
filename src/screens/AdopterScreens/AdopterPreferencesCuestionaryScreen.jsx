@@ -103,7 +103,10 @@ const AdopterPreferencesCuestionary = ({ navigation, route }) => {
                 },
               },
             });
-            navigation.navigate("Profiles");
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "Profiles" }],
+            });
           }}
         >
           {({ handleSubmit, values, errors, touched }) => (

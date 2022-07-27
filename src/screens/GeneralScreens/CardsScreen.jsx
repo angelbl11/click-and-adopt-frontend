@@ -1,5 +1,5 @@
 import React, { useRef, useState, useContext, useEffect } from "react";
-import { Dimensions, StyleSheet } from "react-native";
+import { Alert, Dimensions, StyleSheet } from "react-native";
 
 //Libraries
 import { StatusBar } from "expo-status-bar";
@@ -24,6 +24,29 @@ import {
 import { AuthContext } from "../../context/Auth";
 
 const CardsScreen = ({ navigation }) => {
+  //Alerts
+  const matchAlert = () => {
+    Alert.alert("¡Match!", "Ahora puedes chatear con este usuario", [
+      {
+        text: "Cerrar",
+        style: "cancel",
+      },
+      {
+        text: "Ir al chat",
+        onPress: () => {
+          console.log("chat");
+        },
+      },
+    ]);
+  };
+  const showErrorAlert = (message) =>
+    Alert.alert("Ha ocurrido un error", message, [
+      {
+        text: "Cerrar",
+        style: "cancel",
+      },
+    ]);
+
   const cardRef = useRef(null);
   const [petsCards, setPetsCards] = useState([]);
   const [adopterCards, setAdopterCards] = useState([]);
@@ -40,13 +63,19 @@ const CardsScreen = ({ navigation }) => {
     onCompleted: (data) => {
       setLikeNumber(likeNumber - 1);
       console.log("Like Mascota");
-      console.log(data);
+      data?.likePet === "Match" ? matchAlert() : undefined;
+    },
+    onError: (err) => {
+      showErrorAlert(err.message);
     },
   });
   const [giveNopeToPet] = useMutation(GIVE_NOPE_PET, {
     variables: {
       petId: petsCards[0]?.id,
       userId: user.id,
+    },
+    onError: (err) => {
+      showErrorAlert(err.message);
     },
   });
   const [getPets] = useLazyQuery(GET_RANDOM_PETS, {
@@ -57,6 +86,9 @@ const CardsScreen = ({ navigation }) => {
       setPetsCards(data?.getRandomPet?.pets);
       setLikeNumber(10 - data?.getRandomPet?.numOfLikes);
     },
+    onError: (err) => {
+      showErrorAlert(err.message);
+    },
   });
   const [giveLikeToUser] = useMutation(GIVE_LIKE_USER, {
     variables: {
@@ -65,7 +97,10 @@ const CardsScreen = ({ navigation }) => {
     },
     onCompleted: (data) => {
       setLikeNumber(likeNumber - 1);
-      console.log(data);
+      data?.likeUser === "Match" ? matchAlert() : undefined;
+    },
+    onError: (err) => {
+      showErrorAlert(err.message);
     },
   });
   const [giveNopeToUser] = useMutation(GIVE_NOPE_USER, {
@@ -83,6 +118,9 @@ const CardsScreen = ({ navigation }) => {
       onCompleted: () => {
         setAdopterCards(adopterdata?.getRandomAdopter?.users);
         setLikeNumber(10 - adopterdata?.getRandomAdopter?.numOfLikes);
+      },
+      onError: (err) => {
+        showErrorAlert(err.message);
       },
     }
   );
