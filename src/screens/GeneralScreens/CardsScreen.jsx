@@ -34,7 +34,7 @@ const CardsScreen = ({ navigation }) => {
       {
         text: "Ir al chat",
         onPress: () => {
-          console.log("chat");
+          navigation.jumpTo("Chats");
         },
       },
     ]);

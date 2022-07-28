@@ -92,22 +92,22 @@ const ChatScreen = ({ navigation }) => {
                 key={index}
                 pressed={() => {
                   navigation.navigate("Conversation", {
+                    adopterId: userMatches[index]?.adopterInfo?.id,
+                    adoptedId: userMatches[index]?.petOwnerInfo?.id,
                     topUser:
                       user.account === "Adoptante"
                         ? userMatches[index]?.petInvolved?.adoptedPetName
                         : userMatches[index]?.adopterInfo?.fullName,
+                    petPic:
+                      url +
+                      userMatches[index]?.petInvolved?.petPicture?.filename,
                     userPic:
-                      user.account === "Adoptante"
-                        ? url +
-                          userMatches[index]?.petInvolved?.petPicture?.filename
-                        : url +
-                          userMatches[index]?.adopterInfo?.profilePicture
-                            ?.filename,
+                      url +
+                      userMatches[index]?.adopterInfo?.profilePicture?.filename,
                   });
                 }}
                 pressDelete={() => {
                   deleteChatAlert();
-                  getMatches();
                 }}
                 name={
                   user.account === "Adoptante"

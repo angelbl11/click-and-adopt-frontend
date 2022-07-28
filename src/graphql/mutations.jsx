@@ -171,3 +171,14 @@ export const UPLOAD_PROTOCOL_FILE = gql`
     )
   }
 `;
+
+export const SEND_MESSAGE = gql`
+  mutation sendMessage($body: String!, $to: String!, $userId: String!) {
+    sendMessage(body: $body, to: $to, userId: $userId) {
+      body
+      from
+      id
+      to
+    }
+  }
+`;

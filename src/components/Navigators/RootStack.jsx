@@ -51,13 +51,7 @@ const RootStack = () => {
         <Stack.Screen name="Likes" component={LikeScreen} />
         <Stack.Screen name="Paperbin" component={PaperbinScreen} />
         <Stack.Screen name="Cards" component={CardsScreen} />
-        <Stack.Screen
-          name="Conversation"
-          component={ConversationScreen}
-          options={(route) => ({
-            title: route.params.topUser,
-          })}
-        />
+        <Stack.Screen name="Conversation" component={ConversationScreen} />
         <Stack.Screen name="Contract" component={ContractScreen} />
         <Stack.Screen
           name="AdopterCuestionary"

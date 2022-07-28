@@ -287,3 +287,14 @@ export const GET_USER_MATCHES = gql`
     }
   }
 `;
+
+export const GET_CHAT = gql`
+  query getChat($userId: String!, $partnerId: String!) {
+    getChat(userId: $userId, partnerId: $partnerId) {
+      body
+      from
+      to
+      id
+    }
+  }
+`;
