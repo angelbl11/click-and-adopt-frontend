@@ -46,20 +46,24 @@ const ConversationScreen = ({ route }) => {
     getMessages();
   }, []);
   return (
-    <View flex={1} bg="white">
+    <View flex={1} bg="white" height={screenHeight}>
       <ChatHeader
         user={topUser}
         pic={user.account === "Adoptante" ? petPic : userPic}
       />
       <ScrollView>
         <VStack>
-          <VStack>
+          <View>
             {messages.map((message, index) => {
               return (
-                <Message message={message?.body} key={index} isLeft={isLeft} />
+                <Message
+                  message={message?.body}
+                  key={index}
+                  isLeft={user.id != message?.from ? false : true}
+                />
               );
             })}
-          </VStack>
+          </View>
 
           <KeyboardAwareScrollView>
             <VStack
