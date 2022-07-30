@@ -182,3 +182,9 @@ export const SEND_MESSAGE = gql`
     }
   }
 `;
+
+export const EDIT_PET_INFO = gql`
+  mutation editPetInfo($petId: String!, $editPetInput: editPetInput!) {
+    editPetInfo(petId: $petId, editPetInput: $editPetInput)
+  }
+`;

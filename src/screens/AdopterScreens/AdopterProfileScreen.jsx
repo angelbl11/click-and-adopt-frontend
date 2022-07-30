@@ -152,8 +152,8 @@ const AdopterProfileScreen = ({ navigation, route }) => {
                 ml={180}
                 mr={5}
                 _icon={{
-                  as: MaterialIcons,
-                  name: "edit",
+                  as: MaterialCommunityIcons,
+                  name: "account-edit",
                   color: "#1F2937",
                   size: "md",
                 }}

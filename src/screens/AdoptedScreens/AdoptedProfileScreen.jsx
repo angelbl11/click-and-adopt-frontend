@@ -25,7 +25,7 @@ import { PetsContext } from "../../context/PetsContext";
 import { GET_ADOPTED_INFO } from "../../graphql/queries";
 import { useLazyQuery } from "@apollo/client";
 import { Dimensions, SafeAreaView } from "react-native";
-
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 const AdoptedProfileScreen = ({ navigation }) => {
   //Variables for screensize
   const screenWidth = Dimensions.get("window").width;
@@ -72,8 +72,8 @@ const AdoptedProfileScreen = ({ navigation }) => {
               <IconButton
                 left={60}
                 _icon={{
-                  as: MaterialIcons,
-                  name: "edit",
+                  as: MaterialCommunityIcons,
+                  name: "account-edit",
                   color: "#1F2937",
                   size: "md",
                 }}
@@ -100,7 +100,9 @@ const AdoptedProfileScreen = ({ navigation }) => {
                   borderRadius: 100,
                 }}
                 onPress={() => {
-                  navigation.navigate("AdoptedCuestionary");
+                  navigation.navigate("AdoptedCuestionary", {
+                    isEdited: false,
+                  });
                 }}
               />
               <IconButton

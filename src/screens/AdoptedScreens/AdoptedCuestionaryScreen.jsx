@@ -39,10 +39,24 @@ const AdoptedCuestionarySchema = Yup.object().shape({
   ),
 });
 
-const AdoptedCuestionary = ({ navigation }) => {
-  const [typeOfAdoptedPet, setTypeOfAdoptedPet] = useState("Perro");
-  const [genderOfAdoptedPet, setGenderOfAdoptedPet] = useState("Macho");
-  const [ageOfAdoptedPet, setAgeOfAdoptedPet] = useState("Cachorro");
+const AdoptedCuestionary = ({ navigation, route }) => {
+  const {
+    isEdited,
+    typeOf,
+    gender,
+    age,
+    petId,
+    protocol,
+    isHealthyWithKids,
+    isHealthyWithPets,
+    petName,
+    description,
+  } = route.params;
+  const [typeOfAdoptedPet, setTypeOfAdoptedPet] = useState(typeOf || "Perro");
+  const [genderOfAdoptedPet, setGenderOfAdoptedPet] = useState(
+    gender || "Macho"
+  );
+  const [ageOfAdoptedPet, setAgeOfAdoptedPet] = useState(age || "Cachorro");
   //Variables for screensize
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
@@ -63,7 +77,7 @@ const AdoptedCuestionary = ({ navigation }) => {
           initialValues={{
             typeOfAdoptedPet: "",
             genderOfAdoptedPet: "",
-            adoptedPetName: "",
+            adoptedPetName: petName,
             ageOfAdoptedPet: "",
           }}
           validationSchema={AdoptedCuestionarySchema}
@@ -73,6 +87,12 @@ const AdoptedCuestionary = ({ navigation }) => {
               typeOfAdoptedPet: values.typeOfAdoptedPet,
               genderOfAdoptedPet: values.genderOfAdoptedPet,
               ageOfAdoptedPet: values.ageOfAdoptedPet,
+              petId: petId,
+              protocol: protocol,
+              isHealthyWithChild: isHealthyWithKids,
+              isHealthyWithPets: isHealthyWithPets,
+              isEdited: isEdited,
+              description: description,
             });
             resetForm();
           }}
@@ -104,6 +124,7 @@ const AdoptedCuestionary = ({ navigation }) => {
                     setTypeOfAdoptedPet(nextValue);
                   }}
                   firstRadioLabel="Perro"
+                  isDisabled={isEdited}
                   firstValue="Perro"
                   secondRadioLabel="Gato"
                   secondValue="Gato"

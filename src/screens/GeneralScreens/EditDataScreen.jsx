@@ -105,11 +105,7 @@ const EditDataScreen = ({ navigation, route }) => {
                           id: user.id,
                           account: user.account,
                         });
-                        navigation.navigate(
-                          account === "Adoptante"
-                            ? "AdopterProfile"
-                            : "AdoptedProfile"
-                        );
+                        navigation.navigate("Profiles");
                       },
                     });
                   },

@@ -5,7 +5,7 @@ import * as ImagePicker from "expo-image-picker";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 // Import Document Picker
 import * as DocumentPicker from "expo-document-picker";
 import * as OpenAnything from "react-native-openanything";
@@ -222,26 +222,54 @@ const AdoptedPetProfileScreen = ({ route, navigation }) => {
               fontSize={"38px"}
               fontWeight="bold"
               color="#6A994E"
-              right={115}
+              right={75}
             >
               Perfil
             </Heading>
             {isVisible ? (
-              <IconButton
-                _icon={{
-                  as: Ionicons,
-                  name: "trash",
-                  color: "#1F2937",
-                }}
-                _pressed={{
-                  bg: "#7db85c",
-                  borderRadius: 100,
-                }}
-                left={115}
-                onPress={() => {
-                  deletePetInfoAlert();
-                }}
-              ></IconButton>
+              <HStack right={0}>
+                <IconButton
+                  _icon={{
+                    as: MaterialIcons,
+                    name: "edit",
+                    color: "#1F2937",
+                  }}
+                  _pressed={{
+                    bg: "#7db85c",
+                    borderRadius: 100,
+                  }}
+                  left={115}
+                  onPress={() => {
+                    navigation.navigate("AdoptedCuestionary", {
+                      isEdited: true,
+                      petId: petId,
+                      protocol: protocol,
+                      age: age,
+                      gender: gender,
+                      isHealthyWithKids: isHealthyK,
+                      isHealthyWithPets: isHealthyP,
+                      typeOf: typeOf,
+                      petName: name,
+                      description: des,
+                    });
+                  }}
+                />
+                <IconButton
+                  _icon={{
+                    as: Ionicons,
+                    name: "trash",
+                    color: "#1F2937",
+                  }}
+                  _pressed={{
+                    bg: "#7db85c",
+                    borderRadius: 100,
+                  }}
+                  left={115}
+                  onPress={() => {
+                    deletePetInfoAlert();
+                  }}
+                />
+              </HStack>
             ) : undefined}
           </HStack>
           <VStack mt={6} alignItems="center" alignContent={"center"}>

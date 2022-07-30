@@ -24,14 +24,14 @@ import CheckBoxInput from "../../components/Inputs/CheckBoxInput";
 import * as Yup from "yup";
 
 //Graphql
-import { ADOPTED_CUESTIONARY } from "../../graphql/mutations";
+import { ADOPTED_CUESTIONARY, EDIT_PET_INFO } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
 
 //Auth
 import { AuthContext } from "../../context/Auth";
 
 import { PetsContext } from "../../context/PetsContext";
-import { Dimensions, SafeAreaView } from "react-native";
+import { Alert, Dimensions } from "react-native";
 
 const AdoptedPetInfoSchema = Yup.object().shape({
   adoptedPetDescription: Yup.string()
@@ -48,20 +48,36 @@ const AdoptedPetInfoSchema = Yup.object().shape({
 });
 
 const AdoptedPetInfo = ({ navigation, route }) => {
-  const [isHealthyWithKids, setIsHealthyWithKids] = useState(true);
-  const [isHealthyWithOtherPets, setIsHealthyWithOtherPets] = useState(true);
+  const {
+    petName,
+    typeOfAdoptedPet,
+    genderOfAdoptedPet,
+    ageOfAdoptedPet,
+    petId,
+    protocol,
+    isHealthyWithChild,
+    isHealthyWithPets,
+    isEdited,
+    description,
+  } = route.params;
+
+  const [isHealthyWithKids, setIsHealthyWithKids] = useState(
+    isHealthyWithChild || true
+  );
+  const [isHealthyWithOtherPets, setIsHealthyWithOtherPets] = useState(
+    isHealthyWithPets || true
+  );
   const [coexistenceWithOtherPets, setCoexistenceWithOtherPets] = useState([]);
-  const [adoptedPetProtocol, setAdoptedPetProtocol] = useState("Completo");
+  const [adoptedPetProtocol, setAdoptedPetProtocol] = useState(
+    protocol || "Completo"
+  );
   const [createAdoptedUser, { loading }] = useMutation(ADOPTED_CUESTIONARY);
+  const [editPetInfo, { loading: petInfoLoading }] = useMutation(EDIT_PET_INFO);
   const { user } = useContext(AuthContext);
-  const auth = useContext(AuthContext);
   //Variables for screensize
   const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
   const { setPets, setPetImage } = useContext(PetsContext);
-
-  const { petName, typeOfAdoptedPet, genderOfAdoptedPet, ageOfAdoptedPet } =
-    route.params;
 
   return (
     <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
@@ -79,7 +95,7 @@ const AdoptedPetInfo = ({ navigation, route }) => {
           </Heading>
           <Formik
             initialValues={{
-              adoptedPetDescription: "",
+              adoptedPetDescription: description,
               isHealthyWithKids: true,
               isHealthyWithOtherPets: true,
               coexistenceWithOtherPets: [],
@@ -89,55 +105,104 @@ const AdoptedPetInfo = ({ navigation, route }) => {
             onSubmit={async (values, { resetForm }) => {
               await values.coexistenceWithOtherPets;
               values.coexistenceWithOtherPets = [...coexistenceWithOtherPets];
-              createAdoptedUser({
-                variables: {
-                  adoptedQuestionnaireInput: {
-                    typeOfAdoptedPet: typeOfAdoptedPet,
-                    genderOfAdoptedPet: genderOfAdoptedPet,
-                    adoptedPetName: petName,
-                    ageOfAdoptedPet: ageOfAdoptedPet,
-                    userId: user.id,
-                    adoptedPetDescription: values.adoptedPetDescription,
-                    isHealthyWithKids: values.isHealthyWithKids,
-                    isHealthyWithOtherPets: values.isHealthyWithOtherPets,
-                    coexistenceWithOtherPets: values.coexistenceWithOtherPets,
-                    adoptedPetProtocol: values.adoptedPetProtocol,
-                    isAvailableToBeAdopted: false,
-                  },
-                },
-                onCompleted: (data) => {
-                  setPetImage((oldArray) => [
-                    ...oldArray,
-                    `https://click-and-adopt.herokuapp.com/ProfilePictures/defaultprof.jpg`,
-                  ]);
+              {
+                !isEdited
+                  ? createAdoptedUser({
+                      variables: {
+                        adoptedQuestionnaireInput: {
+                          typeOfAdoptedPet: typeOfAdoptedPet,
+                          genderOfAdoptedPet: genderOfAdoptedPet,
+                          adoptedPetName: petName,
+                          ageOfAdoptedPet: ageOfAdoptedPet,
+                          userId: user.id,
+                          adoptedPetDescription: values.adoptedPetDescription,
+                          isHealthyWithKids: values.isHealthyWithKids,
+                          isHealthyWithOtherPets: values.isHealthyWithOtherPets,
+                          coexistenceWithOtherPets:
+                            values.coexistenceWithOtherPets,
+                          adoptedPetProtocol: values.adoptedPetProtocol,
+                          isAvailableToBeAdopted: false,
+                        },
+                      },
+                      onCompleted: (data) => {
+                        setPetImage((oldArray) => [
+                          ...oldArray,
+                          `https://click-and-adopt.herokuapp.com/ProfilePictures/defaultprof.jpg`,
+                        ]);
 
-                  setPets((oldArray) => [
-                    ...oldArray,
-                    {
-                      typeOfAdoptedPet: typeOfAdoptedPet,
-                      genderOfAdoptedPet: genderOfAdoptedPet,
-                      adoptedPetName: petName,
-                      ageOfAdoptedPet: ageOfAdoptedPet,
-                      isAvailableToBeAdopted: false,
-                      userId: user.id,
-                      adoptedPetDescription: values.adoptedPetDescription,
-                      isHealthyWithKids: values.isHealthyWithKids,
-                      isHealthyWithOtherPets: values.isHealthyWithOtherPets,
-                      coexistenceWithOtherPets: values.coexistenceWithOtherPets,
-                      adoptedPetProtocol: values.adoptedPetProtocol,
-                      id: data?.answerAdoptedQuestionnaire,
-                    },
-                  ]);
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: "Profiles" }],
-                  });
-                  resetForm();
-                },
-                onError: (err) => {
-                  console.log(err.message);
-                },
-              });
+                        setPets((oldArray) => [
+                          ...oldArray,
+                          {
+                            typeOfAdoptedPet: typeOfAdoptedPet,
+                            genderOfAdoptedPet: genderOfAdoptedPet,
+                            adoptedPetName: petName,
+                            ageOfAdoptedPet: ageOfAdoptedPet,
+                            isAvailableToBeAdopted: false,
+                            userId: user.id,
+                            adoptedPetDescription: values.adoptedPetDescription,
+                            isHealthyWithKids: values.isHealthyWithKids,
+                            isHealthyWithOtherPets:
+                              values.isHealthyWithOtherPets,
+                            coexistenceWithOtherPets:
+                              values.coexistenceWithOtherPets,
+                            adoptedPetProtocol: values.adoptedPetProtocol,
+                            id: data?.answerAdoptedQuestionnaire,
+                          },
+                        ]);
+                        navigation.reset({
+                          index: 0,
+                          routes: [{ name: "Profiles" }],
+                        });
+                        resetForm();
+                      },
+                      onError: (err) => {
+                        console.log(err.message);
+                      },
+                    })
+                  : Alert.alert(
+                      "¿Estás seguro que quieres actualizar estos datos de tu mascota?",
+                      "",
+                      [
+                        {
+                          text: "Cancelar",
+                          style: "cancel",
+                        },
+                        {
+                          text: "Actualizar",
+                          onPress: () => {
+                            editPetInfo({
+                              variables: {
+                                petId: petId,
+                                editPetInput: {
+                                  adoptedPetDescription:
+                                    values.adoptedPetDescription,
+                                  adoptedPetName: petName,
+                                  adoptedPetProtocol: values.adoptedPetProtocol,
+                                  ageOfAdoptedPet: ageOfAdoptedPet,
+                                  coexistenceWithOtherPets:
+                                    values.coexistenceWithOtherPets,
+                                  genderOfAdoptedPet: genderOfAdoptedPet,
+                                  isHealthyWithKids: values.isHealthyWithKids,
+                                  isHealthyWithOtherPets:
+                                    values.isHealthyWithOtherPets,
+                                  typeOfAdoptedPet: typeOfAdoptedPet,
+                                },
+                              },
+                              onCompleted: (data) => {
+                                navigation.reset({
+                                  index: 0,
+                                  routes: [{ name: "Profiles" }],
+                                });
+                              },
+                              onError: (err) => {
+                                console.log(err);
+                              },
+                            });
+                          },
+                        },
+                      ]
+                    );
+              }
             }}
           >
             {({
@@ -243,7 +308,15 @@ const AdoptedPetInfo = ({ navigation, route }) => {
                 <RadioInput
                   label={`Indica el tipo de protocolo con el que cuenta ${petName}`}
                   linkLabel={"Protocolo"}
-                  marginLeftLink={"-200"}
+                  marginLeftLink={
+                    petName.length < 5
+                      ? "-360"
+                      : petName.length >= 5 && petName.length < 9
+                      ? "-260"
+                      : petName.length >= 9
+                      ? "-230"
+                      : undefined
+                  }
                   groupValue={
                     adoptedPetProtocol == "Completo"
                       ? (values.adoptedPetProtocol = "Completo")
