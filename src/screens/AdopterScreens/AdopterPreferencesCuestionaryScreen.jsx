@@ -103,11 +103,12 @@ const AdopterPreferencesCuestionary = ({ navigation, route }) => {
                 },
               },
               onCompleted: (data) => {
-                navigation.navigate("Profiles");
-                console.log("si");
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "Login" }],
+                });
               },
               onError: (err) => {
-                console.log(user.id);
                 console.log(err.message);
               },
             });

@@ -16,7 +16,7 @@ const CardComponent = ({ uri, petName, pressed }) => {
         <View position={"absolute"}>
           <Image
             source={{ uri: uri }}
-            alt={"petpic"}
+            alt={"userPic"}
             borderRadius={CARD.BORDER_RADIUS}
             width={CARD.WIDTH}
             height={CARD.HEIGHT}

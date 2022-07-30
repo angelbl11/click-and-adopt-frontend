@@ -58,8 +58,7 @@ const ChatScreen = ({ navigation }) => {
       matchId: userMatches[0]?.id,
     },
     onCompleted: (data) => {
-      console.log("hecho");
-      console.log(data);
+      getUserMatches();
     },
     onError: (err) => {
       console.log(err.message);

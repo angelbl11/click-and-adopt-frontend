@@ -147,6 +147,7 @@ const SignUp = ({ navigation }) => {
                     onBlur={handleBlur("fullName")}
                     value={values.fullName}
                     isInvalid={errors.fullName}
+                    autoCapitalize="words"
                     placeholder="Nombre completo"
                     InputLeftElement={
                       <Icon
@@ -188,7 +189,9 @@ const SignUp = ({ navigation }) => {
                     </Text>
                   ) : undefined}
                   <CustomTextInput
-                    onChangeText={handleChange("email")}
+                    onChangeText={(text) =>
+                      handleChange("email")(text.toLowerCase())
+                    }
                     onBlur={handleBlur("email")}
                     value={values.email}
                     keyboardType="email-address"

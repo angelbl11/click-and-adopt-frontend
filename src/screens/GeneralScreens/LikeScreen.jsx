@@ -67,7 +67,8 @@ const LikeScreen = ({ navigation }) => {
         userId: user.id,
       },
       onCompleted: (data) => {
-        setAdoptedLikes(adoptedData?.getUserLikes?.likes);
+        setAdoptedLikes(data?.getUserLikes?.likes);
+        console.log(adoptedLikes);
       },
     });
   const deleteLikeAlert = (likedUserId) => {
@@ -214,7 +215,7 @@ const LikeScreen = ({ navigation }) => {
                   Cargando
                 </Heading>
               </Center>
-            ) : adopterLikes?.length === 0 ? (
+            ) : adopterLikes?.length === 0 && user.account === "Adoptante" ? (
               <Center mt={150}>
                 <Heading color="#6A994E" fontSize="xl">
                   No has otorgado likes
@@ -257,7 +258,7 @@ const LikeScreen = ({ navigation }) => {
                   />
                 );
               })
-            ) : adoptedLikes?.length === 0 ? (
+            ) : adoptedLikes?.length === 0 && user.account === "Adoptado" ? (
               <Center mt={150}>
                 <Heading color="#6A994E" fontSize="xl">
                   No has otorgado likes
@@ -282,7 +283,7 @@ const LikeScreen = ({ navigation }) => {
                       trashLikeAlert(adoptedLikes[index].likedUserId?.id)
                     }
                     pressed={() => {
-                      navigation.navigate("CarrouselAdopter", {
+                      navigation.navigate("AdopterProfile", {
                         petGenderPreferences:
                           adoptedLikes[index].likedUserId?.petGenderPreferences,
                         petPreferences:

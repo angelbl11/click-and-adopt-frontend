@@ -64,231 +64,231 @@ const AdoptedPetInfo = ({ navigation, route }) => {
     route.params;
 
   return (
-    <SafeAreaView flex={1}>
-      <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
-        <StatusBar style="dark" />
-        <ScrollView>
-          <VStack alignItems={"center"} bgColor="#FFFFFF">
-            <Heading
-              fontSize={"26px"}
-              textAlign={"center"}
-              fontWeight="bold"
-              color="#6A994E"
-              marginBottom={"15px"}
-            >
-              Información importante sobre tu mascota
-            </Heading>
-            <Formik
-              initialValues={{
-                adoptedPetDescription: "",
-                isHealthyWithKids: true,
-                isHealthyWithOtherPets: true,
-                coexistenceWithOtherPets: [],
-                adoptedPetProtocol: "",
-              }}
-              validationSchema={AdoptedPetInfoSchema}
-              onSubmit={async (values, { resetForm }) => {
-                await values.coexistenceWithOtherPets;
-                values.coexistenceWithOtherPets = [...coexistenceWithOtherPets];
-                createAdoptedUser({
-                  variables: {
-                    adoptedQuestionnaireInput: {
+    <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
+      <StatusBar style="dark" />
+      <ScrollView>
+        <VStack alignItems={"center"} bgColor="#FFFFFF">
+          <Heading
+            fontSize={"26px"}
+            textAlign={"center"}
+            fontWeight="bold"
+            color="#6A994E"
+            marginBottom={"15px"}
+          >
+            Información importante sobre tu mascota
+          </Heading>
+          <Formik
+            initialValues={{
+              adoptedPetDescription: "",
+              isHealthyWithKids: true,
+              isHealthyWithOtherPets: true,
+              coexistenceWithOtherPets: [],
+              adoptedPetProtocol: "",
+            }}
+            validationSchema={AdoptedPetInfoSchema}
+            onSubmit={async (values, { resetForm }) => {
+              await values.coexistenceWithOtherPets;
+              values.coexistenceWithOtherPets = [...coexistenceWithOtherPets];
+              createAdoptedUser({
+                variables: {
+                  adoptedQuestionnaireInput: {
+                    typeOfAdoptedPet: typeOfAdoptedPet,
+                    genderOfAdoptedPet: genderOfAdoptedPet,
+                    adoptedPetName: petName,
+                    ageOfAdoptedPet: ageOfAdoptedPet,
+                    userId: user.id,
+                    adoptedPetDescription: values.adoptedPetDescription,
+                    isHealthyWithKids: values.isHealthyWithKids,
+                    isHealthyWithOtherPets: values.isHealthyWithOtherPets,
+                    coexistenceWithOtherPets: values.coexistenceWithOtherPets,
+                    adoptedPetProtocol: values.adoptedPetProtocol,
+                    isAvailableToBeAdopted: false,
+                  },
+                },
+                onCompleted: (data) => {
+                  setPetImage((oldArray) => [
+                    ...oldArray,
+                    `https://click-and-adopt.herokuapp.com/ProfilePictures/defaultprof.jpg`,
+                  ]);
+
+                  setPets((oldArray) => [
+                    ...oldArray,
+                    {
                       typeOfAdoptedPet: typeOfAdoptedPet,
                       genderOfAdoptedPet: genderOfAdoptedPet,
                       adoptedPetName: petName,
                       ageOfAdoptedPet: ageOfAdoptedPet,
+                      isAvailableToBeAdopted: false,
                       userId: user.id,
                       adoptedPetDescription: values.adoptedPetDescription,
                       isHealthyWithKids: values.isHealthyWithKids,
                       isHealthyWithOtherPets: values.isHealthyWithOtherPets,
                       coexistenceWithOtherPets: values.coexistenceWithOtherPets,
                       adoptedPetProtocol: values.adoptedPetProtocol,
-                      isAvailableToBeAdopted: false,
+                      id: data?.answerAdoptedQuestionnaire,
                     },
-                  },
-                  onCompleted: (data) => {
-                    setPetImage((oldArray) => [
-                      ...oldArray,
-                      `https://click-and-adopt.herokuapp.com/ProfilePictures/defaultprof.jpg`,
-                    ]);
+                  ]);
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: "Profiles" }],
+                  });
+                  resetForm();
+                },
+                onError: (err) => {
+                  console.log(err.message);
+                },
+              });
+            }}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+              touched,
+            }) => (
+              <VStack width={screenWidth - 30} space={"8px"} marginTop={2}>
+                <Text
+                  fontSize={"16px"}
+                  fontWeight={"semibold"}
+                  color={"#1F2937"}
+                  textAlign={"left"}
+                  mb={2}
+                >
+                  Cuéntanos un poco sobre {petName}
+                </Text>
+                <TextArea
+                  bg={"#E5E7EB"}
+                  color={"#1F2937"}
+                  fontSize={"13px"}
+                  onChangeText={handleChange("adoptedPetDescription")}
+                  onBlur={handleBlur("adoptedPetDescription")}
+                  value={values.adoptedPetDescription}
+                  isInvalid={errors.adoptedPetDescription}
+                />
 
-                    setPets((oldArray) => [
-                      ...oldArray,
-                      {
-                        typeOfAdoptedPet: typeOfAdoptedPet,
-                        genderOfAdoptedPet: genderOfAdoptedPet,
-                        adoptedPetName: petName,
-                        ageOfAdoptedPet: ageOfAdoptedPet,
-                        isAvailableToBeAdopted: false,
-                        userId: user.id,
-                        adoptedPetDescription: values.adoptedPetDescription,
-                        isHealthyWithKids: values.isHealthyWithKids,
-                        isHealthyWithOtherPets: values.isHealthyWithOtherPets,
-                        coexistenceWithOtherPets:
-                          values.coexistenceWithOtherPets,
-                        adoptedPetProtocol: values.adoptedPetProtocol,
-                        id: data?.answerAdoptedQuestionnaire,
-                      },
-                    ]);
-                    navigation.navigate("Profiles");
-                    resetForm();
-                  },
-                  onError: (err) => {
-                    console.log(err.message);
-                  },
-                });
-              }}
-            >
-              {({
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                values,
-                errors,
-                touched,
-              }) => (
-                <VStack width={screenWidth - 30} space={"8px"} marginTop={2}>
-                  <Text
-                    fontSize={"16px"}
-                    fontWeight={"semibold"}
-                    color={"#1F2937"}
-                    textAlign={"left"}
-                    mb={2}
-                  >
-                    Cuéntanos un poco sobre {petName}
+                {errors.adoptedPetDescription &&
+                touched.adoptedPetDescription ? (
+                  <Text fontSize={"13px"} color={"#BC4749"}>
+                    {errors.adoptedPetDescription}
                   </Text>
-                  <TextArea
-                    bg={"#E5E7EB"}
-                    color={"#1F2937"}
-                    fontSize={"13px"}
-                    onChangeText={handleChange("adoptedPetDescription")}
-                    onBlur={handleBlur("adoptedPetDescription")}
-                    value={values.adoptedPetDescription}
-                    isInvalid={errors.adoptedPetDescription}
-                  />
-
-                  {errors.adoptedPetDescription &&
-                  touched.adoptedPetDescription ? (
-                    <Text fontSize={"13px"} color={"#BC4749"}>
-                      {errors.adoptedPetDescription}
-                    </Text>
-                  ) : undefined}
-                  <RadioInput
-                    label={`${petName} convive o ha convivido saludablemente con niños?`}
-                    groupValue={
-                      isHealthyWithKids == true
-                        ? (values.isHealthyWithKids = true)
-                        : (values.isHealthyWithKids = false)
-                    }
-                    onChange={(nextValue) => {
-                      setIsHealthyWithKids(nextValue);
-                    }}
-                    firstRadioLabel="Sí"
-                    firstValue={true}
-                    secondRadioLabel="No"
-                    secondValue={false}
-                  />
-                  {errors.isHealthyWithKids && touched.isHealthyWithKids ? (
-                    <Text fontSize={"13px"} color={"#BC4749"}>
-                      {errors.isHealthyWithKids}
-                    </Text>
-                  ) : undefined}
-                  <RadioInput
-                    label={`¿${petName} convive o ha convivido saludablemente con otros animales?`}
-                    groupValue={
-                      isHealthyWithOtherPets == true
-                        ? (values.isHealthyWithOtherPets = true)
-                        : (values.isHealthyWithOtherPets = false)
-                    }
-                    onChange={(nextValue) => {
-                      setIsHealthyWithOtherPets(nextValue);
-                    }}
-                    firstRadioLabel="Sí"
-                    firstValue={true}
-                    secondRadioLabel="No"
-                    secondValue={false}
-                  />
-                  {errors.isHealthyWithOtherPets &&
-                  touched.isHealthyWithOtherPets ? (
-                    <Text fontSize={"13px"} color={"#BC4749"}>
-                      {errors.isHealthyWithOtherPets}
-                    </Text>
-                  ) : undefined}
-                  {isHealthyWithOtherPets == true ? (
-                    <View>
-                      <CheckBoxInput
-                        label="¿Con qué tipo de animal?"
-                        groupValue={
-                          coexistenceWithOtherPets
-                            ? (values.coexistenceWithOtherPets = [
-                                ...coexistenceWithOtherPets,
-                              ])
-                            : undefined
-                        }
-                        onChange={setCoexistenceWithOtherPets}
-                        firstValue="Perros"
-                        firstCheckBoxLabel="Perros"
-                        secondValue="Gatos"
-                        secondCheckBoxLabel="Gatos"
-                      />
-                      {errors.coexistenceWithOtherPets &&
-                      touched.coexistenceWithOtherPets ? (
-                        <Text fontSize={"13px"} color={"#BC4749"}>
-                          {errors.coexistenceWithOtherPets}
-                        </Text>
-                      ) : undefined}
-                    </View>
-                  ) : undefined}
-                  <RadioInput
-                    label={`Indica el tipo de protocolo con el que cuenta ${petName}`}
-                    linkLabel={"Protocolo"}
-                    marginLeftLink={"-380"}
-                    groupValue={
-                      adoptedPetProtocol == "Completo"
-                        ? (values.adoptedPetProtocol = "Completo")
-                        : adoptedPetProtocol == "Incompleto"
-                        ? (values.adoptedPetProtocol = "Incompleto")
-                        : (values.adoptedPetProtocol = "No tiene")
-                    }
-                    onChange={(nextValue) => {
-                      setAdoptedPetProtocol(nextValue);
-                    }}
-                    isThird={true}
-                    firstRadioLabel="Completo"
-                    firstValue="Completo"
-                    secondRadioLabel="Incompleto"
-                    secondValue="Incompleto"
-                    thirdRadioLabel="No tiene"
-                    thirdValue="No tiene"
-                  />
-                  {errors.adoptedPetProtocol && touched.adoptedPetProtocol ? (
-                    <Text fontSize={"13px"} color={"#BC4749"}>
-                      {errors.adoptedPetProtocol}
-                    </Text>
-                  ) : undefined}
-                  <Pressable
-                    onPress={handleSubmit}
-                    disabled={loading}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    borderRadius={"5px"}
-                    height={"60px"}
-                    width={screenWidth - 30}
-                    mt={"6px"}
-                    mb={"12px"}
-                    backgroundColor={"#6A994E"}
-                  >
-                    <Text fontSize={"18px"} color="white" fontWeight={"medium"}>
-                      {loading ? <Spinner color={"#FFFFFF"} /> : "Siguiente"}
-                    </Text>
-                  </Pressable>
-                </VStack>
-              )}
-            </Formik>
-          </VStack>
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+                ) : undefined}
+                <RadioInput
+                  label={`${petName} convive o ha convivido saludablemente con niños?`}
+                  groupValue={
+                    isHealthyWithKids == true
+                      ? (values.isHealthyWithKids = true)
+                      : (values.isHealthyWithKids = false)
+                  }
+                  onChange={(nextValue) => {
+                    setIsHealthyWithKids(nextValue);
+                  }}
+                  firstRadioLabel="Sí"
+                  firstValue={true}
+                  secondRadioLabel="No"
+                  secondValue={false}
+                />
+                {errors.isHealthyWithKids && touched.isHealthyWithKids ? (
+                  <Text fontSize={"13px"} color={"#BC4749"}>
+                    {errors.isHealthyWithKids}
+                  </Text>
+                ) : undefined}
+                <RadioInput
+                  label={`¿${petName} convive o ha convivido saludablemente con otros animales?`}
+                  groupValue={
+                    isHealthyWithOtherPets == true
+                      ? (values.isHealthyWithOtherPets = true)
+                      : (values.isHealthyWithOtherPets = false)
+                  }
+                  onChange={(nextValue) => {
+                    setIsHealthyWithOtherPets(nextValue);
+                  }}
+                  firstRadioLabel="Sí"
+                  firstValue={true}
+                  secondRadioLabel="No"
+                  secondValue={false}
+                />
+                {errors.isHealthyWithOtherPets &&
+                touched.isHealthyWithOtherPets ? (
+                  <Text fontSize={"13px"} color={"#BC4749"}>
+                    {errors.isHealthyWithOtherPets}
+                  </Text>
+                ) : undefined}
+                {isHealthyWithOtherPets == true ? (
+                  <View>
+                    <CheckBoxInput
+                      label="¿Con qué tipo de animal?"
+                      groupValue={
+                        coexistenceWithOtherPets
+                          ? (values.coexistenceWithOtherPets = [
+                              ...coexistenceWithOtherPets,
+                            ])
+                          : undefined
+                      }
+                      onChange={setCoexistenceWithOtherPets}
+                      firstValue="Perros"
+                      firstCheckBoxLabel="Perros"
+                      secondValue="Gatos"
+                      secondCheckBoxLabel="Gatos"
+                    />
+                    {errors.coexistenceWithOtherPets &&
+                    touched.coexistenceWithOtherPets ? (
+                      <Text fontSize={"13px"} color={"#BC4749"}>
+                        {errors.coexistenceWithOtherPets}
+                      </Text>
+                    ) : undefined}
+                  </View>
+                ) : undefined}
+                <RadioInput
+                  label={`Indica el tipo de protocolo con el que cuenta ${petName}`}
+                  linkLabel={"Protocolo"}
+                  marginLeftLink={"-200"}
+                  groupValue={
+                    adoptedPetProtocol == "Completo"
+                      ? (values.adoptedPetProtocol = "Completo")
+                      : adoptedPetProtocol == "Incompleto"
+                      ? (values.adoptedPetProtocol = "Incompleto")
+                      : (values.adoptedPetProtocol = "No tiene")
+                  }
+                  onChange={(nextValue) => {
+                    setAdoptedPetProtocol(nextValue);
+                  }}
+                  isThird={true}
+                  firstRadioLabel="Completo"
+                  firstValue="Completo"
+                  secondRadioLabel="Incompleto"
+                  secondValue="Incompleto"
+                  thirdRadioLabel="No tiene"
+                  thirdValue="No tiene"
+                />
+                {errors.adoptedPetProtocol && touched.adoptedPetProtocol ? (
+                  <Text fontSize={"13px"} color={"#BC4749"}>
+                    {errors.adoptedPetProtocol}
+                  </Text>
+                ) : undefined}
+                <Pressable
+                  onPress={handleSubmit}
+                  disabled={loading}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                  borderRadius={"5px"}
+                  height={"60px"}
+                  width={screenWidth - 30}
+                  mt={"6px"}
+                  mb={"12px"}
+                  backgroundColor={"#6A994E"}
+                >
+                  <Text fontSize={"18px"} color="white" fontWeight={"medium"}>
+                    {loading ? <Spinner color={"#FFFFFF"} /> : "Siguiente"}
+                  </Text>
+                </Pressable>
+              </VStack>
+            )}
+          </Formik>
+        </VStack>
+      </ScrollView>
+    </View>
   );
 };
 

@@ -71,7 +71,7 @@ const PaperbinScreen = ({ route, navigation }) => {
                     userId: userId,
                   },
                   onCompleted: () => {
-                    getTrashLikesAdopted();
+                    navigation.goBack();
                   },
                   onError: (err) => {
                     showErrorAlert(err.message);
@@ -83,7 +83,7 @@ const PaperbinScreen = ({ route, navigation }) => {
                     userId: userId,
                   },
                   onCompleted: () => {
-                    getTrashLikesAdopter();
+                    navigation.goBack();
                   },
                   onError: (err) => {
                     showErrorAlert(err.message);

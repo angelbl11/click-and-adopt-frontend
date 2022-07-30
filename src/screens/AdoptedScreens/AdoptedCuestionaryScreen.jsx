@@ -31,7 +31,9 @@ const AdoptedCuestionarySchema = Yup.object().shape({
     .required(
       "Debes introducir el nombre de la mascota o asignarle uno temporal"
     )
-    .matches(/^[ñíóáéúÁÉÍÓÚÑ a-zA-Z]+$/, "Introduce únicamente letras "),
+    .matches(/^[ñíóáéúÁÉÍÓÚÑ a-zA-Z]+$/, "Introduce únicamente letras ")
+    .min(1, "Introduce un nombre válido")
+    .max(12, "Nombre demasiado largo"),
   ageOfAdoptedPet: Yup.string().required(
     "Debes seleccionar la edad de la mascota"
   ),
@@ -143,7 +145,9 @@ const AdoptedCuestionary = ({ navigation }) => {
                 </Text>
                 <CustomTextInput
                   placeholder="Introduce el nombre de tu mascota"
-                  onChangeText={handleChange("adoptedPetName")}
+                  onChangeText={(text) =>
+                    handleChange("adoptedPetName")(text.trim())
+                  }
                   onBlur={handleBlur("adoptedPetName")}
                   value={values.adoptedPetName}
                   isInvalid={errors.adoptedPetName}

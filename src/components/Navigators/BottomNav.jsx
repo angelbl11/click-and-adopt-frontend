@@ -50,6 +50,7 @@ const BottomNav = () => {
         name="Inicio"
         component={CardsScreen}
         options={{
+          unmountOnBlur: user.account === "Adoptado" ? false : true,
           tabBarIcon: ({ focused }) => (
             <>
               <Icon
@@ -104,6 +105,7 @@ const BottomNav = () => {
             : AdoptedProfileScreen
         }
         options={{
+          unmountOnBlur: true,
           tabBarIcon: ({ focused }) => (
             <>
               <Icon

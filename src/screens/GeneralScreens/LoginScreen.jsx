@@ -119,7 +119,9 @@ const Login = ({ navigation }) => {
                   <Input
                     placeholder="Correo electrónico"
                     placeholderTextColor={"#9CA3AF"}
-                    onChangeText={handleChange("email")}
+                    onChangeText={(text) =>
+                      handleChange("email")(text.toLowerCase())
+                    }
                     onBlur={handleBlur("email")}
                     value={values.email}
                     keyboardType="email-address"
