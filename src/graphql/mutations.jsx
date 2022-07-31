@@ -152,7 +152,7 @@ export const MOVE_ADOPTER_LIKE = gql`
   }
 `;
 
-export const DELETE_CHAT = gql`
+export const DELETE_MATCH = gql`
   mutation deleteChat($matchId: String!) {
     deleteMatch(matchId: $matchId)
   }

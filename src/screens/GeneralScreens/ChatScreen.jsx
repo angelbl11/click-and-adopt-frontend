@@ -1,16 +1,26 @@
 import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Center, Heading, Spinner, View, VStack } from "native-base";
+import {
+  Center,
+  Heading,
+  HStack,
+  ScrollView,
+  Spinner,
+  Text,
+  View,
+  VStack,
+} from "native-base";
 import { Alert, Dimensions } from "react-native";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { GET_USER_MATCHES } from "../../graphql/queries";
-import { DELETE_CHAT } from "../../graphql/mutations";
+import { DELETE_MATCH } from "../../graphql/mutations";
 import { AuthContext } from "../../context/Auth";
 import { useContext } from "react";
 import { useState } from "react";
 
 //Components
 import ChatUserComponent from "../../components/RenderObjects/ChatUserComponent";
+import MatchComponent from "../../components/RenderObjects/MatchComponent";
 const ChatScreen = ({ navigation }) => {
   //Alerts
   const showErrorAlert = (message) =>
@@ -21,10 +31,10 @@ const ChatScreen = ({ navigation }) => {
       },
     ]);
 
-  const deleteChatAlert = () => {
+  const deleteMatchAlert = () => {
     Alert.alert(
-      "¿Estás seguro que quieres este chat?",
-      "Se eliminará el match con este usuario",
+      "¿Estás seguro que quieres este match?",
+      "Se eliminará el chat con este usuario",
       [
         {
           text: "Cancelar",
@@ -33,7 +43,7 @@ const ChatScreen = ({ navigation }) => {
         {
           text: "Eliminar",
           onPress: () => {
-            deleteChat();
+            deleteMatch();
           },
         },
       ]
@@ -53,7 +63,7 @@ const ChatScreen = ({ navigation }) => {
       setUserMatches(data?.getMatches);
     },
   });
-  const [deleteChat] = useMutation(DELETE_CHAT, {
+  const [deleteMatch] = useMutation(DELETE_MATCH, {
     variables: {
       matchId: userMatches[0]?.id,
     },
@@ -70,67 +80,76 @@ const ChatScreen = ({ navigation }) => {
 
   return (
     <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
-      <StatusBar style="dark" />
-      <VStack alignItems={"center"} width={screenWidth - 10}></VStack>
-      <Heading fontSize={"38px"} fontWeight="bold" color="#6A994E" left={5}>
-        Chats
-      </Heading>
-      <VStack space={2} mt={5}>
-        {loading ? (
-          <Center mt={150}>
-            <Spinner color={"#6A994E"} />
-            <Heading color="#6A994E" fontSize="xl">
-              Cargando
-            </Heading>
-          </Center>
-        ) : userMatches.length != 0 ? (
-          userMatches?.map(({}, index) => {
-            console.log(userMatches[index]?.adopterInfo?.fullName);
-            return (
-              <ChatUserComponent
-                key={index}
-                pressed={() => {
-                  navigation.navigate("Conversation", {
-                    adopterId: userMatches[index]?.adopterInfo?.id,
-                    adoptedId: userMatches[index]?.petOwnerInfo?.id,
-                    topUser:
+      <ScrollView>
+        <StatusBar style="dark" />
+        <Heading fontSize={"38px"} fontWeight="bold" color="#6A994E" left={5}>
+          Matches
+        </Heading>
+        <ScrollView horizontal={true}>
+          <HStack ml={8} mt={5} mb={5} space={5}>
+            {loading ? (
+              <Center ml={130} mt={5}>
+                <Spinner color={"#6A994E"} />
+                <Heading color="#6A994E" fontSize="xl">
+                  Cargando
+                </Heading>
+              </Center>
+            ) : userMatches.length === 0 ? (
+              <Center ml={130} mt={5}>
+                <Spinner color={"#6A994E"} />
+                <Heading color="#6A994E" fontSize="xl">
+                  Cargando
+                </Heading>
+              </Center>
+            ) : (
+              userMatches?.map(({}, index) => {
+                return (
+                  <MatchComponent
+                    onLongPress={() => {
+                      deleteMatchAlert();
+                    }}
+                    key={index}
+                    onPress={() => {
+                      navigation.navigate("Conversation", {
+                        adopterId: userMatches[index]?.adopterInfo?.id,
+                        adoptedId: userMatches[index]?.petOwnerInfo?.id,
+                        topUser:
+                          user.account === "Adoptante"
+                            ? userMatches[index]?.petInvolved?.adoptedPetName
+                            : userMatches[index]?.adopterInfo?.fullName,
+                        petPic:
+                          url +
+                          userMatches[index]?.petInvolved?.petPicture?.filename,
+                        userPic:
+                          url +
+                          userMatches[index]?.adopterInfo?.profilePicture
+                            ?.filename,
+                      });
+                    }}
+                    userName={
                       user.account === "Adoptante"
                         ? userMatches[index]?.petInvolved?.adoptedPetName
-                        : userMatches[index]?.adopterInfo?.fullName,
-                    petPic:
-                      url +
-                      userMatches[index]?.petInvolved?.petPicture?.filename,
-                    userPic:
-                      url +
-                      userMatches[index]?.adopterInfo?.profilePicture?.filename,
-                  });
-                }}
-                pressDelete={() => {
-                  deleteChatAlert();
-                }}
-                name={
-                  user.account === "Adoptante"
-                    ? userMatches[index]?.petInvolved?.adoptedPetName
-                    : userMatches[index]?.adopterInfo?.fullName
-                }
-                url={
-                  user.account === "Adoptante"
-                    ? url +
-                      userMatches[index]?.petInvolved?.petPicture?.filename
-                    : url +
-                      userMatches[index]?.adopterInfo?.profilePicture?.filename
-                }
-              />
-            );
-          })
-        ) : (
-          <Center mt={150}>
-            <Heading color="#6A994E" fontSize="xl">
-              No has dado match con ningún usuario
-            </Heading>
-          </Center>
-        )}
-      </VStack>
+                        : userMatches[index]?.adopterInfo?.fullName
+                    }
+                    url={
+                      user.account === "Adoptante"
+                        ? url +
+                          userMatches[index]?.petInvolved?.petPicture?.filename
+                        : url +
+                          userMatches[index]?.adopterInfo?.profilePicture
+                            ?.filename
+                    }
+                  />
+                );
+              })
+            )}
+          </HStack>
+        </ScrollView>
+        <Heading fontSize={"38px"} fontWeight="bold" color="#6A994E" left={5}>
+          Chats
+        </Heading>
+        <VStack space={2} mt={5}></VStack>
+      </ScrollView>
     </View>
   );
 };

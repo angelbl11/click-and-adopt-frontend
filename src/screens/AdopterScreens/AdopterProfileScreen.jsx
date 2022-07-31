@@ -6,6 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import { Avatar } from "@rneui/themed";
 import * as ImagePicker from "expo-image-picker";
 import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   Switch,
   ScrollView,
