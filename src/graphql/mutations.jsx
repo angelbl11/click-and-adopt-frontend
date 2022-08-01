@@ -188,3 +188,8 @@ export const EDIT_PET_INFO = gql`
     editPetInfo(petId: $petId, editPetInput: $editPetInput)
   }
 `;
+export const SET_EXPO_TOKEN = gql`
+  mutation setExpoToken($addExpoTokenId: String!, $expoToken: String!) {
+    addExpoToken(id: $addExpoTokenId, expoToken: $expoToken)
+  }
+`;

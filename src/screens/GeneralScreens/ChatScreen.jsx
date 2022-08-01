@@ -1,27 +1,102 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
 import {
   Center,
   Heading,
   HStack,
   ScrollView,
   Spinner,
-  Text,
   View,
   VStack,
 } from "native-base";
-import { Alert, Dimensions } from "react-native";
-import { useLazyQuery, useMutation } from "@apollo/client";
+
+import { Alert, Dimensions, Platform } from "react-native";
+import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 import { GET_USER_MATCHES } from "../../graphql/queries";
-import { DELETE_MATCH } from "../../graphql/mutations";
+import { DELETE_MATCH, SET_EXPO_TOKEN } from "../../graphql/mutations";
+import { NOTIFICATION_SUBSCRIPTION } from "../../graphql/subscriptions";
 import { AuthContext } from "../../context/Auth";
-import { useContext } from "react";
-import { useState } from "react";
 
 //Components
 import ChatUserComponent from "../../components/RenderObjects/ChatUserComponent";
 import MatchComponent from "../../components/RenderObjects/MatchComponent";
+
 const ChatScreen = ({ navigation }) => {
+  //Notifications
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+    }),
+  });
+  async function registerForPushNotificationsAsync() {
+    let token;
+    if (Device.isDevice) {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        alert("Failed to get push token for push notification!");
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+    } else {
+      alert("Must use physical device for Push Notifications");
+    }
+
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }
+
+    if (token) {
+      setExpoToken({
+        variables: {
+          addExpoTokenId: user.id,
+          expoToken: token,
+        },
+        onCompleted: (data) => {
+          setExpoPushToken(token);
+        },
+        onError: (err) => {
+          console.log(err);
+        },
+      });
+    }
+    return token;
+  }
+  registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
+
+  async function sendPushNotification(expoPushToken, user) {
+    const message = {
+      to: expoPushToken,
+      sound: "default",
+      title: `Tienes un mensaje de ${user} `,
+      body: "¡Enterate sobre lo que tiene que decir!",
+    };
+
+    await fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Accept-encoding": "gzip, deflate",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(message),
+    });
+  }
+
   //Alerts
   const showErrorAlert = (message) =>
     Alert.alert("Ha ocurrido un error", message, [
@@ -51,10 +126,10 @@ const ChatScreen = ({ navigation }) => {
   };
   //Variables for screensize
   const { user } = useContext(AuthContext);
-  const screenWidth = Dimensions.get("window").width;
   const screenHeight = Dimensions.get("window").height;
   const url = "https://click-and-adopt.herokuapp.com/ProfilePictures/";
   const [userMatches, setUserMatches] = useState([]);
+
   const [getUserMatches, { loading }] = useLazyQuery(GET_USER_MATCHES, {
     variables: {
       userId: user.id,
@@ -63,11 +138,21 @@ const ChatScreen = ({ navigation }) => {
       setUserMatches(data?.getMatches);
     },
   });
+  const { data: notificationData } = useSubscription(
+    NOTIFICATION_SUBSCRIPTION,
+    {
+      variables: {
+        userId: user.id,
+      },
+    }
+  );
+  const [setExpoToken] = useMutation(SET_EXPO_TOKEN);
+  const [expoPushToken, setExpoPushToken] = useState("");
   const [deleteMatch] = useMutation(DELETE_MATCH, {
     variables: {
       matchId: userMatches[0]?.id,
     },
-    onCompleted: (data) => {
+    onCompleted: () => {
       getUserMatches();
     },
     onError: (err) => {
@@ -77,6 +162,15 @@ const ChatScreen = ({ navigation }) => {
   useEffect(() => {
     getUserMatches();
   }, []);
+
+  useEffect(() => {
+    user.id === notificationData?.pushNotifications?.receiverUser?.id
+      ? sendPushNotification(
+          expoPushToken,
+          notificationData?.pushNotifications?.senderUser?.fullName
+        )
+      : undefined;
+  }, [notificationData]);
 
   return (
     <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
