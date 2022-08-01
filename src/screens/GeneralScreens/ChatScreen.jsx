@@ -6,12 +6,13 @@ import {
   Center,
   Heading,
   HStack,
+  IconButton,
   ScrollView,
   Spinner,
   View,
   VStack,
 } from "native-base";
-
+import { Ionicons } from "@expo/vector-icons";
 import { Alert, Dimensions, Platform } from "react-native";
 import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 import { GET_USER_MATCHES } from "../../graphql/queries";
@@ -23,15 +24,111 @@ import { AuthContext } from "../../context/Auth";
 import ChatUserComponent from "../../components/RenderObjects/ChatUserComponent";
 import MatchComponent from "../../components/RenderObjects/MatchComponent";
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
+
 const ChatScreen = ({ navigation }) => {
   //Notifications
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: false,
-    }),
+  //Alerts
+  const showErrorAlert = (message) =>
+    Alert.alert("Ha ocurrido un error", message, [
+      {
+        text: "Cerrar",
+        style: "cancel",
+      },
+    ]);
+
+  const unMuteNotificationsAlert = () => {
+    Alert.alert("¿Estás seguro que quieres activar las notificaciones?", "", [
+      {
+        text: "Cancelar",
+        style: "cancel",
+      },
+      {
+        text: "Activar",
+        onPress: () => {
+          setIsMute(false);
+          Notifications.setNotificationHandler({
+            handleNotification: async () => ({
+              shouldShowAlert: true,
+              shouldPlaySound: true,
+              shouldSetBadge: false,
+            }),
+          });
+        },
+      },
+    ]);
+  };
+  const muteNotificationsAlert = () => {
+    Alert.alert(
+      "¿Estás seguro que quieres desactivar las notificaciones?",
+      "",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Desactivar",
+          onPress: () => {
+            setIsMute(true);
+            Notifications.setNotificationHandler({
+              handleNotification: async () => ({
+                shouldShowAlert: false,
+                shouldPlaySound: false,
+                shouldSetBadge: false,
+              }),
+            });
+          },
+        },
+      ]
+    );
+  };
+  const deleteMatchAlert = () => {
+    Alert.alert(
+      "¿Estás seguro que quieres este match?",
+      "Se eliminará el chat con este usuario",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Eliminar",
+          onPress: () => {
+            deleteMatch();
+          },
+        },
+      ]
+    );
+  };
+  //Variables for screensize
+  const { user } = useContext(AuthContext);
+  const screenHeight = Dimensions.get("window").height;
+  const url = "https://click-and-adopt.herokuapp.com/ProfilePictures/";
+  const [userMatches, setUserMatches] = useState([]);
+  const [isMute, setIsMute] = useState(false);
+  const [getUserMatches, { loading }] = useLazyQuery(GET_USER_MATCHES, {
+    variables: {
+      userId: user.id,
+    },
+    onCompleted: (data) => {
+      setUserMatches(data?.getMatches);
+    },
   });
+  const { data: notificationData } = useSubscription(
+    NOTIFICATION_SUBSCRIPTION,
+    {
+      variables: {
+        userId: user.id,
+      },
+    }
+  );
   async function registerForPushNotificationsAsync() {
     let token;
     if (Device.isDevice) {
@@ -97,55 +194,6 @@ const ChatScreen = ({ navigation }) => {
     });
   }
 
-  //Alerts
-  const showErrorAlert = (message) =>
-    Alert.alert("Ha ocurrido un error", message, [
-      {
-        text: "Cerrar",
-        style: "cancel",
-      },
-    ]);
-
-  const deleteMatchAlert = () => {
-    Alert.alert(
-      "¿Estás seguro que quieres este match?",
-      "Se eliminará el chat con este usuario",
-      [
-        {
-          text: "Cancelar",
-          style: "cancel",
-        },
-        {
-          text: "Eliminar",
-          onPress: () => {
-            deleteMatch();
-          },
-        },
-      ]
-    );
-  };
-  //Variables for screensize
-  const { user } = useContext(AuthContext);
-  const screenHeight = Dimensions.get("window").height;
-  const url = "https://click-and-adopt.herokuapp.com/ProfilePictures/";
-  const [userMatches, setUserMatches] = useState([]);
-
-  const [getUserMatches, { loading }] = useLazyQuery(GET_USER_MATCHES, {
-    variables: {
-      userId: user.id,
-    },
-    onCompleted: (data) => {
-      setUserMatches(data?.getMatches);
-    },
-  });
-  const { data: notificationData } = useSubscription(
-    NOTIFICATION_SUBSCRIPTION,
-    {
-      variables: {
-        userId: user.id,
-      },
-    }
-  );
   const [setExpoToken] = useMutation(SET_EXPO_TOKEN);
   const [expoPushToken, setExpoPushToken] = useState("");
   const [deleteMatch] = useMutation(DELETE_MATCH, {
@@ -189,10 +237,9 @@ const ChatScreen = ({ navigation }) => {
                 </Heading>
               </Center>
             ) : userMatches.length === 0 ? (
-              <Center ml={130} mt={5}>
-                <Spinner color={"#6A994E"} />
+              <Center ml={10} mt={5}>
                 <Heading color="#6A994E" fontSize="xl">
-                  Cargando
+                  No hay match para mostrar
                 </Heading>
               </Center>
             ) : (
@@ -239,9 +286,27 @@ const ChatScreen = ({ navigation }) => {
             )}
           </HStack>
         </ScrollView>
-        <Heading fontSize={"38px"} fontWeight="bold" color="#6A994E" left={5}>
-          Chats
-        </Heading>
+        <HStack>
+          <Heading fontSize={"38px"} fontWeight="bold" color="#6A994E" left={5}>
+            Chats
+          </Heading>
+          <IconButton
+            onPress={() => {
+              isMute ? unMuteNotificationsAlert() : muteNotificationsAlert();
+            }}
+            mt={2}
+            ml={250}
+            _icon={{
+              as: Ionicons,
+              name: isMute ? "notifications-off" : "notifications",
+              size: "sm",
+            }}
+            _pressed={{
+              bg: "#7db85c",
+              borderRadius: 50,
+            }}
+          />
+        </HStack>
         <VStack space={2} mt={5}></VStack>
       </ScrollView>
     </View>

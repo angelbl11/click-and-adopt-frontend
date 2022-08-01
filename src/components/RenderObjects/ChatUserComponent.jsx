@@ -6,7 +6,7 @@ import { IconButton } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { HStack, VStack, Text, Pressable } from "native-base";
 
-const ChatUserComponent = ({ url, name, pressDelete, pressMute, pressed }) => {
+const ChatUserComponent = ({ url, name, pressDelete, pressed }) => {
   return (
     <Pressable
       onPress={pressed}

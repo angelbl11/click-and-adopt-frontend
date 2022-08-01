@@ -23,12 +23,12 @@ const CardComponent = ({ uri, petName, pressed }) => {
           />
           <LinearGradient
             position={"absolute"}
-            bottom="15px"
-            left="0px"
-            right="0px"
-            height="120px"
+            bottom={15}
+            left={0}
+            right={0}
+            height={180}
             borderRadius={CARD.BORDER_RADIUS}
-            colors={["transparent", "rgba(0,0,0,0.9)"]}
+            colors={["transparent", "rgba(255,255,255,0.9)"]}
           />
           <Text
             position={"absolute"}

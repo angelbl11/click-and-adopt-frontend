@@ -139,7 +139,7 @@ const AdopterProfileScreen = ({ navigation, route }) => {
       <View bgColor="#FFFFFF" height={screenHeight} flex={1}>
         <StatusBar style="dark" />
         <ScrollView>
-          <VStack alignItems={"center"} width={screenWidth - 10}>
+          <VStack alignItems={"center"}>
             <HStack textAlign={"left"} ml={12} mt={3}>
               <Heading
                 fontSize={"38px"}
@@ -264,7 +264,7 @@ const AdopterProfileScreen = ({ navigation, route }) => {
                 {showMessage === true ? "Adoptando" : "No disponible"}
               </Text>
             </Center>
-            <VStack mt={6} space={2.3} left={0}>
+            <VStack mt={6} space={2.3} left={"auto"} mr={38}>
               <Heading
                 fontSize={"28px"}
                 textAlign={"left"}
@@ -304,7 +304,7 @@ const AdopterProfileScreen = ({ navigation, route }) => {
               <Text fontSize={"18px"} fontWeight="semibold" color={"#1F2937"}>
                 Razones para adoptar:
               </Text>
-              <Text fontSize={"18px"} color={"#1F2937"}>
+              <Text fontSize={"18px"} color={"#1F2937"} width={300}>
                 {data?.getAdopterInfo?.adopterInfo?.reasonToAdopt}
               </Text>
               <Text fontSize={"18px"} fontWeight="semibold" color={"#1F2937"}>
