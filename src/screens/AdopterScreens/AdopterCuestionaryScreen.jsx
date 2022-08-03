@@ -36,7 +36,6 @@ const AdopterCuestionarySchema = Yup.object().shape({
   numberOfDogs: Yup.number("Ingresa un valor númerico").when("haveDog", {
     is: true,
     then: Yup.number("Ingresa un valor númerico")
-      .typeError("Introduce un valor válido")
       .positive("Introduce un número válido")
       .integer("Introduce un número válido")
       .min(1, "Debes tener al menos un perro")
@@ -48,7 +47,6 @@ const AdopterCuestionarySchema = Yup.object().shape({
   numberOfCats: Yup.number().when("haveCat", {
     is: true,
     then: Yup.number()
-      .typeError("Introduce un valor válido")
       .positive("Introduce un número válido")
       .integer("Introduce un número válido")
       .min(1, "Debes tener al menos un gato")

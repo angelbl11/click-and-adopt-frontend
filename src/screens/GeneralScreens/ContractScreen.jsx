@@ -56,7 +56,7 @@ const ContractScreen = ({ navigation, route }) => {
             onSubmit={(values) => {
               values.isAccepted == check;
               account === "Adoptado"
-                ? navigation.navigate("AdoptedCuestionary")
+                ? navigation.navigate("AdoptedCuestionary", { isEdited: false })
                 : navigation.navigate("AdopterCuestionary");
             }}
           >

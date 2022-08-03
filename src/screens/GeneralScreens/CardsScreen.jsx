@@ -86,7 +86,6 @@ const CardsScreen = ({ navigation }) => {
         },
         onCompleted: (data) => {
           setExpoPushToken(token);
-          console.log(data);
         },
         onError: (err) => {
           console.log(err);

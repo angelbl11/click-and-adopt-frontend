@@ -6,7 +6,13 @@ import { IconButton } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { HStack, VStack, Text, Pressable } from "native-base";
 
-const ChatUserComponent = ({ url, name, pressDelete, pressed }) => {
+const ChatUserComponent = ({
+  url,
+  name,
+  pressDelete,
+  pressed,
+  adoptedName,
+}) => {
   return (
     <Pressable
       onPress={pressed}
@@ -27,6 +33,9 @@ const ChatUserComponent = ({ url, name, pressDelete, pressed }) => {
         <VStack ml={3} width="230">
           <HStack width={"250"}>
             <Text fontSize={16} fontWeight="semibold">
+              {adoptedName}
+            </Text>
+            <Text fontSize={16} fontWeight="semibold">
               {name}
             </Text>
           </HStack>
@@ -36,18 +45,6 @@ const ChatUserComponent = ({ url, name, pressDelete, pressed }) => {
           _icon={{
             as: Ionicons,
             name: "trash",
-            size: "sm",
-          }}
-          _pressed={{
-            bg: "#7db85c",
-            borderRadius: 50,
-          }}
-        />
-        <IconButton
-          onPress={pressMute}
-          _icon={{
-            as: Ionicons,
-            name: "notifications-off",
             size: "sm",
           }}
           _pressed={{

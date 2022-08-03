@@ -15,8 +15,8 @@ import { SEND_MESSAGE } from "../../graphql/mutations";
 const ConversationScreen = ({ route }) => {
   const { user } = useContext(AuthContext);
   const [sendMessage] = useMutation(SEND_MESSAGE);
-  const { topUser, petPic, userPic, adoptedId, adopterId } = route.params;
-  const [isLeft, setisLeft] = useState(true);
+  const { topUser, petPic, userPic, adoptedId, adopterId, petId } =
+    route.params;
   const screenHeight = Dimensions.get("window").height;
   const [messages, setMessages] = useState([]);
   const { data: susData } = useSubscription(MESSAGE_SUBSCRIPTION, {
@@ -81,12 +81,14 @@ const ConversationScreen = ({ route }) => {
                       to: user.account === "Adoptante" ? adoptedId : adopterId,
                       userId:
                         user.account === "Adoptante" ? adopterId : adoptedId,
+                      petId: petId,
                     },
                     onCompleted: (data) => {},
                     onError: (err) => {
                       console.log(err.message);
                       console.log(adoptedId);
                       console.log(adopterId);
+                      console.log(petId);
                       console.log(values.message);
                     },
                   });

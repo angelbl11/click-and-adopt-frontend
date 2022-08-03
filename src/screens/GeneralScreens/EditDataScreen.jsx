@@ -105,7 +105,10 @@ const EditDataScreen = ({ navigation, route }) => {
                           id: user.id,
                           account: user.account,
                         });
-                        navigation.navigate("Profiles");
+                        navigation.reset({
+                          index: 0,
+                          routes: [{ name: "Profiles" }],
+                        });
                       },
                     });
                   },

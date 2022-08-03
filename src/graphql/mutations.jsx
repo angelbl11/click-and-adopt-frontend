@@ -173,8 +173,13 @@ export const UPLOAD_PROTOCOL_FILE = gql`
 `;
 
 export const SEND_MESSAGE = gql`
-  mutation sendMessage($body: String!, $to: String!, $userId: String!) {
-    sendMessage(body: $body, to: $to, userId: $userId) {
+  mutation sendMessage(
+    $body: String!
+    $to: String!
+    $userId: String!
+    $petId: String!
+  ) {
+    sendMessage(body: $body, to: $to, userId: $userId, petId: $petId) {
       body
       from
       id
@@ -191,5 +196,11 @@ export const EDIT_PET_INFO = gql`
 export const SET_EXPO_TOKEN = gql`
   mutation setExpoToken($addExpoTokenId: String!, $expoToken: String!) {
     addExpoToken(id: $addExpoTokenId, expoToken: $expoToken)
+  }
+`;
+
+export const DELETE_CHAT = gql`
+  mutation deleteChat($chatId: String!) {
+    deleteChat(chatId: $chatId)
   }
 `;

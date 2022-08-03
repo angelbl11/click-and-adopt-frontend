@@ -298,3 +298,34 @@ export const GET_CHAT = gql`
     }
   }
 `;
+
+export const GET_CHAT_LIST = gql`
+  query getChatList($userId: String!, $partnerId: String!) {
+    getChatList(userId: $userId, partnerId: $partnerId) {
+      id
+      petInvolved {
+        id
+        adoptedPetName
+        petPicture {
+          filename
+        }
+      }
+      receiver {
+        account
+        fullName
+        id
+        profilePicture {
+          filename
+        }
+      }
+      sender {
+        account
+        fullName
+        id
+        profilePicture {
+          filename
+        }
+      }
+    }
+  }
+`;

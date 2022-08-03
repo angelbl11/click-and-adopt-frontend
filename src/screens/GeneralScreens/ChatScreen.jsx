@@ -9,14 +9,19 @@ import {
   IconButton,
   ScrollView,
   Spinner,
+  Text,
   View,
   VStack,
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { Alert, Dimensions, Platform } from "react-native";
 import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
-import { GET_USER_MATCHES } from "../../graphql/queries";
-import { DELETE_MATCH, SET_EXPO_TOKEN } from "../../graphql/mutations";
+import { GET_USER_MATCHES, GET_CHAT_LIST } from "../../graphql/queries";
+import {
+  DELETE_MATCH,
+  SET_EXPO_TOKEN,
+  DELETE_CHAT,
+} from "../../graphql/mutations";
 import { NOTIFICATION_SUBSCRIPTION } from "../../graphql/subscriptions";
 import { AuthContext } from "../../context/Auth";
 
@@ -91,7 +96,7 @@ const ChatScreen = ({ navigation }) => {
   };
   const deleteMatchAlert = () => {
     Alert.alert(
-      "¿Estás seguro que quieres este match?",
+      "¿Estás seguro que quieres eliminar este match?",
       "Se eliminará el chat con este usuario",
       [
         {
@@ -107,12 +112,53 @@ const ChatScreen = ({ navigation }) => {
       ]
     );
   };
+  const deleteChatAlert = () => {
+    Alert.alert("¿Estás seguro que quieres eliminar este chat?", "", [
+      {
+        text: "Cancelar",
+        style: "cancel",
+      },
+      {
+        text: "Eliminar",
+        onPress: () => {
+          deleteChat();
+        },
+      },
+    ]);
+  };
   //Variables for screensize
   const { user } = useContext(AuthContext);
   const screenHeight = Dimensions.get("window").height;
   const url = "https://click-and-adopt.herokuapp.com/ProfilePictures/";
   const [userMatches, setUserMatches] = useState([]);
   const [isMute, setIsMute] = useState(false);
+  const [chats, setChats] = useState([]);
+  const [item, setItem] = useState([]);
+  const [getChatList, { loading: chatLoading }] = useLazyQuery(GET_CHAT_LIST, {
+    variables: {
+      userId:
+        user.account === "Adoptante"
+          ? userMatches[0]?.adopterInfo?.id
+          : userMatches[0]?.petOwnerInfo?.id,
+      partnerId:
+        user.account === "Adoptante"
+          ? userMatches[0]?.petOwnerInfo?.id
+          : userMatches[0]?.adopterInfo?.id,
+    },
+    onCompleted: (data) => {
+      console.log("data");
+      setChats(data?.getChatList);
+      chats?.map(({}, count) => {
+        setItem(chats[count]);
+      });
+    },
+    onError: (err) => {
+      console.log("err");
+      console.log(userMatches[0]?.petOwnerInfo?.id);
+      console.log(userMatches[0]?.adopterInfo?.id);
+      console.log(err);
+    },
+  });
   const [getUserMatches, { loading }] = useLazyQuery(GET_USER_MATCHES, {
     variables: {
       userId: user.id,
@@ -196,6 +242,17 @@ const ChatScreen = ({ navigation }) => {
 
   const [setExpoToken] = useMutation(SET_EXPO_TOKEN);
   const [expoPushToken, setExpoPushToken] = useState("");
+  const [deleteChat] = useMutation(DELETE_CHAT, {
+    variables: {
+      chatId: chats[0]?.id,
+    },
+    onCompleted: () => {
+      getChatList();
+    },
+    onError: (err) => {
+      console.log(err.message);
+    },
+  });
   const [deleteMatch] = useMutation(DELETE_MATCH, {
     variables: {
       matchId: userMatches[0]?.id,
@@ -209,6 +266,7 @@ const ChatScreen = ({ navigation }) => {
   });
   useEffect(() => {
     getUserMatches();
+    getChatList();
   }, []);
 
   useEffect(() => {
@@ -254,9 +312,12 @@ const ChatScreen = ({ navigation }) => {
                       navigation.navigate("Conversation", {
                         adopterId: userMatches[index]?.adopterInfo?.id,
                         adoptedId: userMatches[index]?.petOwnerInfo?.id,
+                        petId: userMatches[index]?.petInvolved?.id,
                         topUser:
                           user.account === "Adoptante"
-                            ? userMatches[index]?.petInvolved?.adoptedPetName
+                            ? userMatches[index]?.petOwnerInfo?.fullName +
+                              " - " +
+                              userMatches[index]?.petInvolved?.adoptedPetName
                             : userMatches[index]?.adopterInfo?.fullName,
                         petPic:
                           url +
@@ -307,7 +368,60 @@ const ChatScreen = ({ navigation }) => {
             }}
           />
         </HStack>
-        <VStack space={2} mt={5}></VStack>
+        <VStack space={2} mt={5}>
+          {chats?.map(({}, count) => {
+            return (
+              <ChatUserComponent
+                pressed={() => {
+                  navigation.navigate("Conversation", {
+                    adopterId:
+                      user.account === "Adoptante" &&
+                      chats[count]?.receiver?.account
+                        ? user.id
+                        : chats[count]?.sender?.id,
+                    adoptedId:
+                      user.account === "Adoptado" &&
+                      chats[count]?.receiver?.account
+                        ? user.id
+                        : chats[count]?.sender?.id,
+                    petId: chats[count]?.petInvolved?.id,
+                    topUser:
+                      user.account === "Adoptante" &&
+                      chats[count]?.receiver?.account
+                        ? chats[count]?.sender?.fullName +
+                          " - " +
+                          chats[count]?.petInvolved?.adoptedPetName
+                        : chats[count]?.receiver?.fullName,
+                    petPic:
+                      url + chats[count]?.petInvolved?.petPicture?.filename,
+                    userPic:
+                      url + chats[count]?.receiver?.profilePicture?.filename,
+                  });
+                }}
+                pressDelete={() => {
+                  deleteChatAlert();
+                }}
+                key={count}
+                adoptedName={
+                  user.account === "Adoptante"
+                    ? chats[count]?.sender?.fullName + " - "
+                    : ""
+                }
+                name={
+                  user.id === chats[count]?.receiver?.id
+                    ? chats[count]?.petInvolved?.adoptedPetName
+                    : chats[count]?.receiver?.fullName
+                }
+                url={
+                  user.account === "Adoptante" &&
+                  chats[count]?.receiver?.account
+                    ? url + chats[count]?.petInvolved?.petPicture?.filename
+                    : url + chats[count]?.receiver?.profilePicture?.filename
+                }
+              ></ChatUserComponent>
+            );
+          })}
+        </VStack>
       </ScrollView>
     </View>
   );
