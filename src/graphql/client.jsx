@@ -3,9 +3,9 @@ import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { createUploadLink } from "apollo-upload-client";
 import { SubscriptionClient } from "subscriptions-transport-ws";
-export const ip = "https://click-and-adopt.herokuapp.com/graphql";
+export const ip = "https://click-and-adopt-dev.up.railway.app/graphql";
 const wsLink = new WebSocketLink(
-  new SubscriptionClient(`wss://click-and-adopt.herokuapp.com/graphql`)
+  new SubscriptionClient(`wss://click-and-adopt-dev.up.railway.app/graphql`)
 );
 const httpLink = new createUploadLink({
   uri: ip,
